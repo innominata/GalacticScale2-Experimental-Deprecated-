@@ -1,0 +1,10 @@
+C:\Users\Tony\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Default\BepInEx\plugins\Galactic_Scale_GalacticScale\GalacticScale.dll
+C:\Users\Tony\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Default\BepInEx\plugins\Galactic_Scale_GalacticScale\GalacticScale.pdb
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale3.csprojAssemblyReference.cache
+C:\code\GS3\GalacticScale3\obj\Debug\net472\PluginInfo.cs
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale3.AssemblyInfoInputs.cache
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale3.AssemblyInfo.cs
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale3.csproj.CoreCompileInputs.cache
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale.dll
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale.pdb
+C:\code\GS3\GalacticScale3\obj\Debug\net472\GalacticScale3.csproj.CopyComplete
