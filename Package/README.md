@@ -1,64 +1,7 @@
 # DSP Galactic Scale 2.0 Mod
 
-- Version 2.2.0.27 - Hotfix for rare loading issue
+- Version 2.3 - Experimental UI Changes to sliders. Includes button to switch between slider and text entry. Floating point bug not fixed. :(
 
-- Version 2.2.0.26 - Hopefully Geothermal is working on every planet now :)
-
-- Version 2.2.0.25 - Fixed Geothermal for Vanilla, Fixed Error on New Game. Added Debug Option to revert Scarlet Ice
-  Lake
-
-- Version 2.2.0.24 - Fixed Geothermal. Fixed Scarlet Ice Lake. Added some planet info to loading screen.
-
-- Version 2.2.0.23 - Fixed Planet Detail Panel. Fixed Ghost Planets. Broke Nebula compatibility. (Nebula isn't updated
-  yet afaik so no big deal here)
-
-- Version 2.2.0.22 - Actually fix landing on planets for real maybe. Readd Radius Text to Planet Detail (not perfect
-  yet)
-
-- Version 2.2.0.21 - Fix save corruption after clicking a different galaxy's save
-
-- Version 2.2.0.20 - Actually fix landing on planets
-
-- Version 2.2.0.19 - (Unreleased) Fix broken stations from DSP Icarus Evolution Update
-
-- Version 2.2.0.18 - Fix landing on planets
-
-- Version 2.2.0.17 - Fix Nebula API Dependency
-
-- Version 2.2.0.16 - 2.2.0.14 Save Compatibility Fix
-
-- Version 2.2.0.15 - Fix for Blueprint bug caused by latest DSP update. Thanks to Tartarus Music & Raptor for diagnosing
-  this issue.
-
-- Version 2.2.0.14 - Updated game version 0.8.23.9989
-
-- Version 2.2.0.13 - Updated game version
-
-- Version 2.2.0.12 - Fixed bug with Achievement Panel causing error on game start
-
-- Version 2.2.0.11 - Fixed compatibility with game update
-
-- Version 2.2.0.10 - Fixed client bug when host warps using Nebula Multiplayer
-
-- Version 2.2.0.9 - Fixed bug caused by 2.2.0.8
-
-- Version 2.2.0.8 - Fixed error caused by DSP Update's achievement code, that would occur after a few galaxy
-  generations. Bumped NebulaAPI Version requirement.
-
-- Version 2.2.0.7 - Fixed loading times caused by 2.2.0.6
-
-- Version 2.2.0.5 - Fixed planets with reverse rotation/orbit. Fixed orbital resonance text.
-
-- Version 2.2.0.4 - Fixed birth planet moon theme selection
-
-- Version 2.2.0.3 - External themes fixed
-
-- Version 2.2.0.2 - Updated for DSP ver 8.21.8562. All new themes added.
-
-- Version 2.2.0.1 - Fix for new version of DSP. Not all new planet themes have been added, working on getting them in
-  ASAP
-
-Version 2.2 - Out of Beta and considered complete. :)
 
 [![Galactic Scale Trailer](https://github.com/Touhma/DSP_Plugins/blob/main/thumb.png?raw=true)](https://www.youtube.com/watch?v=JpdW3S73hYw "Galactic Scale Trailer - Click to Watch!")
 
@@ -89,7 +32,7 @@ What can be customized?
 - Planet shader configuration. Change ocean and atmosphere params.
 - Binary Planets.
 
-And so much more that I've forgotten. Documentation will be coming soon!
+And so much more that I've forgotten. Documentation might be coming soon! (If enough people bug me about writing it)
 
 /!\ READ THIS
 
@@ -155,5 +98,4 @@ the moons, planets, stars, etc
 
 This mod is and will always be free of charge for everyone.
 
-We'll see in the future if people wanna give us a pint of beer if they wanna support us, but again : it will stay open &
-free of charge for everyone.
+If you really want to support us, there's a donation link at the bottom of the about page on our website http://customizing.space

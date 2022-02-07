@@ -3,10 +3,10 @@ schemaVersion = "0.0.1"
 
 [package]
 namespace = "Galactic_Scale"
-name = "GalacticScale"
-versionNumber = "2.2.27"
-description = "v2.2.0.27 Loading Fix (Hopefully)"
-websiteUrl = "https://github.com/Touhma/DSP_Plugins"
+name = "GalacticScale_Experimental"
+versionNumber = "2.3.0"
+description = "v2.3.0 UI Tweaks. Refactored Code"
+websiteUrl = "https://github.com/innominata/GalacticScale3"
 containsNsfwContent = false
 
 [package.dependencies]
@@ -19,10 +19,10 @@ readme = "./Package/README.md"
 outdir = "./"
 
 [[build.copy]]
-source = "./GalacticScale2/bin/Debug/GalacticScale.dll"
+source = "./obj/Release/net472/GalacticScale.dll"
 target = "./GalacticScale.dll"
 [[build.copy]]
-source = "./GalacticScale2/bin/Debug/GSUI.dll"
+source = "./Package/GSUI.dll"
 target = "./GSUI.dll"
 [[build.copy]]
 source = "./Package/3rdPartyLicenses.md"
