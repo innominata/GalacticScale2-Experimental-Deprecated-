@@ -6,10 +6,13 @@ namespace GalacticScale
 {
     public class GSUIRangeSlider : MonoBehaviour
     {
+        public InputField _inputLow;
+        public InputField _inputHigh;
+        public Button _button;
         public RangeSlider _slider;
         public Text _labelText;
         public Text _hintText;
-
+        public bool sliderActive = true;
         public Text _lowValueText;
         public Text _highValueText;
         public GSOptionCallback OnChange;
@@ -66,20 +69,58 @@ namespace GalacticScale
 
         public void Start()
         {
-            var lowValue = (int)(_slider.LowValue * 100) / 100f;
-            var highValue = (int)(_slider.HighValue * 100) / 100f;
+            var lowValue = (int)(_slider.LowValue * 100f) / 100f;
+            var highValue = (int)(_slider.HighValue * 100f) / 100f;
             _lowValueText.text = lowValue.ToString();
             _highValueText.text = highValue.ToString();
             _slider.OnValueChanged.AddListener(OnSliderValueChange);
+            _inputLow.onValueChanged.AddListener(onLowInputChange);
+            _inputHigh.onValueChanged.AddListener(onHighInputChange);
+            _button.onClick.AddListener(OnNumClick);
         }
 
+        public void OnNumClick()
+        {
+            sliderActive = !sliderActive;
+            if (sliderActive)
+            {
+                
+                _inputLow.gameObject.SetActive(false);
+                _inputHigh.gameObject.SetActive(false);
+                _slider.gameObject.SetActive(true);
+            }
+            else
+            {
+                
+                _inputLow.gameObject.SetActive(true);
+                _inputHigh.gameObject.SetActive(true);
+                _slider.gameObject.SetActive(false);
+                _inputLow.text = _lowValueText.text;
+                _inputHigh.text = _highValueText.text;
+            }
+        }
+        public void onLowInputChange(string value)
+        {
+            if (!float.TryParse(value, out float result)) return;
+            _slider.LowValue = result;
+            OnChange?.Invoke(new FloatPair(result, _slider.HighValue));
+            OnLowChange?.Invoke(result);
+        }
+        public void onHighInputChange(string value)
+        {
+            if (!float.TryParse(value, out float result)) return;
+            _slider.HighValue = result;
+            OnChange?.Invoke(new FloatPair(_slider.LowValue, _slider.HighValue));
+            OnHighChange?.Invoke(result);
+        }
         public void OnSliderValueChange(float LowValue, float HighValue)
         {
             // GS2.Log($"SliderValChange(Range) { LowValue} {HighValue}");
-            var lowValue = (int)(LowValue * 100) / 100f;
-            var highValue = (int)(HighValue * 100) / 100f;
+            var lowValue = (int)(LowValue * 100f) / 100f;
+            var highValue = (int)(HighValue * 100f) / 100f;
             _lowValueText.text = lowValue.ToString();
             _highValueText.text = highValue.ToString();
+
             OnChange?.Invoke(new FloatPair(lowValue, highValue));
             if (OnLowChange != null) OnLowChange?.Invoke(lowValue);
             if (OnHighChange != null) OnHighChange?.Invoke(highValue);

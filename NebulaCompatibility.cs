@@ -24,7 +24,7 @@ namespace GalacticScale
             Logger.Log(LogLevel.Message, "Loaded");
         }
 
-        public string Version => Bootstrap.VERSION;
+        public string Version => GS2.Version;
 
         bool IMultiplayerMod.CheckVersion(string hostVersion, string clientVersion)
         {

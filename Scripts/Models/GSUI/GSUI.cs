@@ -349,8 +349,11 @@ namespace GalacticScale
                         {
                             //GS2.Warn($"Executing increment test of {increment} on {label}");
                             existingCallback(value - value % increment);
-                            if (value - value % increment != instance.slider.value)
+                            if (value - value % increment != value)
+                            {
+                                GS2.Warn($"Increment thing {value} [] { value%increment} ");
                                 instance.Set(value - value % increment);
+                            }
                         }
                     }
                 }

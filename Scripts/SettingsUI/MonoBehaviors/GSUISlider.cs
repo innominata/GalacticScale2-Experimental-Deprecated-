@@ -1,16 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace GalacticScale
 {
     public class GSUISlider : MonoBehaviour
     {
+        public InputField _input;
+        public Button _button;
+        public bool sliderActive = true;
         public Slider _slider;
         public Text _labelText;
         public Text _hintText;
         public Text _valueText;
         public string negativeLabel = "";
         public GSOptionCallback OnChange;
+
+        private void Start()
+        {
+            
+            _button.onClick.AddListener(OnNumClick);
+            _input.onValueChanged.AddListener(onInputChange);
+        }
 
         public float Value
         {
@@ -44,13 +55,35 @@ namespace GalacticScale
 
         public void OnSliderValueChange(Slider slider)
         {
-            // GS2.Warn("*");
-            var value = (int)(slider.value * 100) / 100f;
+            GS2.Warn($"{slider.value} -> {Mathf.RoundToInt(slider.value * 100f)}");
+            var value = Mathf.RoundToInt(slider.value * 100f) / 100f;
             _valueText.text = value.ToString();
             if (negativeLabel != "" && value < 0) _valueText.text = negativeLabel;
             OnChange?.Invoke(value);
         }
+        public void OnNumClick()
+        {
+            sliderActive = !sliderActive;
+            if (sliderActive)
+            {
+                _input.gameObject.SetActive(false);
+                _slider.gameObject.SetActive(true);
+            }
+            else
+            {
+                
+                _input.gameObject.SetActive(true);
+                _input.text = _valueText.text;
+                _slider.gameObject.SetActive(false);
+            }
+        }
+        public void onInputChange(string value)
+        {
+            if (!float.TryParse(value, out float result)) return;
+            _slider.value = result;
 
+            OnChange?.Invoke(result);
+        }
         public void initialize(GSUI options)
         {
             // GS2.Log("Initializing");

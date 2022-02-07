@@ -42,11 +42,11 @@ namespace GalacticScale.Generators
             for (var i = 0; i < importedPreferences.Count; i++)
             {
                 var key = importedPreferences.Keys.ElementAt(i);
-                Warn($"Setting:{key} to {importedPreferences[key]}");
+                // Warn($"Setting:{key} to {importedPreferences[key]}");
                 preferences.Set(key, importedPreferences[key]);
                 if (loaded && UI.ContainsKey(key))
                 {
-                    Warn("UI Loaded, setting UI Element to match");
+                    // Warn("UI Loaded, setting UI Element to match");
                     UI[key].Set(importedPreferences[key]);
                 }
             }
@@ -334,7 +334,7 @@ namespace GalacticScale.Generators
             AddSpacer(gOptions);
             UI.Add("galaxyDensity", gOptions.Add(GSUI.Slider("Galaxy Spread".Translate(), 1, 5, 20, "galaxyDensity", null, "Lower = Stars are closer to each other. Default is 5".Translate())));
             UI.Add("defaultStarCount", gOptions.Add(GSUI.Slider("Default StarCount".Translate(), 1, 64, 1024, "defaultStarCount", DefaultStarCountCallback, "How many stars should the slider default to".Translate())));
-            UI.Add("starSizeMulti", gOptions.Add(GSUI.Slider("Star Size Multiplier".Translate(), 0.5f, 5f, 20f, 0.1f, "starSizeMulti", null, "GS2 uses 10x as standard. They just look cooler.".Translate())));
+            UI.Add("starSizeMulti", gOptions.Add(GSUI.Slider("Star Size Multiplier".Translate(), 0.5f, 5f, 20, 0.5f, "starSizeMulti", null, "GS2 uses 10x as standard. They just look cooler.".Translate())));
             UI.Add("luminosityBoost", gOptions.Add(GSUI.Slider("Luminosity Boost".Translate(), 0, 0, 10, .25f, "luminosityBoost", LuminosityBoostCallback, "Increase the luminosity of all stars by this amount".Translate(), "Default".Translate())));
 
             AddSpacer(gOptions);

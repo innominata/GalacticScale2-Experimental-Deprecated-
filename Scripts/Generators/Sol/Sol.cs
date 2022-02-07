@@ -274,7 +274,7 @@ namespace GalacticScale.Generators
             // var all = assembly.GetManifestResourceNames();
             // GS2.LogJson(all, true);
 
-            var reader = new StreamReader(assembly.GetManifestResourceStream("GalacticScale3.Assets.galaxy.json"));
+            var reader = new StreamReader(assembly.GetManifestResourceStream("GalacticScale2.Assets.galaxy.json"));
             var json = reader.ReadToEnd();
             var data2 = fsJsonParser.Parse(json);
             var localStars = new List<ExternalStarData>();

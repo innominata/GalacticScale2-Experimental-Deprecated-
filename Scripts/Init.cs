@@ -10,56 +10,42 @@ namespace GalacticScale
 {
     public static partial class GS2
     {
-        public static string Version = "2.2.14";
+        public static string Version;
         private static readonly string AssemblyPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(GS2)).Location);
         private static readonly string OldDataDir = Path.Combine(AssemblyPath, "config");
         public static readonly string DataDir = Path.Combine(Paths.ConfigPath, "GalacticScale2");
         public static bool Failed = false;
         public static string updateMessage = "";
-        public static bool Initialized = false;
+        
         public static Dictionary<string, ThemeLibrary> availableExternalThemes = new();
         public static bool canvasOverlay = false;
         public static Image splashImage;
         public static bool SaveOrLoadWindowOpen = false;
         public static bool NebulaClient = false;
-
+        public static bool Initialized = false;
+        public static bool MenuHasLoaded;
+        
         public static TeleportComponent TP;
-        // public static bool MinifyJson = false;
-        // public static ThemeLibrary ThemeLibrary = ThemeLibrary.Vanilla();
+        public static InputComponent Input;
+
         public static TerrainAlgorithmLibrary TerrainAlgorithmLibrary = TerrainAlgorithmLibrary.Init();
         public static VeinAlgorithmLibrary VeinAlgorithmLibrary = VeinAlgorithmLibrary.Init();
         public static VegeAlgorithmLibrary VegeAlgorithmLibrary = VegeAlgorithmLibrary.Init();
         public static GS2MainSettings Config = new();
 
-        //public static int[] tmp_state;
         public static GalaxyData galaxy;
 
-        //private static Random random;
         public static GameDesc gameDesc;
         public static Dictionary<int, GSPlanet> gsPlanets = new();
         public static Dictionary<int, GSStar> gsStars = new();
         private static AssetBundle bundle;
 
-        public static bool MenuHasLoaded;
+        //Nebula 
         private static Button.ButtonClickedEvent origHost;
-
         private static Button.ButtonClickedEvent origLoad;
-        // public static AssetBundle bundle2;
 
-        public static bool IsMenuDemo
-        {
-            get
-            {
-                if (DSPGame.IsMenuDemo) return true;
-
-                if (!Initialized) return true;
-
-                return false;
-            }
-        }
-
+        public static bool IsMenuDemo => DSPGame.IsMenuDemo || !Initialized;
         public static bool Vanilla => ActiveGenerator.GUID == "space.customizing.generators.vanilla";
-
         public static AssetBundle Bundle
         {
             get
@@ -72,15 +58,12 @@ namespace GalacticScale
                     else bundle = AssetBundle.LoadFromFile(path2);
                     // foreach (var name in _bundle.GetAllAssetNames()) GS2.Warn("Bundle Contents:" + name);
                 }
-
                 if (bundle == null)
                 {
                     Error("Failed to load AssetBundle!".Translate());
                     UIMessageBox.Show("Error", "Asset Bundle not found. \r\nPlease ensure your directory structure is correct.\r\n Installation instructions can be found at http://customizing.space/release. \r\nAn error log has been generated in the plugin/ErrorLog Directory".Translate(), "Return".Translate(), 0);
-
                     return null;
                 }
-
                 return bundle;
             }
         }
@@ -118,7 +101,6 @@ namespace GalacticScale
 
         {
             Log($"Vanilla Theme Count: {LDB._themes.dataArray.Length.ToString()}");
-
             if (File.Exists(Path.Combine(AssemblyPath, "icon.png")))
             {
                 if (ActiveGenerator != null && ActiveGenerator.GUID == "space.customizing.generators.vanilla") updateMessage += "Note: Settings for this mod are in the settings menu. Make sure to change the Generator to get the full Galactic Scale experience.\r\n";

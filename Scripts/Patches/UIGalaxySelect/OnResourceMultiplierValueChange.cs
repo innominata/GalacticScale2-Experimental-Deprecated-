@@ -8,7 +8,7 @@ namespace GalacticScale
         [HarmonyPatch(typeof(UIGalaxySelect), "OnResourceMultiplierValueChange")]
         public static void OnResourceMultiplierValueChange(UIGalaxySelect __instance, float val)
         {
-            GS2.Config.SetResourceMultiplier(__instance.gameDesc.resourceMultiplier);
+            if (__instance.gameDesc != null) GS2.Config.SetResourceMultiplier(__instance.gameDesc.resourceMultiplier);
         }
     }
 }

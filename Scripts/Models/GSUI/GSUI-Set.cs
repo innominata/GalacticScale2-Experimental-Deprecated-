@@ -7,15 +7,15 @@ namespace GalacticScale
     {
         public bool Set(GSSliderConfig cfg)
         {
-            //GS2.Warn("Setting Slider? : " + label);
+            GS2.Warn("Setting Slider? : ");
             if (RectTransform == null) return false;
-            var slider = RectTransform.GetComponentInChildren<Slider>();
+            var slider = RectTransform.GetComponent<Slider>();
             if (slider == null) return false;
-            // GS2.Warn($"{Label} Slider Setting...({slider.value}) {DefaultValue} -> {cfg.defaultValue} {cfg.minValue}:{cfg.maxValue}");
+            GS2.Warn($"{Label} Slider Setting...({slider.value}) {DefaultValue} -> {cfg.defaultValue} {cfg.minValue}:{cfg.maxValue}");
             slider.minValue = cfg.minValue >= 0 ? cfg.minValue : slider.minValue;
             slider.maxValue = cfg.maxValue >= 0 ? cfg.maxValue : slider.maxValue;
             slider.value = cfg.defaultValue >= 0 ? cfg.defaultValue : slider.value;
-            //GS2.Warn("Slider Set.");
+            GS2.Warn("Slider Set.");
             return true;
         }
 
@@ -41,7 +41,7 @@ namespace GalacticScale
                     // GS2.Warn($"{RectTransform.GetComponent<GSUIRangeSlider>().LowValue} {RectTransform.GetComponent<GSUIRangeSlider>().HighValue}");
                     return true;
                 case "Slider":
-                    RectTransform.GetComponentInChildren<Slider>().value = o;
+                    RectTransform.GetComponent<GSUISlider>()._slider.value = o;
                     return true;
                 case "Input":
                     if (o == null)

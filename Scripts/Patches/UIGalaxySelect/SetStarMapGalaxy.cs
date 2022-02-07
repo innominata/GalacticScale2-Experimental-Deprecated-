@@ -11,8 +11,10 @@ namespace GalacticScale
         [HarmonyPatch(typeof(UIGalaxySelect), "SetStarmapGalaxy")]
         public static bool SetStarmapGalaxy(ref UIGalaxySelect __instance)
         {
-            if (GS2.NebulaClient && NebulaModAPI.MultiplayerSession != null && NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient && !GSSettings.lobbyReceivedUpdateValues)
+            GS2.Warn("B");
+            if (NebulaModAPI.MultiplayerSession != null && NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient && !GSSettings.lobbyReceivedUpdateValues)
             {
+                GS2.Warn("Running Nebula Code");
                 NebulaModAPI.MultiplayerSession.Network.SendPacket(new LobbyRequestUpdateSolarSystems());
                 GS2.Warn("Nebula Requested Update");
                 return false;
@@ -21,8 +23,7 @@ namespace GalacticScale
             GSSettings.lobbyReceivedUpdateValues = false;
 
             GS2.Log("Start");
-            if (__instance.gameDesc == null) GS2.Warn("GameDesc Null 3");
-            if (__instance.gameDesc.starCount <= 0) __instance.gameDesc.starCount = 1;
+            if (__instance.gameDesc != null && __instance.gameDesc.starCount <= 0) __instance.gameDesc.starCount = 1;
 
             GalaxyData galaxy; // = __instance.starmap.galaxyData;
 
@@ -102,13 +103,13 @@ namespace GalacticScale
                 GS2.Log("Galaxy Null, Returning from Postfix");
                 return;
             }
-
-            if (GS2.NebulaClient && NebulaModAPI.MultiplayerSession == null)
-            {
-                GS2.Log("Nebula Null, Returning from Postfix");
-
-                return;
-            }
+            GS2.Warn("A");
+            // if (NebulaModAPI.MultiplayerSession == null)
+            // {
+            //     GS2.Log("Nebula Null, Returning from Postfix");
+            //
+            //     return;
+            // }
 
             if (GameMain.universeSimulator == null)
             {
