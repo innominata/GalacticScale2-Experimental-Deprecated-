@@ -14,4 +14,4 @@ UpgradeLog*
 TCLI.bat
 
 *.zip
-*/obj
+**/obj/*
