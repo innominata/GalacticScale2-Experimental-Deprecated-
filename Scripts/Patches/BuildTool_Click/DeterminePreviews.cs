@@ -101,7 +101,7 @@ namespace GalacticScale
                     }
                 }
 
-                if (VFInput._ignoreGrid && __instance.handPrefabDesc.minerType == EMinerType.Vein|| __instance.handPrefabDesc.geothermal)
+                if (VFInput._ignoreGrid && __instance.handPrefabDesc.minerType == EMinerType.Vein || __instance.handPrefabDesc.geothermal)
                 {
                     if (VFInput._rotate)
                     {

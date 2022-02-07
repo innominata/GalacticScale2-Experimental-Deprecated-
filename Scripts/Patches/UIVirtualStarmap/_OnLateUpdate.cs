@@ -19,7 +19,7 @@ namespace GalacticScale
         public static void _OnLateUpdate(ref UIVirtualStarmap __instance)
         {
             if (GS2.Vanilla) return;
-            if (NebulaModAPI.MultiplayerSession != null) return; // use new lobby feature in multiplayer but preserve existing functionality in single player
+            if (GS2.NebulaClient && NebulaModAPI.MultiplayerSession != null) return; // use new lobby feature in multiplayer but preserve existing functionality in single player
 
             var index1 = -1;
             var num1 = 1.7f;
@@ -119,7 +119,6 @@ namespace GalacticScale
             __instance.starPointSelection.material.SetColor("_TintColor", color1);
             __instance.starPointSelection.transform.localPosition = starData1.position;
             __instance.starPointSelection.transform.localScale = Vector3.one * (float)(num4 * 0.600000023841858 + 0.600000023841858);
-            return;
         }
     }
 }

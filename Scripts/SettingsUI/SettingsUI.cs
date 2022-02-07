@@ -23,18 +23,18 @@ namespace GalacticScale
         public static RectTransform comboTemplate;
 
         //private static readonly List<RectTransform> optionRects = new List<RectTransform>();
-        public static readonly List<RectTransform> GeneratorCanvases = new List<RectTransform>();
+        public static readonly List<RectTransform> GeneratorCanvases = new();
 
-        public static readonly List<List<GSUI>> generatorPluginOptions = new List<List<GSUI>>();
+        public static readonly List<List<GSUI>> generatorPluginOptions = new();
 
         // public static GameObject themeselector;
         private static float anchorX;
         private static float anchorY;
         public static int GeneratorIndex;
 
-        private static readonly GSOptions options = new GSOptions();
+        private static readonly GSOptions options = new();
 
-        public static UnityEvent OptionsUIPostfix = new UnityEvent();
+        public static UnityEvent OptionsUIPostfix = new();
 
         public static void CreateGalacticScaleSettingsPage(UIButton[] _tabButtons, Text[] _tabTexts)
         {

@@ -16,7 +16,7 @@ namespace GalacticScale
             if (GS2.Vanilla) return true;
 
             // GS2.Warn("Create Galaxy");
-            GS2.ResearchUnlocked = false;
+            // GS2.ResearchUnlocked = false;
             __result = GS2.ProcessGalaxy(gameDesc, true);
             return false;
         }

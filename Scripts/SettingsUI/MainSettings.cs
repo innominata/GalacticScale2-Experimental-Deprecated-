@@ -14,18 +14,18 @@ namespace GalacticScale
         private GSUI _exportButton;
 
         // private GSUI GeneratorCombobox;
-        private List<string> _generatorNames = new List<string>();
-        public List<string> filenames = new List<string>();
+        private List<string> _generatorNames = new();
+        public List<string> filenames = new();
         public GSUI JsonGalaxies;
-        public GSGenPreferences Preferences = new GSGenPreferences();
-        public Dictionary<string, GSUI> ThemeCheckboxes = new Dictionary<string, GSUI>();
+        public GSGenPreferences Preferences = new();
+        public Dictionary<string, GSUI> ThemeCheckboxes = new();
         public bool ForceRare => Preferences.GetBool("Force Rare Spawn");
         public bool DebugMode => Preferences.GetBool("Debug Log");
         public bool Dev => Preferences.GetBool("Dev");
         public string ImportFilename => Preferences.GetString("Import Filename");
         public bool SkipPrologue => Preferences.GetBool("Skip Prologue", true);
         public bool SkipTutorials => Preferences.GetBool("Skip Tutorials");
-        public bool ScarletRevert => Preferences.GetBool("RevertScarlet", false);
+        public bool ScarletRevert => Preferences.GetBool("RevertScarlet");
         public bool CheatMode => Preferences.GetBool("Cheat Mode");
 
         // public bool VanillaGrid => Preferences.GetBool("Vanilla Grid");
@@ -63,9 +63,9 @@ namespace GalacticScale
 
         public string GUID => "main.settings";
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig();
+        public GSGeneratorConfig Config => new();
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
         //public bool Test => Preferences.GetBool("Test", false);
         //public float TestNum => Preferences.GetFloat("TestNum", 0f);
 

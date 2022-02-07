@@ -20,7 +20,5 @@ namespace GalacticScale
 
             return matcher.InstructionEnumeration();
         }
-
-        
     }
 }

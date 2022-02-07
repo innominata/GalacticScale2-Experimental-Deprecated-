@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using GSSerializer;
 using UnityEngine;
 
@@ -8,9 +7,9 @@ namespace GalacticScale
     [fsObject(Converter = typeof(GSFSSettingsConverter))]
     public class GSSettings
     {
-        public static GSVein BirthIron = new GSVein(6, 0.1f);
+        public static GSVein BirthIron = new(6, 0.1f);
 
-        public static GSVein BirthCopper = new GSVein(6, 0.1f);
+        public static GSVein BirthCopper = new(6, 0.1f);
 
         // public static GSStar BirthStar { get => birthStarId>=0?Stars[birthStarId-1]:null; }
         private static GSPlanet birthPlanet;
@@ -19,16 +18,16 @@ namespace GalacticScale
         private static int birthPlanetId = -1; // this is a vanilla id, not a GS Index!
         private static string birthPlanetName;
 
-        [SerializeField] public GSGalaxyParams galaxyParams = new GSGalaxyParams();
-        public string generatorGUID = null;
-
         public static bool lobbyReceivedUpdateValues = false;
+
+        [SerializeField] public GSGalaxyParams galaxyParams = new();
+        public string generatorGUID = null;
 
         [NonSerialized] public bool imported;
 
         [SerializeField] public int seed = 1;
 
-        [SerializeField] public GSStars stars = new GSStars();
+        [SerializeField] public GSStars stars = new();
 
         [SerializeField] public ThemeLibrary themeLibrary = ThemeLibrary.Vanilla();
 
@@ -41,7 +40,7 @@ namespace GalacticScale
             //GS2.Log("End");
         }
 
-        public static GSSettings Instance { get; set; } = new GSSettings(0);
+        public static GSSettings Instance { get; set; } = new(0);
 
         public static ThemeLibrary ThemeLibrary
         {
@@ -75,20 +74,6 @@ namespace GalacticScale
 
         public static int StarCount => Stars.Count;
 
-        public static int PrimaryStarCount()
-        {
-            int count = 0;
-            // var companions = new List<
-            for (int i = 0; i < Stars.Count; i++)
-            {
-                // var companion = Stars[i].BinaryCompanion;
-                if (!Stars[i].genData.ContainsKey("binary") || !Stars[i].genData["binary"]) count++;
-                // if (companion == string.Empty || companion == null) count++;
-            }
-
-            return count;
-        }
-        
         public static GSPlanet BirthPlanet
         {
             get
@@ -175,6 +160,19 @@ namespace GalacticScale
                 GS2.Log($"BirthPlanetName set to {value} by {GS2.GetCaller()}");
                 birthPlanetName = value;
             }
+        }
+
+        public static int PrimaryStarCount()
+        {
+            var count = 0;
+            // var companions = new List<
+            for (var i = 0; i < Stars.Count; i++)
+                // var companion = Stars[i].BinaryCompanion;
+                if (!Stars[i].genData.ContainsKey("binary") || !Stars[i].genData["binary"])
+                    count++;
+            // if (companion == string.Empty || companion == null) count++;
+
+            return count;
         }
 
         public static string Serialize()

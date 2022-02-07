@@ -773,8 +773,8 @@ namespace GSSerializer
         /// </summary>
         internal class fsLazyCycleDefinitionWriter
         {
-            private readonly Dictionary<int, fsData> _pendingDefinitions = new Dictionary<int, fsData>();
-            private readonly HashSet<int> _references = new HashSet<int>();
+            private readonly Dictionary<int, fsData> _pendingDefinitions = new();
+            private readonly HashSet<int> _references = new();
 
             public void WriteDefinition(int id, fsData data)
             {

@@ -11,7 +11,7 @@ namespace GalacticScale
         private static string lastStatus = "";
         private static StarData closestStar;
         private static PlanetData closestPlanet;
-        public static readonly Dictionary<PlanetData, double> TransitionRadii = new Dictionary<PlanetData, double>();
+        public static readonly Dictionary<PlanetData, double> TransitionRadii = new();
 
         private static void LogStatus(string incoming = "")
         {
@@ -49,9 +49,10 @@ namespace GalacticScale
             if (localPlanet != null && VFInput.shift && VFInput.alt)
             {
                 var radii = TransitionRadii.ContainsKey(localPlanet) ? TransitionRadii[localPlanet].ToString() : "N/A";
-                
+
                 Warn($"DistanceTo: {DistanceTo(localPlanet)} / {radii}");
             }
+
             var warping = GameMain.mainPlayer.warping;
 
             if (localStar != null && !localStar.loaded)
@@ -137,7 +138,7 @@ namespace GalacticScale
 
                 resetCamera = true;
                 LogStatus($"Leaving Star {localStar.name} as it is not closest");
-                if (GameMain.data.localStar != null )GameMain.data.LeaveStar();
+                if (GameMain.data.localStar != null) GameMain.data.LeaveStar();
             }
             else if (closestStar != null)
             {
@@ -303,7 +304,7 @@ namespace GalacticScale
             {
                 //First Child's Inner System Radius - Self.RadiusAU
                 var distanceAU = gsPlanet.Moons[0].OrbitInnermostSystemRadiusAU - gsPlanet.RadiusAU;
-                Log($"Distance to first moons Last Satellite's Surface from {planet.name} surface is {distanceAU* 40000f}");
+                Log($"Distance to first moons Last Satellite's Surface from {planet.name} surface is {distanceAU * 40000f}");
                 if (distanceAU * 20000f - 100f < transitionDistance)
                 {
                     Log($"Changed Transition Distance for {planet.name} from {transitionDistance} to {distanceAU * 20000f - 100f}");
@@ -319,7 +320,7 @@ namespace GalacticScale
                     var index = Host.Moons.IndexOf(gsPlanet);
                     var PreviousSibling = Host.Moons[index - 1];
                     var distanceAU = gsPlanet.OrbitInnermostSurfaceRadiusAU - PreviousSibling.OrbitOutermostSystemRadiusAU;
-                    Log($"Distance to previous siblings Last Satellite's Surface from {planet.name} surface is {distanceAU* 40000f}");
+                    Log($"Distance to previous siblings Last Satellite's Surface from {planet.name} surface is {distanceAU * 40000f}");
                     if (distanceAU * 20000f - 100f < transitionDistance)
                     {
                         Log($"Changed Transition Distance for {planet.name} from {transitionDistance} to {distanceAU * 20000f - 100f}");
@@ -330,7 +331,7 @@ namespace GalacticScale
                 {
                     // Check Self.OrbitInnermostSurfaceRadiusAU - Host.RadiusAU
                     var distanceAU = gsPlanet.OrbitInnermostSurfaceRadiusAU - Host.RadiusAU;
-                    Log($"Distance to hosts surface from {planet.name} surface is {distanceAU* 40000f}");
+                    Log($"Distance to hosts surface from {planet.name} surface is {distanceAU * 40000f}");
                     if (distanceAU * 20000f - 100f < transitionDistance)
                     {
                         Log($"Changed Transition Distance for {planet.name} from {transitionDistance} to {distanceAU * 20000f - 100f}");
@@ -343,7 +344,7 @@ namespace GalacticScale
                     var index = Host.Moons.IndexOf(gsPlanet);
                     var NextSibling = Host.Moons[index + 1];
                     var distanceAU = NextSibling.OrbitInnermostSystemRadiusAU - gsPlanet.OrbitOutermostSurfaceRadiusAU;
-                    Log($"Distance to Next Siblings Last Satellite's Surface from {planet.name} surface is {distanceAU* 40000f}");
+                    Log($"Distance to Next Siblings Last Satellite's Surface from {planet.name} surface is {distanceAU * 40000f}");
                     if (distanceAU * 20000f - 100f < transitionDistance)
                     {
                         Log($"Changed Transition Distance for {planet.name} from {transitionDistance} to {distanceAU * 20000f - 100f}");
@@ -376,7 +377,7 @@ namespace GalacticScale
                     // Check Self.OrbitInnermostSurfaceRadiusAU - Host.RadiusAU
 
                     var distanceAU = gsPlanet.OrbitInnermostSurfaceRadiusAU - Host.RadiusAU;
-                    Log($"Distance to hosts surface from {planet.name} surface is {distanceAU* 40000f}");
+                    Log($"Distance to hosts surface from {planet.name} surface is {distanceAU * 40000f}");
                     if (distanceAU * 20000f - 100f < transitionDistance)
                     {
                         Log($"Changed Transition Distance for {planet.name} from {transitionDistance} to {distanceAU * 20000f - 100f}");
@@ -402,16 +403,15 @@ namespace GalacticScale
                 }
             }
 
-            if (transitionDistance < 0)//(planet.realRadius + 10))
+            if (transitionDistance < 0) //(planet.realRadius + 10))
             {
                 Warn($"changing {planet.name} transition distance from {transitionDistance} to {planet.realRadius + 10}");
                 transitionDistance = planet.realRadius + 10;
             }
+
             if (!TransitionRadii.ContainsKey(planet)) TransitionRadii.Add(planet, transitionDistance);
             else
-            {
                 Warn("ALREADY CONTAINS DISTANCE");
-            }
             Log($"Transition Radius: {transitionDistance} for {planet.name} with radius {planet.realRadius}");
             return transitionDistance;
         }

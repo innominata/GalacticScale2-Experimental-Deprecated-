@@ -12,9 +12,9 @@
 
         public string GUID => "space.customizing.generators.ball";
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig(false, false, 1, 512);
+        public GSGeneratorConfig Config => new(false, false, 1, 512);
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
 
         //private GSStars stars = new GSStars();
         public void Init()

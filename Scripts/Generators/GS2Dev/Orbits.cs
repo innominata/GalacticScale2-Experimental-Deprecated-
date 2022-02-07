@@ -32,7 +32,7 @@ namespace GalacticScale.Generators
 
         private void AssignPlanetOrbits(GSStar star)
         {
-            GS2.Warn($"-------------------------------------------------------------------------------");
+            GS2.Warn("-------------------------------------------------------------------------------");
             GS2.Warn($"--{star.Name}-----------------------------------------------------------------------------");
             GS2.Warn($"--{star.displayType}-----------------------------------------------------------------------------");
             GS2.Warn($"Assigning Planet Orbits for {star.Name}:{star.Planets.Count} planets to assign");
@@ -87,7 +87,7 @@ namespace GalacticScale.Generators
                 var availableOrbits = new List<(float inner, float outer)>();
                 foreach (var range in freeOrbitRanges)
                 {
-                    GS2.Log($"Free orbits:{range}. Checking SystemRadius:{planet.SystemRadius}. {(0.05f + 2 * planet.SystemRadius)}");
+                    GS2.Log($"Free orbits:{range}. Checking SystemRadius:{planet.SystemRadius}. {0.05f + 2 * planet.SystemRadius}");
 
 
                     if (range.outer - range.inner > 0.05f + 2 * planet.SystemRadius)
@@ -98,7 +98,7 @@ namespace GalacticScale.Generators
                     }
                 }
 
-            if (availableOrbits.Count == 0)
+                if (availableOrbits.Count == 0)
                 {
                     GS2.Warn("Free Orbit Ranges:");
                     GS2.LogJson(freeOrbitRanges);
@@ -132,6 +132,7 @@ namespace GalacticScale.Generators
                     GS2.Log($"No Available Orbits Found for Planet {planet.Name}");
                     continue;
                 }
+
                 var selectedRange = r.Item(availableOrbits);
                 GS2.Log($"radius = r.NextFloat({selectedRange.inner + planet.SystemRadius}, {selectedRange.outer - planet.SystemRadius})");
                 var radius = r.NextFloat(selectedRange.inner + planet.SystemRadius, selectedRange.outer - planet.SystemRadius);
@@ -142,8 +143,7 @@ namespace GalacticScale.Generators
                 GS2.Log($"-{planet.Name} orbit radius {planet.OrbitRadius}");
 
                 planet.OrbitalPeriod = Utils.CalculateOrbitPeriod(planet.OrbitRadius);
-                GS2.Warn(
-                $"selected orbit({radius}) for {planet.Name}({planet.SystemRadius}) SelectedRange:{selectedRange.inner}, {selectedRange.outer} New Ranges: {selectedRange.inner},{radius - planet.SystemRadius}({radius - planet.SystemRadius - selectedRange.inner}) | {radius + planet.SystemRadius}, {selectedRange.outer}({selectedRange.outer - radius - planet.SystemRadius})");
+                GS2.Warn($"selected orbit({radius}) for {planet.Name}({planet.SystemRadius}) SelectedRange:{selectedRange.inner}, {selectedRange.outer} New Ranges: {selectedRange.inner},{radius - planet.SystemRadius}({radius - planet.SystemRadius - selectedRange.inner}) | {radius + planet.SystemRadius}, {selectedRange.outer}({selectedRange.outer - radius - planet.SystemRadius})");
                 orbits.Add(orbit);
                 var minGap = 0.1f;
 
@@ -228,7 +228,7 @@ namespace GalacticScale.Generators
         public class Orbit
         {
             public Orbit next;
-            public GSPlanets planets = new GSPlanets();
+            public GSPlanets planets = new();
             public Orbit previous;
             public float radius;
 

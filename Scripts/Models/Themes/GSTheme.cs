@@ -10,20 +10,20 @@ namespace GalacticScale
     [fsObject(Converter = typeof(GSFSThemeConverter))]
     public class GSTheme
     {
-        [NonSerialized] public static ThemeLibrary AllLoadedThemes = new ThemeLibrary();
+        [NonSerialized] public static ThemeLibrary AllLoadedThemes = new();
         [NonSerialized] public bool added;
         public int Algo;
         [NonSerialized] public string ambient;
 
-        [NonSerialized] public AmbientDesc ambientDesc = new AmbientDesc();
+        [NonSerialized] public AmbientDesc ambientDesc = new();
 
-        public GSAmbientSettings AmbientSettings = new GSAmbientSettings();
+        public GSAmbientSettings AmbientSettings = new();
 
         [NonSerialized] public AudioClip ambientSfx;
 
         [NonSerialized] public Material atmosMat;
 
-        public GSMaterialSettings atmosphereMaterial = new GSMaterialSettings();
+        public GSMaterialSettings atmosphereMaterial = new();
 
         [NonSerialized] public bool Base = false;
 
@@ -54,13 +54,13 @@ namespace GalacticScale
         //public Color thumbTint;
         [NonSerialized] public Material minimapMat;
 
-        public GSMaterialSettings minimapMaterial = new GSMaterialSettings();
+        public GSMaterialSettings minimapMaterial = new();
 
         [NonSerialized] public int MinRadius;
 
-        [NonSerialized] public Vector2 ModX = new Vector2(0.0f, 0.0f);
+        [NonSerialized] public Vector2 ModX = new(0.0f, 0.0f);
 
-        [NonSerialized] public Vector2 ModY = new Vector2(0.0f, 0.0f);
+        [NonSerialized] public Vector2 ModY = new(0.0f, 0.0f);
 
         public int[] Musics = { 9 };
 
@@ -70,21 +70,21 @@ namespace GalacticScale
         //public Color terrainTint;
         [NonSerialized] public Material oceanMat;
 
-        public GSMaterialSettings oceanMaterial = new GSMaterialSettings();
+        public GSMaterialSettings oceanMaterial = new();
         public EPlanetType PlanetType = EPlanetType.Ocean;
         public float[] RareSettings = { };
         public int[] RareVeins = { };
         public string SFXPath = "SFX/sfx-amb-ocean-1";
         public float SFXVolume = 0.53f;
 
-        [SerializeField] public List<EStar> StarTypes = new List<EStar> { EStar.A, EStar.B, EStar.BlackHole, EStar.BlueGiant, EStar.F, EStar.G, EStar.K, EStar.M, EStar.NeutronStar, EStar.O, EStar.RedGiant, EStar.WhiteDwarf, EStar.WhiteGiant, EStar.YellowGiant };
+        [SerializeField] public List<EStar> StarTypes = new() { EStar.A, EStar.B, EStar.BlackHole, EStar.BlueGiant, EStar.F, EStar.G, EStar.K, EStar.M, EStar.NeutronStar, EStar.O, EStar.RedGiant, EStar.WhiteDwarf, EStar.WhiteGiant, EStar.YellowGiant };
 
         public float Temperature;
 
         [NonSerialized] public Material terrainMat;
 
-        public GSMaterialSettings terrainMaterial = new GSMaterialSettings();
-        public GSTerrainSettings TerrainSettings = new GSTerrainSettings();
+        public GSMaterialSettings terrainMaterial = new();
+        public GSTerrainSettings TerrainSettings = new();
 
         private EThemeType themeType = EThemeType.Null;
 
@@ -92,11 +92,11 @@ namespace GalacticScale
         //public Color atmosphereTint;
         [NonSerialized] public Material thumbMat;
 
-        public GSMaterialSettings thumbMaterial = new GSMaterialSettings();
+        public GSMaterialSettings thumbMaterial = new();
         public bool UseHeightForBuild;
         public int Variant = 0;
 
-        public GSVegeSettings VegeSettings = new GSVegeSettings
+        public GSVegeSettings VegeSettings = new()
         {
             Algorithm = "Vanilla"
         };
@@ -110,7 +110,7 @@ namespace GalacticScale
         public float[] VeinCount = { };
         public float[] VeinOpacity = { };
 
-        public GSVeinSettings VeinSettings = new GSVeinSettings
+        public GSVeinSettings VeinSettings = new()
         {
             Algorithm = "GS2",
             VeinTypes = new GSVeinTypes()
@@ -280,6 +280,7 @@ namespace GalacticScale
                     count += v.count;
                     opacity += v.richness;
                 }
+
                 if (vt.rare)
                 {
                     var specialOpacity = opacity / veinCount;
@@ -306,7 +307,6 @@ namespace GalacticScale
 
             RareSettings = _rareSettings.ToArray();
             RareVeins = _rareVeins.ToArray();
-
         }
 
         public void PopulateVeinData()
@@ -627,7 +627,7 @@ namespace GalacticScale
                     GS2.Error("Texture not found, or method not implemented");
                 else
                     // GS2.Log("Assigning Texture");
-                material.SetTexture(name, tex);
+                    material.SetTexture(name, tex);
             }
 
             //GS2.Warn($"Material null? {material == null}");
@@ -655,8 +655,8 @@ namespace GalacticScale
                 {
                     // GS2.Log("Loading AmbientDesc from AmbientSettings.ResourcePath" + AmbientSettings.ResourcePath);
                     //Resources.Load<AmbientDesc>(AmbientSettings.ResourcePath);
-                   var ambientDescArray = Utils.ResourcesLoadArray<AmbientDesc>(AmbientSettings.ResourcePath, "{0}-{1}", true);
-                   if (ambientDescArray != null) ambientDesc = ambientDescArray[0];
+                    var ambientDescArray = Utils.ResourcesLoadArray<AmbientDesc>(AmbientSettings.ResourcePath, "{0}-{1}", true);
+                    if (ambientDescArray != null) ambientDesc = ambientDescArray[0];
                 }
                 else if (ambient == null)
                 {
@@ -671,7 +671,7 @@ namespace GalacticScale
                 {
                     // GS2.Log("Loading AmbientDesc from base theme = "+ambient);
                     ambientDesc = GSSettings.ThemeLibrary.Find(ambient).ambientDesc;
-                    
+
                     //ambientSfx = Resources.Load<AudioClip>(SFXPath);
                     // ambientSfx = Utils.ResourcesLoadArray<AudioClip>(SFXPath, "{0}-{1}", true)[0];
                     var ambientSfxArray = Utils.ResourcesLoadArray<AudioClip>(SFXPath, "{0}-{1}", true);

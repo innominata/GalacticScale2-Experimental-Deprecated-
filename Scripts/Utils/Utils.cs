@@ -24,39 +24,31 @@ namespace GalacticScale
             return fsJsonPrinter.PrettyJson(data);
         }
 
-        public static T[] ResourcesLoadArray<T>(string path, string format, bool emptyNull) where T : UnityEngine.Object
+        public static T[] ResourcesLoadArray<T>(string path, string format, bool emptyNull) where T : Object
         {
+            var list = new List<T>();
 
-            List<T> list = new List<T>();
-
-            T t = Resources.Load<T>(path);
+            var t = Resources.Load<T>(path);
             if (t == null)
-            {
                 //GS2.Log("Resource returned null, exiting");
                 return null;
-            }
             //GS2.Log("Resource loaded");
-            int num = 0;
+            var num = 0;
             if (t != null)
             {
                 list.Add(t);
                 num = 1;
             }
+
             do
             {
                 t = Resources.Load<T>(string.Format(format, path, num));
-                if (t == null || ((num == 1 || num == 2) && list.Contains(t)))
-                {
-                    break;
-                }
+                if (t == null || (num == 1 || num == 2) && list.Contains(t)) break;
                 list.Add(t);
                 num++;
-            }
-            while (num < 1024);
-            if (emptyNull && list.Count == 0)
-            {
-                return null;
-            }
+            } while (num < 1024);
+
+            if (emptyNull && list.Count == 0) return null;
             return list.ToArray();
         }
 
@@ -510,7 +502,7 @@ namespace GalacticScale
                 lines.Add("              Algorithm = \"Vanilla\",");
                 lines.Add("             VeinTypes = new GSVeinTypes()");
                 lines.Add("  },");
-                int ambientCount = 1;
+                var ambientCount = 1;
                 if (t.ambientDesc != null)
                     foreach (var a in t.ambientDesc)
                     {
@@ -599,7 +591,7 @@ namespace GalacticScale
                 lines.Add("{");
                 foreach (var x in t.GasSpeeds) lines.Add($"{x}f,");
                 lines.Add("},");
-                lines.Add($"UseHeightForBuild = {(t.UseHeightForBuild?"true":"false")},");
+                lines.Add($"UseHeightForBuild = {(t.UseHeightForBuild ? "true" : "false")},");
                 lines.Add($"Wind = {t.Wind}f,");
                 lines.Add($"IonHeight = {t.IonHeight}f,");
                 lines.Add($"WaterHeight = {t.WaterHeight}f,");

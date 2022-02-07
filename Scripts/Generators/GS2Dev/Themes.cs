@@ -289,7 +289,7 @@ namespace GalacticScale.Generators
             };
             obsidian.terrainMaterial.Colors = new Dictionary<string, Color>
             {
-                ["_SpeclColor"] = new Color(0.14f, 0.14f, 0.04f, 1f)
+                ["_SpeclColor"] = new(0.14f, 0.14f, 0.04f, 1f)
             };
             // obsidian.terrainMat.SetFloat("_AmbientInc", 0);
             // obsidian.terrainMat.SetFloat("_GISaturate", 0);
@@ -348,10 +348,10 @@ namespace GalacticScale.Generators
             acidGreenhouse.terrainMaterial.CopyFrom = "AshenGelisol.terrainMat";
             acidGreenhouse.terrainMaterial.Colors = new Dictionary<string, Color>
             {
-                ["_AmbientColor0"] = new Color(0.9f, 0.9f, 0.1f, 1f),
-                ["_AmbientColor0"] = new Color(0.8f, 0.8f, 0.7f, 1f),
-                ["_AmbientColor0"] = new Color(0.5f, 0.5f, 0.0f, 1f),
-                ["_Color"] = new Color(0.65f, 0.5f, 0.15f, 1f)
+                ["_AmbientColor0"] = new(0.9f, 0.9f, 0.1f, 1f),
+                ["_AmbientColor0"] = new(0.8f, 0.8f, 0.7f, 1f),
+                ["_AmbientColor0"] = new(0.5f, 0.5f, 0.0f, 1f),
+                ["_Color"] = new(0.65f, 0.5f, 0.15f, 1f)
             };
             acidGreenhouse.terrainMaterial.Params = new Dictionary<string, float>
             {
@@ -477,10 +477,10 @@ namespace GalacticScale.Generators
 
             hotGas.terrainMaterial.Colors = new Dictionary<string, Color>
             {
-                ["_Color4"] = new Color { r = 0.0f, g = 0.0f, b = 0.0f, a = 1 }, //Highlights?
-                ["_Color1"] = new Color { r = 0f, g = 0, b = 0f, a = 1 }, //Base?
-                ["_Color2"] = new Color { r = 0, g = 0f, b = 0, a = 1 }, //SunSpots
-                ["_Color3"] = new Color { r = 0, g = 0, b = 0f, a = 1 }
+                ["_Color4"] = new() { r = 0.0f, g = 0.0f, b = 0.0f, a = 1 }, //Highlights?
+                ["_Color1"] = new() { r = 0f, g = 0, b = 0f, a = 1 }, //Base?
+                ["_Color2"] = new() { r = 0, g = 0f, b = 0, a = 1 }, //SunSpots
+                ["_Color3"] = new() { r = 0, g = 0, b = 0f, a = 1 }
             }; //Fringe
             hotGas.terrainMaterial.Params = new Dictionary<string, float>
             {
@@ -500,10 +500,10 @@ namespace GalacticScale.Generators
 
             stupid.terrainMaterial.Colors = new Dictionary<string, Color>
             {
-                ["_Color4"] = new Color { r = 0.0f, g = 0.0f, b = 0.0f, a = 1 }, //Highlights?
-                ["_Color1"] = new Color { r = 0f, g = 0, b = 0f, a = 1 }, //Base?
-                ["_Color2"] = new Color { r = 0, g = 0f, b = 0, a = 1 }, //SunSpots
-                ["_Color3"] = new Color { r = 0, g = 0, b = 0f, a = 1 }
+                ["_Color4"] = new() { r = 0.0f, g = 0.0f, b = 0.0f, a = 1 }, //Highlights?
+                ["_Color1"] = new() { r = 0f, g = 0, b = 0f, a = 1 }, //Base?
+                ["_Color2"] = new() { r = 0, g = 0f, b = 0, a = 1 }, //SunSpots
+                ["_Color3"] = new() { r = 0, g = 0, b = 0f, a = 1 }
             }; //Fringe
             stupid.terrainMaterial.Params = new Dictionary<string, float>
             {

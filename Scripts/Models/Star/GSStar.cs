@@ -5,7 +5,7 @@ namespace GalacticScale
 {
     public class GSStar
     {
-        [NonSerialized] public readonly ValStore genData = new ValStore();
+        [NonSerialized] public readonly ValStore genData = new();
 
         private float _acdiscRadius = -1;
         private float _age = -1;
@@ -37,7 +37,7 @@ namespace GalacticScale
 
         [SerializeField] public float orbitScaler = 1;
 
-        public GSPlanets Planets = new GSPlanets();
+        public GSPlanets Planets = new();
         public int Seed;
         public ESpectrType Spectr;
         public EStarType Type;

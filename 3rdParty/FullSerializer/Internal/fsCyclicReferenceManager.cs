@@ -8,10 +8,10 @@ namespace GSSerializer.Internal
     {
         private int _depth;
 
-        private Dictionary<int, object> _marked = new Dictionary<int, object>();
+        private Dictionary<int, object> _marked = new();
         private int _nextId;
 
-        private Dictionary<object, int> _objectIds = new Dictionary<object, int>(ObjectReferenceEqualityComparator.Instance);
+        private Dictionary<object, int> _objectIds = new(ObjectReferenceEqualityComparator.Instance);
 
         public void Enter()
         {

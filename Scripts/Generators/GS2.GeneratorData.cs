@@ -7,7 +7,7 @@ namespace GalacticScale
     {
         public static iGenerator ActiveGenerator = new Vanilla();
 
-        public static List<iGenerator> Generators = new List<iGenerator>
+        public static List<iGenerator> Generators = new()
         {
             new Vanilla(),
             //new GS2Generator(),

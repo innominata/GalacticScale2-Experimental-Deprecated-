@@ -1,21 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "HgMcgjeDDHFGBHnjT3tTb4FgcUBk9mayTaQCnDP5Ugk3fm/lhTIShi5KuZNjnzYk8mNuFYQVa7A7fYI5BqBtjA==",
+  "dgSpecHash": "Uudt3/otA8rswFrUQgKLvzLh5CbZ7sD1+WGOFsq7QRBglPUqXwckw33tZ0Jq5q8HngaMy4EaMqEcqlNAqIFjxw==",
   "success": true,
-  "projectFilePath": "C:\\code\\GS3\\GalacticScale3\\GalacticScale3.csproj",
+  "projectFilePath": "C:\\code\\GalacticScale3\\GalacticScale2.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Tony\\.nuget\\packages\\bepinex.analyzers\\1.0.8\\bepinex.analyzers.1.0.8.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\bepinex.baselib\\5.4.17\\bepinex.baselib.5.4.17.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\bepinex.core\\5.4.17\\bepinex.core.5.4.17.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\bepinex.plugininfoprops\\1.1.0\\bepinex.plugininfoprops.1.1.0.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\dysonsphereprogram.gamelibs\\0.9.24.11271-r.0\\dysonsphereprogram.gamelibs.0.9.24.11271-r.0.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\harmonyx\\2.5.5\\harmonyx.2.5.5.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net472\\1.0.2\\microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\mono.cecil\\0.11.4\\mono.cecil.0.11.4.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\monomod.runtimedetour\\21.8.19.1\\monomod.runtimedetour.21.8.19.1.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\monomod.utils\\21.8.19.1\\monomod.utils.21.8.19.1.nupkg.sha512",
-    "C:\\Users\\Tony\\.nuget\\packages\\unityengine.modules\\2018.4.12\\unityengine.modules.2018.4.12.nupkg.sha512"
+    "C:\\Users\\inno\\.nuget\\packages\\bepinex.analyzers\\1.0.8\\bepinex.analyzers.1.0.8.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\bepinex.baselib\\5.4.17\\bepinex.baselib.5.4.17.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\bepinex.core\\5.4.17\\bepinex.core.5.4.17.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\bepinex.plugininfoprops\\1.1.0\\bepinex.plugininfoprops.1.1.0.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\dysonsphereprogram.gamelibs\\0.9.24.11271-r.0\\dysonsphereprogram.gamelibs.0.9.24.11271-r.0.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\harmonyx\\2.5.5\\harmonyx.2.5.5.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net472\\1.0.2\\microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\mono.cecil\\0.11.4\\mono.cecil.0.11.4.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\monomod.runtimedetour\\21.8.19.1\\monomod.runtimedetour.21.8.19.1.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\monomod.utils\\21.8.19.1\\monomod.utils.21.8.19.1.nupkg.sha512",
+    "C:\\Users\\inno\\.nuget\\packages\\unityengine.modules\\2018.4.12\\unityengine.modules.2018.4.12.nupkg.sha512"
   ],
   "logs": []
 }

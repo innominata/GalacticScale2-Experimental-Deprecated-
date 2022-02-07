@@ -54,7 +54,6 @@ namespace GalacticScale
                 if (GameCamera.instance == null) return false;
                 GameMain.preferences.LateRestore();
                 GameCamera.instance.SetReady();
-                
             }
 
             if (__instance.frame == 10)

@@ -18,7 +18,6 @@ namespace GalacticScale
             var list = new List<fsData>();
             var dict = new Dictionary<string, int>();
             if (model.veins.Count > 0)
-            {
                 for (var i = 0; i < model.veins.Count; i++)
                 {
                     var s = model.veins[i].count + "x" + model.veins[i].richness;
@@ -27,12 +26,10 @@ namespace GalacticScale
                     else
                         dict[s]++;
                 }
-            }
             else
-            {
                 return fsResult.Success;
-                // GS2.WarnJson(model);
-            }
+            // GS2.WarnJson(model);
+
             foreach (var kvp in dict) list.Add(new fsData(kvp.Value + "x" + kvp.Key));
             //GS2.Warn("-----"+list.Count);
             //for (var i = 0; i < model.veins.Count; i++)
@@ -68,6 +65,7 @@ namespace GalacticScale
                     GS2.WarnJson(data);
                     return result;
                 }
+
                 if (veins[0].IsString)
                 {
                     // GS2.Log("Veins[0] is string");
@@ -105,15 +103,15 @@ namespace GalacticScale
                 var numToGenerate = (int)generate.AsInt64;
                 if (numToGenerate < 0)
                     GS2.Warn("generate number < 0");
-                    numToGenerate = 0;
+                numToGenerate = 0;
 
                 if (numToGenerate > 564)
                     GS2.Warn("generate number > 64");
-                    numToGenerate = 564;
+                numToGenerate = 564;
 
                 if (numToGenerate < model.veins.Count)
                     GS2.Warn("generate number < existing vein count");
-                    numToGenerate = 0;
+                numToGenerate = 0;
 
                 numToGenerate -= model.veins.Count;
                 for (var i = 0; i < numToGenerate; i++) model.veins.Add(new GSVein());

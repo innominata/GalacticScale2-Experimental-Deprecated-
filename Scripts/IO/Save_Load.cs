@@ -18,9 +18,8 @@ namespace GalacticScale
 
         public static bool Import(BinaryReader r, string Force = "") // Load Settings from Save Game
         {
-
             Log("Importing from Save");
-            if (!GS2.SaveOrLoadWindowOpen) GSSettings.Reset(0);
+            if (!SaveOrLoadWindowOpen) GSSettings.Reset(0);
             var serializer = new fsSerializer();
             var position = r.BaseStream.Position;
             var version = "2";
@@ -35,44 +34,38 @@ namespace GalacticScale
                 LoadSettingsFromJson(Force);
             }
 
-            if (GS2.SaveOrLoadWindowOpen) return true;
-            if (Config.Dev)
-            {
-                File.WriteAllText(Path.Combine(GS2.DataDir, "SaveContentsRaw.txt"), json);
-            }
+            if (SaveOrLoadWindowOpen) return true;
+            if (Config.Dev) File.WriteAllText(Path.Combine(DataDir, "SaveContentsRaw.txt"), json);
 
-            GSSettings result = new GSSettings(0);
+            var result = new GSSettings(0);
             if (Force == "" && !SaveOrLoadWindowOpen) result = GSSettings.Instance;
             fsData data2;
             var parseResult = fsJsonParser.Parse(json, out data2);
             // if (Force == "")
             // {
-                if (parseResult.Failed)
-                {
-                    Warn("Parse Failed");
-                    if (Force == "") r.BaseStream.Position = position;
-                    if (Force == "") ActiveGenerator = GetGeneratorByID("space.customizing.generators.vanilla");
-                    if (Force == "") return false;
-                }
-            // }
-            
-            if (Config.Dev)
+            if (parseResult.Failed)
             {
-                File.WriteAllText(Path.Combine(GS2.DataDir, "SaveContents.json"),json);
+                Warn("Parse Failed");
+                if (Force == "") r.BaseStream.Position = position;
+                if (Force == "") ActiveGenerator = GetGeneratorByID("space.customizing.generators.vanilla");
+                if (Force == "") return false;
             }
+            // }
+
+            if (Config.Dev) File.WriteAllText(Path.Combine(DataDir, "SaveContents.json"), json);
 
             try
             {
                 var deserialize = serializer.TryDeserialize(data2, ref result);
                 // if (Force == "")
                 // {
-                    if (deserialize.Failed)
-                    {
-                        Warn("Deserialize Failed");
-                        if (Force == "")r.BaseStream.Position = position;
-                        if (Force == "")ActiveGenerator = GetGeneratorByID("space.customizing.generators.vanilla");
-                        if (Force == "")return false;
-                    }
+                if (deserialize.Failed)
+                {
+                    Warn("Deserialize Failed");
+                    if (Force == "") r.BaseStream.Position = position;
+                    if (Force == "") ActiveGenerator = GetGeneratorByID("space.customizing.generators.vanilla");
+                    if (Force == "") return false;
+                }
                 // }
                 // else
                 // {
@@ -82,15 +75,15 @@ namespace GalacticScale
             }
             catch (Exception e)
             {
-                GS2.Warn($"{e.Message}");
+                Warn($"{e.Message}");
             }
 
             if (version != GSSettings.Instance.version)
             {
                 Warn("Version mismatch: " + GSSettings.Instance.version + " trying to load " + version + " savedata");
                 if (Force == "") r.BaseStream.Position = position;
-                if (Force == "" && !SaveOrLoadWindowOpen)ActiveGenerator = GetGeneratorByID("space.customizing.generators.vanilla");
-                if (Force == "")return false;
+                if (Force == "" && !SaveOrLoadWindowOpen) ActiveGenerator = GetGeneratorByID("space.customizing.generators.vanilla");
+                if (Force == "") return false;
             }
 
             if (Vanilla) ActiveGenerator = GetGeneratorByID("space.customizing.generators.gs2dev");

@@ -131,11 +131,11 @@ namespace GalacticScale
 
         private class GSPreferences
         {
-            public readonly Dictionary<string, GSGenPreferences> AddonOptions = new Dictionary<string, GSGenPreferences>();
+            public readonly Dictionary<string, GSGenPreferences> AddonOptions = new();
 
-            public readonly Dictionary<string, GSGenPreferences> PluginOptions = new Dictionary<string, GSGenPreferences>();
+            public readonly Dictionary<string, GSGenPreferences> PluginOptions = new();
 
-            public GSGenPreferences MainSettings = new GSGenPreferences();
+            public GSGenPreferences MainSettings = new();
 
             // public bool cheatMode;
             // public bool debug;

@@ -12,7 +12,7 @@ namespace GSSerializer
     /// </summary>
     public class fsJsonParser
     {
-        private readonly StringBuilder _cachedStringBuilder = new StringBuilder(256);
+        private readonly StringBuilder _cachedStringBuilder = new(256);
         private readonly string _input;
         private int _start;
 

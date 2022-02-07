@@ -12,7 +12,7 @@
 
         public string GUID => "space.customizing.generators.vanilla";
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig();
+        public GSGeneratorConfig Config => new();
 
         public void Init()
         {

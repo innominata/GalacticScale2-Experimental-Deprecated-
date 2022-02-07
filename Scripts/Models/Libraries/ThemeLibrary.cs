@@ -7,7 +7,7 @@ namespace GalacticScale
     [fsObject(Converter = typeof(GSFSThemeLibraryConverter))]
     public class ThemeLibrary : Dictionary<string, GSTheme>
     {
-        private readonly GS2.Random random = new GS2.Random(GSSettings.Seed);
+        private readonly GS2.Random random = new(GSSettings.Seed);
 
         public List<string> Habitable
         {
@@ -84,9 +84,9 @@ namespace GalacticScale
                 ["GasGiant3"] = Themes.Gas3,
                 ["GasGiant4"] = Themes.Gas4,
                 ["IceGiant3"] = Themes.IceGiant3,
-               ["IceGiant4"] = Themes.IceGiant4,
-               ["GasGiant5"] = Themes.Gas5,
-               ["AridDesert2"] = Themes.AridDesert2
+                ["IceGiant4"] = Themes.IceGiant4,
+                ["GasGiant5"] = Themes.Gas5,
+                ["AridDesert2"] = Themes.AridDesert2
             };
 
             return t;

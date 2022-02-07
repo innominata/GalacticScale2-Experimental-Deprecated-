@@ -14,7 +14,7 @@ namespace GSSerializer
         ///     A set of types which should be considered for AOT compilation. This
         ///     set is populated by the reflected converter.
         /// </summary>
-        public static HashSet<Type> AotCandidateTypes = new HashSet<Type>();
+        public static HashSet<Type> AotCandidateTypes = new();
 
         private static bool HasMember(fsAotVersionInfo versionInfo, fsAotVersionInfo.Member member)
         {

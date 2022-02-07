@@ -1,5 +1,4 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,15 +12,12 @@ namespace GalacticScale
         {
             var status = "WARNING - Galactic Scale savegames can be broken by updates.Read the FAQ @ http://customizing.space\r\n".Translate();
 
-            if (!GS2.Vanilla && GameMain.localStar != null && !GameMain.localStar.loaded && GameMain.localStar.planets != null && GameMain.localStar.planets.Length > 0)
-            {
-                GetStatusText(ref status, GameMain.localStar);
-            }
+            if (!GS2.Vanilla && GameMain.localStar != null && !GameMain.localStar.loaded && GameMain.localStar.planets != null && GameMain.localStar.planets.Length > 0) GetStatusText(ref status, GameMain.localStar);
             // else
             // {
             //     // GS2.Warn("Fail");
             // }
-                
+
             if (___promptText != null) ___promptText.text = status;
         }
 
@@ -38,30 +34,44 @@ namespace GalacticScale
             var planetName = GetPlanetName(loadingPlanet);
             var planetTheme = GetPlanetGSThemeName(loadingPlanet);
             status += $"  {planetName}, {"a size".Translate()} {planetSize} {planetTheme} ";
-            if (IsMoon(loadingPlanet)) status += "Moon ".Translate() ;
+            if (IsMoon(loadingPlanet)) status += "Moon ".Translate();
             else status += "Planet ".Translate();
         }
 
-        private static bool IsMoon(PlanetData planet) => planet?.orbitAroundPlanet != null;
-        private static int GetLoadedPlanetCount(StarData star) => HandleLocalStarPlanets.GetLoadedPlanetCount(star);
-        private static string GetStarLoadingStatus(StarData star) => HandleLocalStarPlanets.GetStarLoadingStatus(star);
+        private static bool IsMoon(PlanetData planet)
+        {
+            return planet?.orbitAroundPlanet != null;
+        }
+
+        private static int GetLoadedPlanetCount(StarData star)
+        {
+            return HandleLocalStarPlanets.GetLoadedPlanetCount(star);
+        }
+
+        private static string GetStarLoadingStatus(StarData star)
+        {
+            return HandleLocalStarPlanets.GetStarLoadingStatus(star);
+        }
 
         private static string GetPlanetName(PlanetData planet)
         {
             var name = planet.displayName;
-            if (name == String.Empty || name == null) name = "Error getting Planet Name";
+            if (name == string.Empty || name == null) name = "Error getting Planet Name";
             return name;
         }
+
         private static int GetPlanetSize(PlanetData planet)
         {
             var size = Mathf.RoundToInt(planet.realRadius);
             return size;
         }
+
         private static string GetPlanetGSThemeName(PlanetData planet)
         {
             var GSPlanetTheme = GetPlanetGSTheme(planet);
             return GSPlanetTheme.DisplayName;
         }
+
         private static PlanetData GetLoadingPlanet(StarData star)
         {
             var loadingPlanetCount = HandleLocalStarPlanets.GetLoadedPlanetCount(star);
@@ -71,8 +81,8 @@ namespace GalacticScale
 
         private static GSTheme GetPlanetGSTheme(PlanetData planet)
         {
-            GSTheme theme = GS2.GetGSPlanet(planet)?.GsTheme;
-            if (theme == null) return new GSTheme() { DisplayName = "Error Loading Theme" };
+            var theme = GS2.GetGSPlanet(planet)?.GsTheme;
+            if (theme == null) return new GSTheme { DisplayName = "Error Loading Theme" };
             return theme;
         }
     }

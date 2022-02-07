@@ -16,7 +16,7 @@ namespace GalacticScale.Generators
         public string Version => "0.0";
 
         public string GUID => "space.customizing.generators.Spiral";
-        public GSGeneratorConfig Config { get; } = new GSGeneratorConfig();
+        public GSGeneratorConfig Config { get; } = new();
 
         public void Init()
         {
@@ -211,11 +211,11 @@ namespace GalacticScale.Generators
             //beach.InitTheme(Themes.OceanWorld);
             var p = new GSPlanets
             {
-                new GSPlanet("SulfurSea", "SulfurSea", 200, 3f, -1, -1, 1, -1, -1, -1, -1),
-                new GSPlanet("GiganticForest", "GiganticForest", 200, 3f, -1, -1, 10, 1, -1, -1, -1),
-                new GSPlanet("Molten", "MoltenWorld", 200, 3f, -1, -1, 50, 15, -1, -1, -1),
-                new GSPlanet("RedForest", "RedForest", 200, 3f, -1, -1, 80, -1, -1, -1, -1),
-                new GSPlanet("Beach", "Beach", 200, 3f, -1, -1, -1, 45, -1, -1, -1)
+                new("SulfurSea", "SulfurSea", 200, 3f, -1, -1, 1, -1, -1, -1, -1),
+                new("GiganticForest", "GiganticForest", 200, 3f, -1, -1, 10, 1, -1, -1, -1),
+                new("Molten", "MoltenWorld", 200, 3f, -1, -1, 50, 15, -1, -1, -1),
+                new("RedForest", "RedForest", 200, 3f, -1, -1, 80, -1, -1, -1, -1),
+                new("Beach", "Beach", 200, 3f, -1, -1, -1, 45, -1, -1, -1)
                 //new GSPlanet("IceGiant2", "IceGiant2", 80, 3f, -1, -1, -1, 60, -1, -1, -1, -1, null),
                 //new GSPlanet("Arid", "Arid", 80, 3f, -1, -1, -1, 75, -1, -1, -1, -1, null),
                 //new GSPlanet("AshenGelisol", "AshenGelisol", 80, 3f, -1, -1, -1, 90, -1, -1, -1, -1, null),

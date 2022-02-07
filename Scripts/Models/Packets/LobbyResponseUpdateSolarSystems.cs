@@ -2,11 +2,15 @@
 {
     public class LobbyResponseUpdateSolarSystems
     {
-        public byte[] GSSettings { get; set; }
-        public LobbyResponseUpdateSolarSystems() { }
+        public LobbyResponseUpdateSolarSystems()
+        {
+        }
+
         public LobbyResponseUpdateSolarSystems(byte[] gssettings)
         {
             GSSettings = gssettings;
         }
+
+        public byte[] GSSettings { get; set; }
     }
 }

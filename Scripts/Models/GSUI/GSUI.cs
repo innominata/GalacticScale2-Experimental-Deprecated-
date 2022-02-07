@@ -11,9 +11,9 @@ namespace GalacticScale
 
     public partial class GSUI
     {
-        private static readonly Dictionary<int, Color> colors = new Dictionary<int, Color>();
+        private static readonly Dictionary<int, Color> colors = new();
 
-        public static List<string> Settables = new List<string>
+        public static List<string> Settables = new()
         {
             "Slider",
             "RangeSlider",
@@ -500,7 +500,7 @@ namespace GalacticScale
         public bool collapsible = true;
         public bool defaultValue;
         public bool header = true;
-        public List<GSUI> options = new List<GSUI>();
+        public List<GSUI> options = new();
 
         public GSUIGroupConfig(List<GSUI> options, bool header, bool collapsible, bool defaultValue = false)
         {
@@ -539,7 +539,7 @@ namespace GalacticScale
         public float maxValue;
         public float defaultLowValue;
         public float defaultHighValue;
-        public FloatPair defaultValue => new FloatPair(defaultLowValue, defaultHighValue);
+        public FloatPair defaultValue => new(defaultLowValue, defaultHighValue);
 
         public GSRangeSliderConfig(float minValue, float lowValue, float highValue, float maxValue, GSOptionCallback callbackLow = null, GSOptionCallback callbackHigh = null)
         {

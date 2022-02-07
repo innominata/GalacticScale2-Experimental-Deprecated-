@@ -945,20 +945,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tony\\.nuget\\packages\\": {}
+    "C:\\Users\\inno\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "3.0.0",
+    "version": "2.3.0",
     "restore": {
-      "projectUniqueName": "C:\\code\\GS3\\GalacticScale3\\GalacticScale3.csproj",
+      "projectUniqueName": "C:\\code\\GalacticScale3\\GalacticScale2.csproj",
       "projectName": "GalacticScale",
-      "projectPath": "C:\\code\\GS3\\GalacticScale3\\GalacticScale3.csproj",
-      "packagesPath": "C:\\Users\\Tony\\.nuget\\packages\\",
-      "outputPath": "C:\\code\\GS3\\GalacticScale3\\obj\\",
+      "projectPath": "C:\\code\\GalacticScale3\\GalacticScale2.csproj",
+      "packagesPath": "C:\\Users\\inno\\.nuget\\packages\\",
+      "outputPath": "C:\\code\\GalacticScale3\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\code\\GS3\\GalacticScale3\\NuGet.Config",
-        "C:\\Users\\Tony\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\code\\GalacticScale3\\NuGet.Config",
+        "C:\\Users\\inno\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1014,7 +1014,7 @@
             "version": "[2018.4.12, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

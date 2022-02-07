@@ -8,18 +8,19 @@ namespace GalacticScale
 {
     public static class Modeler
     {
-        public static List<PlanetData> planetModQueue = new List<PlanetData>();
+        public static List<PlanetData> planetModQueue = new();
         public static bool planetModQueueSorted;
-        public static List<PlanetData> planetQueue = new List<PlanetData>();
+        public static List<PlanetData> planetQueue = new();
         public static bool planetQueueSorted;
 
         public static void Reset()
         {
-        planetModQueue = new List<PlanetData>();
-        planetModQueueSorted = false;
-        planetQueue = new List<PlanetData>();
-        planetQueueSorted = false;
+            planetModQueue = new List<PlanetData>();
+            planetModQueueSorted = false;
+            planetQueue = new List<PlanetData>();
+            planetQueueSorted = false;
         }
+
         public static int DistanceComparison(PlanetData p1, PlanetData p2)
         {
             var d1 = distanceTo(p1);

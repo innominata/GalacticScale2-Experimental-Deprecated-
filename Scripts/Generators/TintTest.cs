@@ -5,7 +5,7 @@ namespace GalacticScale.Generators
     public class TintTest : iConfigurableGenerator
     {
         ////////////////////////////////////////////////////////////////////
-        public GSOptions options = new GSOptions();
+        public GSOptions options = new();
         public string Name => "CrashTest";
 
         public string Author => "innominata";
@@ -15,7 +15,7 @@ namespace GalacticScale.Generators
         public string Version => "0.0";
 
         public string GUID => "space.customizing.generators.tinttest";
-        public GSGeneratorConfig Config { get; } = new GSGeneratorConfig();
+        public GSGeneratorConfig Config { get; } = new();
 
         //public bool DisableStarCountSlider => false;
 

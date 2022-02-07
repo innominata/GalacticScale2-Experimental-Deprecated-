@@ -2,7 +2,7 @@
 {
     public class PhysicsTest : iConfigurableGenerator
     {
-        private readonly GSStars stars = new GSStars();
+        private readonly GSStars stars = new();
         public string Name => "PhysicsTest";
 
         public string Author => "innominata";
@@ -13,9 +13,9 @@
 
         public string GUID => "space.customizing.generators.phys";
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig();
+        public GSGeneratorConfig Config => new();
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
 
         public void Import(GSGenPreferences preferences)
         {

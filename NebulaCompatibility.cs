@@ -22,7 +22,6 @@ namespace GalacticScale
             Logger = new ManualLogSource("GS2DepCheck");
             BepInEx.Logging.Logger.Sources.Add(Logger);
             Logger.Log(LogLevel.Message, "Loaded");
-            // Harmony.CreateAndPatchAll(typeof(NebulaCompatPatch));
         }
 
         public string Version => Bootstrap.VERSION;

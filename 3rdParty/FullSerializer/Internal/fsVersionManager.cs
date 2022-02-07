@@ -5,7 +5,7 @@ namespace GSSerializer.Internal
 {
     public static class fsVersionManager
     {
-        private static readonly Dictionary<Type, fsOption<fsVersionedType>> _cache = new Dictionary<Type, fsOption<fsVersionedType>>();
+        private static readonly Dictionary<Type, fsOption<fsVersionedType>> _cache = new();
 
         public static fsResult GetVersionImportPath(string currentVersion, fsVersionedType targetVersion, out List<fsVersionedType> path)
         {

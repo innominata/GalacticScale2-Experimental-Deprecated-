@@ -15,7 +15,7 @@ namespace GSSerializer
     /// </summary>
     public class fsMetaType
     {
-        private static Dictionary<fsConfig, Dictionary<Type, fsMetaType>> _configMetaTypes = new Dictionary<fsConfig, Dictionary<Type, fsMetaType>>();
+        private static Dictionary<fsConfig, Dictionary<Type, fsMetaType>> _configMetaTypes = new();
 
         private bool? _hasDefaultConstructorCache;
         private bool? _isDefaultConstructorPublicCache;

@@ -10,7 +10,7 @@ namespace GalacticScale
         public static int refreshGridRadius = -1;
 
         //segment count to 512 lut
-        public static Dictionary<int, int[]> LUT512 = new Dictionary<int, int[]>();
+        public static Dictionary<int, int[]> LUT512 = new();
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UIBuildingGrid), "Update")]

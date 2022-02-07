@@ -132,33 +132,21 @@ namespace GalacticScale
             //Log("End|" + gsPlanet.Name);
             //GS2.Log("Setting Singularities");
             //GS2.Log($"Added Planet {planet.name} to galaxy with id:{planet.id} and index:{planet.index} star:{planet.star.name} with id:{planet.star.id} rotation:{planet.rotationPeriod} orbit:{planet.orbitalPeriod} obliq:{planet.obliquity} bodies:{gsPlanet.Bodies.Count}");
-            if (Math.Abs(planet.orbitalPeriod - planet.rotationPeriod) < 1f) { 
-                //GS2.Log("Setting TidalLock"); 
-                planet.singularity |= EPlanetSingularity.TidalLocked; 
-            }
-            if (Math.Abs(planet.orbitalPeriod - planet.rotationPeriod *2) < 1f) { 
-                //GS2.Log("Setting TidalLock2"); 
-                planet.singularity |= EPlanetSingularity.TidalLocked2; 
-            }
-            if (Math.Abs(planet.orbitalPeriod - planet.rotationPeriod*4) < 1f) {
-                //GS2.Log("Setting TidalLock4");
+            if (Math.Abs(planet.orbitalPeriod - planet.rotationPeriod) < 1f) //GS2.Log("Setting TidalLock"); 
+                planet.singularity |= EPlanetSingularity.TidalLocked;
+            if (Math.Abs(planet.orbitalPeriod - planet.rotationPeriod * 2) < 1f) //GS2.Log("Setting TidalLock2"); 
+                planet.singularity |= EPlanetSingularity.TidalLocked2;
+            if (Math.Abs(planet.orbitalPeriod - planet.rotationPeriod * 4) < 1f) //GS2.Log("Setting TidalLock4");
                 planet.singularity |= EPlanetSingularity.TidalLocked4;
-            }
-            if (gsPlanet.Bodies.Count > 2) {
-                //GS2.Log("Setting Multisatellite");
-                planet.singularity |= EPlanetSingularity.MultipleSatellites; 
-            }
-            if (planet.obliquity > 75 || planet.obliquity < -75) { 
-                //GS2.Log("Setting LaySide"); 
-                planet.singularity |= EPlanetSingularity.LaySide; 
-            }
+            if (gsPlanet.Bodies.Count > 2) //GS2.Log("Setting Multisatellite");
+                planet.singularity |= EPlanetSingularity.MultipleSatellites;
+            if (planet.obliquity > 75 || planet.obliquity < -75) //GS2.Log("Setting LaySide"); 
+                planet.singularity |= EPlanetSingularity.LaySide;
 
             if (planet.rotationPeriod < 0)
-            {
                 //GS2.Log("Setting ReverseRotation");
                 planet.singularity |= EPlanetSingularity.ClockwiseRotate;
-            }
-            
+
             // GS2.Warn(planet.singularityString + " " + planet.singularity);
             // Log($"{planet.name} created in {highStopwatch.duration:F5} s\r\n");
             return planet;
@@ -196,7 +184,6 @@ namespace GalacticScale
                 }
 
                 moon.orbitAroundPlanet = planetData;
-                
             }
         }
 

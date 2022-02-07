@@ -5,7 +5,7 @@ namespace GalacticScale
 {
     public class GSStars : List<GSStar>
     {
-        private readonly GS2.Random random = new GS2.Random(GSSettings.Seed);
+        private readonly GS2.Random random = new(GSSettings.Seed);
 
         public GSStars(IEnumerable<GSStar> i) : base(i)
         {

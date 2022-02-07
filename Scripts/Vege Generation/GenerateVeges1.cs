@@ -5,7 +5,7 @@ namespace GalacticScale
 {
     public static class VegeAlgorithms
     {
-        private static GS2.Random random = new GS2.Random(GSSettings.Seed);
+        private static GS2.Random random = new(GSSettings.Seed);
 
         public static void GenerateVeges1(GSPlanet gsPlanet)
         {

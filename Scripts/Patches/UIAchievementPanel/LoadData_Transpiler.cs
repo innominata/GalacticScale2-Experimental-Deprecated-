@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
+using HarmonyLib;
 
 namespace GalacticScale
 {
@@ -11,31 +11,24 @@ namespace GalacticScale
      * problematic vanilla line was: this.uiEntries.Add(keyValuePair.Key, uiachievementEntry);
      */
     [HarmonyPatch(typeof(UIAchievementPanel))]
-    public partial class PatchOnUIAchievementPanel
+    public class PatchOnUIAchievementPanel
     {
-        private delegate bool checkIfKeyExists(ref KeyValuePair<int, AchievementState> keyValuePair, UIAchievementPanel instance);
-
         [HarmonyTranspiler]
         [HarmonyPatch(nameof(UIAchievementPanel.LoadData))]
         public static IEnumerable<CodeInstruction> LoadData_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            CodeMatcher matcher = new CodeMatcher(instructions)
-                .MatchForward(true,
-                    new CodeMatch(OpCodes.Br));
+            var matcher = new CodeMatcher(instructions).MatchForward(true, new CodeMatch(OpCodes.Br));
 
-            object continueJmp = matcher.Operand;
+            var continueJmp = matcher.Operand;
 
             matcher.Advance(4);
-            CodeInstruction loadKeyValuePair = matcher.Instruction;
+            var loadKeyValuePair = matcher.Instruction;
             matcher.Advance(1);
 
             matcher.InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0));
-            matcher.InsertAndAdvance(HarmonyLib.Transpilers.EmitDelegate<checkIfKeyExists>((ref KeyValuePair<int, AchievementState> keyValuePair, UIAchievementPanel instance) =>
+            matcher.InsertAndAdvance(Transpilers.EmitDelegate<checkIfKeyExists>((ref KeyValuePair<int, AchievementState> keyValuePair, UIAchievementPanel instance) =>
             {
-                if (instance.uiEntries.ContainsKey(keyValuePair.Key))
-                {
-                    return false;
-                }
+                if (instance.uiEntries.ContainsKey(keyValuePair.Key)) return false;
                 return true;
             }));
             matcher.InsertAndAdvance(new CodeInstruction(OpCodes.Brfalse, continueJmp)); // call continue on foreach loop if key is already known.
@@ -43,5 +36,7 @@ namespace GalacticScale
 
             return matcher.InstructionEnumeration();
         }
+
+        private delegate bool checkIfKeyExists(ref KeyValuePair<int, AchievementState> keyValuePair, UIAchievementPanel instance);
     }
 }

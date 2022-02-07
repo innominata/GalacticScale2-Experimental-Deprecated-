@@ -18,16 +18,16 @@ namespace GalacticScale.Generators
         private readonly string[] typeLetter = { "K", "M", "F", "G", "A", "B", "O", "WD", "RG", "YG", "WG", "BG", "NS", "BH" };
 
         // ReSharper disable once InconsistentNaming
-        private readonly Dictionary<string, GSUI> UI = new Dictionary<string, GSUI>();
+        private readonly Dictionary<string, GSUI> UI = new();
 
-        private List<string> _forcedStars = new List<string>();
+        private List<string> _forcedStars = new();
 
-        private Dictionary<string, FloatPair> hzDefs = new Dictionary<string, FloatPair>();
-        private GSGenPreferences preferences = new GSGenPreferences();
-        private Dictionary<string, double> starFreq = new Dictionary<string, double>();
-        public GSGeneratorConfig Config { get; } = new GSGeneratorConfig();
+        private Dictionary<string, FloatPair> hzDefs = new();
+        private GSGenPreferences preferences = new();
+        private Dictionary<string, double> starFreq = new();
+        public GSGeneratorConfig Config { get; } = new();
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
 
         public void Init()
         {
@@ -44,9 +44,10 @@ namespace GalacticScale.Generators
                 var key = importedPreferences.Keys.ElementAt(i);
                 Warn($"Setting:{key} to {importedPreferences[key]}");
                 preferences.Set(key, importedPreferences[key]);
-                if (loaded && UI.ContainsKey(key)) {
+                if (loaded && UI.ContainsKey(key))
+                {
                     Warn("UI Loaded, setting UI Element to match");
-                    UI[key].Set(importedPreferences[key]); 
+                    UI[key].Set(importedPreferences[key]);
                 }
             }
 

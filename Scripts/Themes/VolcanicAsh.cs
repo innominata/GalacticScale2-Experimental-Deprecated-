@@ -5,7 +5,7 @@ namespace GalacticScale
 {
     public static partial class Themes
     {
-        public static GSTheme VolcanicAsh = new GSTheme
+        public static GSTheme VolcanicAsh = new()
         {
             Name = "VolcanicAsh",
             Base = true,
@@ -124,15 +124,15 @@ namespace GalacticScale
             {
                 Colors = new Dictionary<string, Color>
                 {
-                    ["_AmbientColor0"] = new Color(0.09999985f, 0.06499988f, 0.08499984f, 1f),
-                    ["_AmbientColor1"] = new Color(0.07058812f, 0.05098031f, 0.06412378f, 1f),
-                    ["_AmbientColor2"] = new Color(0.07699988f, 0.05543988f, 0.07699988f, 1f),
-                    ["_Color"] = new Color(1f, 1f, 1f, 1f),
-                    ["_EmissionColor"] = new Color(0f, 0f, 0f, 1f),
-                    ["_HeightEmissionColor"] = new Color(0f, 0f, 0f, 0f),
-                    ["_LightColorScreen"] = new Color(0.6718506f, 0.5707102f, 0.7075471f, 1f),
-                    ["_Rotation"] = new Color(0f, 0f, 0f, 1f),
-                    ["_SunDir"] = new Color(-0.9203354f, -0.0183137f, 0.3907009f, 0f)
+                    ["_AmbientColor0"] = new(0.09999985f, 0.06499988f, 0.08499984f, 1f),
+                    ["_AmbientColor1"] = new(0.07058812f, 0.05098031f, 0.06412378f, 1f),
+                    ["_AmbientColor2"] = new(0.07699988f, 0.05543988f, 0.07699988f, 1f),
+                    ["_Color"] = new(1f, 1f, 1f, 1f),
+                    ["_EmissionColor"] = new(0f, 0f, 0f, 1f),
+                    ["_HeightEmissionColor"] = new(0f, 0f, 0f, 0f),
+                    ["_LightColorScreen"] = new(0.6718506f, 0.5707102f, 0.7075471f, 1f),
+                    ["_Rotation"] = new(0f, 0f, 0f, 1f),
+                    ["_SunDir"] = new(-0.9203354f, -0.0183137f, 0.3907009f, 0f)
                 },
                 Params = new Dictionary<string, float>
                 {
@@ -168,43 +168,43 @@ namespace GalacticScale
             {
                 Colors = new Dictionary<string, Color>
                 {
-                    ["_BumpDirection"] = new Color(1f, 1f, -1f, 1f),
-                    ["_BumpTiling"] = new Color(1f, 1f, -2f, 3f),
-                    ["_CausticsColor"] = new Color(0.3867925f, 0.3267751f, 0.08940012f, 1f),
-                    ["_Color"] = new Color(0.745283f, 0.6000856f, 0.4745906f, 1f),
-                    ["_Color0"] = new Color(0f, 0.1574037f, 0.2352941f, 1f),
-                    ["_Color1"] = new Color(0.7264151f, 0.7264151f, 0.7264151f, 1f),
-                    ["_Color2"] = new Color(0.6763465f, 0.6792453f, 0.6183695f, 1f),
-                    ["_Color3"] = new Color(0.6037736f, 0.523596f, 0.4243503f, 1f),
-                    ["_DensityParams"] = new Color(0.02f, 0.1f, 0f, 0f),
-                    ["_DepthColor"] = new Color(0f, 0.06095791f, 0.1132075f, 1f),
-                    ["_DepthFactor"] = new Color(0.4f, 0.4f, 0.5f, 0.1f),
-                    ["_Foam"] = new Color(15f, 1f, 5f, 1.5f),
-                    ["_FoamColor"] = new Color(0.3925616f, 0.4150942f, 0.2581885f, 1f),
-                    ["_FoamParams"] = new Color(12f, 0.2f, 0.15f, 0.7f),
-                    ["_FresnelColor"] = new Color(0.383585f, 0.2812832f, 0.4056602f, 1f),
-                    ["_InvFadeParemeter"] = new Color(0.9f, 0.25f, 0.5f, 0.08f),
-                    ["_PLColor1"] = new Color(0f, 0f, 0f, 1f),
-                    ["_PLColor2"] = new Color(0f, 0f, 0f, 1f),
-                    ["_PLColor3"] = new Color(1f, 1f, 1f, 1f),
-                    ["_PLParam1"] = new Color(0f, 0f, 0f, 0f),
-                    ["_PLParam2"] = new Color(0f, 0f, 0f, 0f),
-                    ["_PLPos1"] = new Color(0f, 0f, 0f, 0f),
-                    ["_PLPos2"] = new Color(0f, 0f, 0f, 0f),
-                    ["_PLPos3"] = new Color(0f, 0.1f, -0.5f, 0f),
-                    ["_Paremeters1"] = new Color(0.02f, 0.1f, 0f, 0f),
-                    ["_PointAtten"] = new Color(0f, 0.1f, -0.5f, 0f),
-                    ["_PointLightPos"] = new Color(0f, 0.1f, -0.5f, 0f),
-                    ["_ReflectionColor"] = new Color(0.1933962f, 0.5064065f, 1f, 1f),
-                    ["_SLColor1"] = new Color(1f, 1f, 1f, 1f),
-                    ["_SLDir1"] = new Color(0f, 0.1f, -0.5f, 0f),
-                    ["_SLPos1"] = new Color(0f, 0.1f, -0.5f, 0f),
-                    ["_SpecColor"] = new Color(1f, 1f, 1f, 1f),
-                    ["_SpeclColor"] = new Color(0.4100249f, 0.4411012f, 0.497f, 1f),
-                    ["_SpeclColor1"] = new Color(0.5257207f, 0.5331763f, 0.6226414f, 1f),
-                    ["_Specular"] = new Color(0.9573934f, 0.8672858f, 0.5744361f, 0.9573934f),
-                    ["_SunDirection"] = new Color(-0.6f, 0.8f, 0f, 0f),
-                    ["_WorldLightDir"] = new Color(-0.6525278f, -0.6042119f, -0.4573132f, 0f)
+                    ["_BumpDirection"] = new(1f, 1f, -1f, 1f),
+                    ["_BumpTiling"] = new(1f, 1f, -2f, 3f),
+                    ["_CausticsColor"] = new(0.3867925f, 0.3267751f, 0.08940012f, 1f),
+                    ["_Color"] = new(0.745283f, 0.6000856f, 0.4745906f, 1f),
+                    ["_Color0"] = new(0f, 0.1574037f, 0.2352941f, 1f),
+                    ["_Color1"] = new(0.7264151f, 0.7264151f, 0.7264151f, 1f),
+                    ["_Color2"] = new(0.6763465f, 0.6792453f, 0.6183695f, 1f),
+                    ["_Color3"] = new(0.6037736f, 0.523596f, 0.4243503f, 1f),
+                    ["_DensityParams"] = new(0.02f, 0.1f, 0f, 0f),
+                    ["_DepthColor"] = new(0f, 0.06095791f, 0.1132075f, 1f),
+                    ["_DepthFactor"] = new(0.4f, 0.4f, 0.5f, 0.1f),
+                    ["_Foam"] = new(15f, 1f, 5f, 1.5f),
+                    ["_FoamColor"] = new(0.3925616f, 0.4150942f, 0.2581885f, 1f),
+                    ["_FoamParams"] = new(12f, 0.2f, 0.15f, 0.7f),
+                    ["_FresnelColor"] = new(0.383585f, 0.2812832f, 0.4056602f, 1f),
+                    ["_InvFadeParemeter"] = new(0.9f, 0.25f, 0.5f, 0.08f),
+                    ["_PLColor1"] = new(0f, 0f, 0f, 1f),
+                    ["_PLColor2"] = new(0f, 0f, 0f, 1f),
+                    ["_PLColor3"] = new(1f, 1f, 1f, 1f),
+                    ["_PLParam1"] = new(0f, 0f, 0f, 0f),
+                    ["_PLParam2"] = new(0f, 0f, 0f, 0f),
+                    ["_PLPos1"] = new(0f, 0f, 0f, 0f),
+                    ["_PLPos2"] = new(0f, 0f, 0f, 0f),
+                    ["_PLPos3"] = new(0f, 0.1f, -0.5f, 0f),
+                    ["_Paremeters1"] = new(0.02f, 0.1f, 0f, 0f),
+                    ["_PointAtten"] = new(0f, 0.1f, -0.5f, 0f),
+                    ["_PointLightPos"] = new(0f, 0.1f, -0.5f, 0f),
+                    ["_ReflectionColor"] = new(0.1933962f, 0.5064065f, 1f, 1f),
+                    ["_SLColor1"] = new(1f, 1f, 1f, 1f),
+                    ["_SLDir1"] = new(0f, 0.1f, -0.5f, 0f),
+                    ["_SLPos1"] = new(0f, 0.1f, -0.5f, 0f),
+                    ["_SpecColor"] = new(1f, 1f, 1f, 1f),
+                    ["_SpeclColor"] = new(0.4100249f, 0.4411012f, 0.497f, 1f),
+                    ["_SpeclColor1"] = new(0.5257207f, 0.5331763f, 0.6226414f, 1f),
+                    ["_Specular"] = new(0.9573934f, 0.8672858f, 0.5744361f, 0.9573934f),
+                    ["_SunDirection"] = new(-0.6f, 0.8f, 0f, 0f),
+                    ["_WorldLightDir"] = new(-0.6525278f, -0.6042119f, -0.4573132f, 0f)
                 },
                 Params = new Dictionary<string, float>
                 {
@@ -242,26 +242,26 @@ namespace GalacticScale
             {
                 Colors = new Dictionary<string, Color>
                 {
-                    ["_Color"] = new Color(1f, 1f, 1f, 1f),
-                    ["_Color0"] = new Color(0.1537254f, 0.3754758f, 0.5490196f, 1f),
-                    ["_Color1"] = new Color(0.4807998f, 0.6446f, 0.8f, 1f),
-                    ["_Color2"] = new Color(0.5960784f, 0.7033011f, 0.8470588f, 1f),
-                    ["_Color3"] = new Color(0.6784314f, 0.741826f, 0.8745098f, 1f),
-                    ["_Color4"] = new Color(1f, 0.7506563f, 0.4171883f, 1f),
-                    ["_Color5"] = new Color(0.6509804f, 0.5552863f, 0.642778f, 1f),
-                    ["_Color6"] = new Color(0.4265727f, 0.1803921f, 0.4823529f, 1f),
-                    ["_Color7"] = new Color(0.2075472f, 0.1047525f, 0.1703732f, 1f),
-                    ["_Color8"] = new Color(1f, 1f, 1f, 1f),
-                    ["_ColorF"] = new Color(0.75f, 0.75f, 0.75f, 1f),
-                    ["_EmissionColor"] = new Color(0f, 0f, 0f, 1f),
-                    ["_LocalPos"] = new Color(-125.4152f, 79.22004f, 134.4849f, 0f),
-                    ["_PlanetPos"] = new Color(0f, 0f, 0f, 0f),
-                    ["_PlanetRadius"] = new Color(200f, 100f, 270f, 0f),
-                    ["_Sky0"] = new Color(0.3018867f, 0.2207191f, 0.2207191f, 0.8392157f),
-                    ["_Sky1"] = new Color(0.1897027f, 0.1897027f, 0.2735848f, 0.8862745f),
-                    ["_Sky2"] = new Color(0.9098039f, 0.963978f, 1f, 0.8588235f),
-                    ["_Sky3"] = new Color(0.5372549f, 0.6232351f, 0.7333333f, 0.854902f),
-                    ["_Sky4"] = new Color(1f, 0.7470356f, 0.330277f, 1f)
+                    ["_Color"] = new(1f, 1f, 1f, 1f),
+                    ["_Color0"] = new(0.1537254f, 0.3754758f, 0.5490196f, 1f),
+                    ["_Color1"] = new(0.4807998f, 0.6446f, 0.8f, 1f),
+                    ["_Color2"] = new(0.5960784f, 0.7033011f, 0.8470588f, 1f),
+                    ["_Color3"] = new(0.6784314f, 0.741826f, 0.8745098f, 1f),
+                    ["_Color4"] = new(1f, 0.7506563f, 0.4171883f, 1f),
+                    ["_Color5"] = new(0.6509804f, 0.5552863f, 0.642778f, 1f),
+                    ["_Color6"] = new(0.4265727f, 0.1803921f, 0.4823529f, 1f),
+                    ["_Color7"] = new(0.2075472f, 0.1047525f, 0.1703732f, 1f),
+                    ["_Color8"] = new(1f, 1f, 1f, 1f),
+                    ["_ColorF"] = new(0.75f, 0.75f, 0.75f, 1f),
+                    ["_EmissionColor"] = new(0f, 0f, 0f, 1f),
+                    ["_LocalPos"] = new(-125.4152f, 79.22004f, 134.4849f, 0f),
+                    ["_PlanetPos"] = new(0f, 0f, 0f, 0f),
+                    ["_PlanetRadius"] = new(200f, 100f, 270f, 0f),
+                    ["_Sky0"] = new(0.3018867f, 0.2207191f, 0.2207191f, 0.8392157f),
+                    ["_Sky1"] = new(0.1897027f, 0.1897027f, 0.2735848f, 0.8862745f),
+                    ["_Sky2"] = new(0.9098039f, 0.963978f, 1f, 0.8588235f),
+                    ["_Sky3"] = new(0.5372549f, 0.6232351f, 0.7333333f, 0.854902f),
+                    ["_Sky4"] = new(1f, 0.7470356f, 0.330277f, 1f)
                 },
                 Params = new Dictionary<string, float>
                 {
@@ -300,14 +300,14 @@ namespace GalacticScale
             {
                 Colors = new Dictionary<string, Color>
                 {
-                    ["_Color"] = new Color(0.5449647f, 0.5831854f, 0.6235294f, 1f),
-                    ["_ColorBio0"] = new Color(0.6588517f, 0.6547847f, 0.85f, 1f),
-                    ["_ColorBio1"] = new Color(0.2226199f, 0.09492546f, 0.3568627f, 1f),
-                    ["_ColorBio2"] = new Color(0.37246f, 0.15092f, 0.385f, 1f),
-                    ["_EmissionColor"] = new Color(0f, 0f, 0f, 1f),
-                    ["_HeightSettings"] = new Color(-0.1f, 0.3f, 0.05f, 0.05f),
-                    ["_RimColor"] = new Color(0.6745098f, 0.7457068f, 0.8039216f, 1f),
-                    ["_ShoreLineColor"] = new Color(0.490566f, 0.4013408f, 0.2661089f, 0f)
+                    ["_Color"] = new(0.5449647f, 0.5831854f, 0.6235294f, 1f),
+                    ["_ColorBio0"] = new(0.6588517f, 0.6547847f, 0.85f, 1f),
+                    ["_ColorBio1"] = new(0.2226199f, 0.09492546f, 0.3568627f, 1f),
+                    ["_ColorBio2"] = new(0.37246f, 0.15092f, 0.385f, 1f),
+                    ["_EmissionColor"] = new(0f, 0f, 0f, 1f),
+                    ["_HeightSettings"] = new(-0.1f, 0.3f, 0.05f, 0.05f),
+                    ["_RimColor"] = new(0.6745098f, 0.7457068f, 0.8039216f, 1f),
+                    ["_ShoreLineColor"] = new(0.490566f, 0.4013408f, 0.2661089f, 0f)
                 },
                 Params = new Dictionary<string, float>
                 {
@@ -337,22 +337,22 @@ namespace GalacticScale
             {
                 Colors = new Dictionary<string, Color>
                 {
-                    ["_AmbientColor"] = new Color(0f, 0.2778448f, 0.2924528f, 1f),
-                    ["_Color"] = new Color(0.3993089f, 0.4539512f, 0.5169999f, 1f),
-                    ["_ColorBio0"] = new Color(0.8166662f, 0.796549f, 0.923f, 1f),
-                    ["_ColorBio1"] = new Color(0.2235293f, 0.09411754f, 0.3568627f, 1f),
-                    ["_ColorBio2"] = new Color(0.4117647f, 0.02305882f, 0.32163f, 1f),
-                    ["_EmissionColor"] = new Color(0f, 0f, 0f, 1f),
-                    ["_FlowColor"] = new Color(0.7924528f, 0.7924528f, 0.7924528f, 0.7882353f),
-                    ["_HeightSettings"] = new Color(-0.1f, 0.3f, 0.05f, 0.05f),
-                    ["_HoloColor"] = new Color(0.3f, 0.7f, 0.25f, 0.2f),
-                    ["_NotVisibleColor"] = new Color(0f, 0.03f, 0.07499998f, 0.2f),
-                    ["_RimColor"] = new Color(0.727f, 0.8771501f, 1f, 1f),
-                    ["_Rotation"] = new Color(0.02728838f, 0.6484647f, 0.06027106f, 0.7583643f),
-                    ["_ShoreLineColor"] = new Color(0.5283019f, 0.4548975f, 0.3463866f, 0f),
-                    ["_SpecularColor"] = new Color(0.5188679f, 0.3004048f, 0.1737718f, 1f),
-                    ["_Spot0"] = new Color(0.6f, -0.3f, -0.5f, 1f),
-                    ["_SunDir"] = new Color(-0.7895794f, -0.01615309f, 0.6134358f, 0f)
+                    ["_AmbientColor"] = new(0f, 0.2778448f, 0.2924528f, 1f),
+                    ["_Color"] = new(0.3993089f, 0.4539512f, 0.5169999f, 1f),
+                    ["_ColorBio0"] = new(0.8166662f, 0.796549f, 0.923f, 1f),
+                    ["_ColorBio1"] = new(0.2235293f, 0.09411754f, 0.3568627f, 1f),
+                    ["_ColorBio2"] = new(0.4117647f, 0.02305882f, 0.32163f, 1f),
+                    ["_EmissionColor"] = new(0f, 0f, 0f, 1f),
+                    ["_FlowColor"] = new(0.7924528f, 0.7924528f, 0.7924528f, 0.7882353f),
+                    ["_HeightSettings"] = new(-0.1f, 0.3f, 0.05f, 0.05f),
+                    ["_HoloColor"] = new(0.3f, 0.7f, 0.25f, 0.2f),
+                    ["_NotVisibleColor"] = new(0f, 0.03f, 0.07499998f, 0.2f),
+                    ["_RimColor"] = new(0.727f, 0.8771501f, 1f, 1f),
+                    ["_Rotation"] = new(0.02728838f, 0.6484647f, 0.06027106f, 0.7583643f),
+                    ["_ShoreLineColor"] = new(0.5283019f, 0.4548975f, 0.3463866f, 0f),
+                    ["_SpecularColor"] = new(0.5188679f, 0.3004048f, 0.1737718f, 1f),
+                    ["_Spot0"] = new(0.6f, -0.3f, -0.5f, 1f),
+                    ["_SunDir"] = new(-0.7895794f, -0.01615309f, 0.6134358f, 0f)
                 },
                 Params = new Dictionary<string, float>
                 {

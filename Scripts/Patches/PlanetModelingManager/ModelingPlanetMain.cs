@@ -484,10 +484,10 @@ namespace GalacticScale
                         instructionList.RemoveAt(instructionCounter + 3);
                         var toInsert = new List<CodeInstruction>
                         {
-                            new CodeInstruction(OpCodes.Ldarg_0),
-                            new CodeInstruction(instructionList[instructionCounter]),
-                            new CodeInstruction(OpCodes.Ldc_R4, 8000f),
-                            new CodeInstruction(OpCodes.Div)
+                            new(OpCodes.Ldarg_0),
+                            new(instructionList[instructionCounter]),
+                            new(OpCodes.Ldc_R4, 8000f),
+                            new(OpCodes.Div)
                         };
                         instructionList.InsertRange(instructionCounter + 3, toInsert);
                     }

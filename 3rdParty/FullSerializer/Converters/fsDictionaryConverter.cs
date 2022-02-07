@@ -59,7 +59,7 @@ namespace GSSerializer.Internal
                 {
                     if (fsSerializer.IsReservedKeyword(entry.Key)) continue;
 
-                    fsData keyData = new fsData(entry.Key), valueData = entry.Value;
+                    fsData keyData = new(entry.Key), valueData = entry.Value;
                     object keyInstance = null, valueInstance = null;
 
                     if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed)

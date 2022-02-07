@@ -8,7 +8,7 @@ namespace GalacticScale
     [fsObject(Converter = typeof(GSFSVeinTypeConverter))]
     public class GSVeinType
     {
-        public static Dictionary<string, EVeinType> saneVeinTypes = new Dictionary<string, EVeinType>
+        public static Dictionary<string, EVeinType> saneVeinTypes = new()
         {
             ["Iron"] = EVeinType.Iron,
             ["Copper"] = EVeinType.Copper,
@@ -32,7 +32,7 @@ namespace GalacticScale
             ["Diamond"] = EVeinType.Diamond
         };
 
-        public static Dictionary<EVeinType, string> insaneVeinTypes = new Dictionary<EVeinType, string>
+        public static Dictionary<EVeinType, string> insaneVeinTypes = new()
         {
             [EVeinType.Iron] = "Iron",
             [EVeinType.Copper] = "Copper",
@@ -50,7 +50,7 @@ namespace GalacticScale
             [EVeinType.Stone] = "Stone"
         };
 
-        public static GS2.Random random = new GS2.Random(GSSettings.Seed);
+        public static GS2.Random random = new(GSSettings.Seed);
         public int generate;
 
         [NonSerialized] public PlanetData planet;
@@ -58,7 +58,7 @@ namespace GalacticScale
         public bool rare;
         public EVeinType type = EVeinType.None;
 
-        public List<GSVein> veins = new List<GSVein>();
+        public List<GSVein> veins = new();
 
         public GSVeinType(EVeinType type)
         {

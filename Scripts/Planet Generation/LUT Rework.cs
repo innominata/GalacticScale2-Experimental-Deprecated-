@@ -6,7 +6,7 @@ namespace GalacticScale
 {
     public static partial class GS2
     {
-        public static Dictionary<int, int[]> keyedLUTs = new Dictionary<int, int[]>();
+        public static Dictionary<int, int[]> keyedLUTs = new();
 
         public static void SetLuts(int segments, float planetRadius)
         {

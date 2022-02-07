@@ -7,7 +7,7 @@ namespace GalacticScale.Generators
 {
     public partial class GS2Generator2 : iConfigurableGenerator
     {
-        private readonly Dictionary<GSStar, List<Orbit>> starOrbits = new Dictionary<GSStar, List<Orbit>>();
+        private readonly Dictionary<GSStar, List<Orbit>> starOrbits = new();
 
         private GSPlanet birthPlanet;
         private GSPlanet birthPlanetHost;

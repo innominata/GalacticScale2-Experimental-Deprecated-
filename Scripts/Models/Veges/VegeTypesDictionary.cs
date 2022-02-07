@@ -12,7 +12,7 @@ namespace GalacticScale
 
         private class Internal
         {
-            internal static readonly SingletonExample instance = new SingletonExample();
+            internal static readonly SingletonExample instance = new();
 
             static Internal()
             {
@@ -180,7 +180,7 @@ namespace GalacticScale
 
         private class Internal
         {
-            internal static readonly Dictionary<string, int> instance = new Dictionary<string, int>
+            internal static readonly Dictionary<string, int> instance = new()
             {
                 ["Stone1"] = 1,
                 ["Stone2"] = 2,

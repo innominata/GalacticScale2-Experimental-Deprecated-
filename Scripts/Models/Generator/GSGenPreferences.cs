@@ -66,7 +66,7 @@ namespace GalacticScale
             return ContainsKey(key) ? bool.TryParse(this[key], out parsedResult) ? parsedResult : Default : Default;
         }
 
-        public FloatPair GetFloatFloat(string key, FloatPair Default = new FloatPair())
+        public FloatPair GetFloatFloat(string key, FloatPair Default = new())
         {
             if (!ContainsKey(key)) return Default;
             Val o = this[key];

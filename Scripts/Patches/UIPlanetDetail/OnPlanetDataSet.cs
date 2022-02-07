@@ -19,7 +19,7 @@ namespace GalacticScale
                 var obliquityLabel = __instance.obliquityValueText.transform.parent.gameObject;
                 radiusLabel = Object.Instantiate(obliquityLabel, obliquityLabel.transform.parent.transform);
                 var parentRect = obliquityLabel.transform.parent.transform.GetComponent<RectTransform>();
-                parentRect.sizeDelta = new Vector2(0,40);
+                parentRect.sizeDelta = new Vector2(0, 40);
                 radiusLabel.transform.localPosition += Vector3.down * 20;
                 var radiusLabelText = radiusLabel.GetComponent<Text>();
                 radiusLabelText.GetComponent<Localizer>().enabled = false;
@@ -50,9 +50,9 @@ namespace GalacticScale
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UIPlanetDetail), "OnPlanetDataSet")]
-        public static bool OnPlanetDataSetPrefix(ref UIPlanetDetail __instance)//, ref UIResAmountEntry __instance.tipEntry,
+        public static bool OnPlanetDataSetPrefix(ref UIPlanetDetail __instance) //, ref UIResAmountEntry __instance.tipEntry,
             // ref Text __instance.nameText,
-           // ref InputField __instance.nameInput, ref Text __instance.typeText, ref Text __instance.orbitRadiusValueText, ref Text __instance.orbitRadiusValueTextEx, ref Text __instance.orbitPeriodValueText, ref Text __instance.rotationPeriodValueText, ref Text __instance.inclinationValueText, ref Text __instance.obliquityValueText, ref Sprite __instance.unknownResIcon, ref Sprite __instance.sprite6, ref Sprite __instance.sprite8, ref Sprite __instance.sprite9)
+            // ref InputField __instance.nameInput, ref Text __instance.typeText, ref Text __instance.orbitRadiusValueText, ref Text __instance.orbitRadiusValueTextEx, ref Text __instance.orbitPeriodValueText, ref Text __instance.rotationPeriodValueText, ref Text __instance.inclinationValueText, ref Text __instance.obliquityValueText, ref Sprite __instance.unknownResIcon, ref Sprite __instance.sprite6, ref Sprite __instance.sprite8, ref Sprite __instance.sprite9)
         {
             //var getEntry = Traverse.Create(__instance).Method("GetEntry");
 
@@ -68,7 +68,7 @@ namespace GalacticScale
             __instance.tipEntry = null;
             if (__instance.planet == null) return false;
 
-            var _observed = true;// GameMain.history.universeObserveLevel >= (__instance.planet != GameMain.localPlanet ? 2 : 1);
+            var _observed = true; // GameMain.history.universeObserveLevel >= (__instance.planet != GameMain.localPlanet ? 2 : 1);
             __instance.nameInput.text = __instance.planet.displayName;
             var empty = string.Empty;
             __instance.typeText.text = string.Format("{0} {1}", __instance.planet.typeString, "<color=\"#FD965EC0\">" + __instance.planet.singularityString + "</color>");
@@ -76,13 +76,14 @@ namespace GalacticScale
             __instance.orbitRadiusValueTextEx.text = __instance.planet.name;
             __instance.orbitPeriodValueText.text = __instance.planet.orbitalPeriod.ToString("#,##0") + "空格秒".Translate();
             __instance.rotationPeriodValueText.text = __instance.planet.rotationPeriod.ToString("#,##0") + "空格秒".Translate();
-            float f = __instance.planet.orbitInclination;
-            float t = 180f - __instance.planet.orbitLongitude;
-            if ((double) f < 0.0)
+            var f = __instance.planet.orbitInclination;
+            var t = 180f - __instance.planet.orbitLongitude;
+            if (f < 0.0)
             {
                 f = -f;
                 t = 180f + t;
             }
+
             var num1 = Mathf.Abs(__instance.planet.orbitInclination);
             var num2 = (int)num1;
             var num3 = (int)((num1 - (double)num2) * 60.0);
@@ -92,12 +93,12 @@ namespace GalacticScale
             var num5 = (int)num4;
             var num6 = (int)((num4 - (double)num5) * 60.0);
             int numa;
-            int numb = (int) (((double) (numa = (int) Mathf.Repeat(t, 360f)) - (double) numa) * 60.0);
+            var numb = (int)(((numa = (int)Mathf.Repeat(t, 360f)) - (double)numa) * 60.0);
             if (__instance.planet.obliquity < 0.0) num5 = -num5;
 
             __instance.inclinationValueText.text = string.Format("{0}° {1}′", num2, num3);
             __instance.obliquityValueText.text = string.Format("{0}° {1}′", num5, num6);
-            __instance.longiAscValueText.text = string.Format("{0}° {1}′", (object) numa, (object) numb);
+            __instance.longiAscValueText.text = string.Format("{0}° {1}′", numa, numb);
             var num7 = 0;
             if (__instance.planet.type != EPlanetType.Gas)
             {
@@ -130,7 +131,7 @@ namespace GalacticScale
                     str = itemProto1.name;
                 }
 
-                var entry1 = __instance.GetEntry(); 
+                var entry1 = __instance.GetEntry();
                 ;
                 __instance.entries.Add(entry1);
                 entry1.SetInfo(num7, "海洋类型".Translate(), icon, itemProto1 == null ? string.Empty : itemProto1.description, false, itemProto1 != null && waterItemId != 1000, string.Empty);

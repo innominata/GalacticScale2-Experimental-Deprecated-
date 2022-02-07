@@ -1,6 +1,4 @@
-﻿using NebulaAPI;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace GalacticScale

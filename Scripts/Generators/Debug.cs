@@ -6,7 +6,7 @@ namespace GalacticScale.Generators
 {
     public class Debug : iConfigurableGenerator
     {
-        private readonly GSStars stars = new GSStars();
+        private readonly GSStars stars = new();
         public string Name => "Debug";
 
         public string Author => "innominata";
@@ -17,9 +17,9 @@ namespace GalacticScale.Generators
 
         public string GUID => "space.customizing.generators.debug";
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig();
+        public GSGeneratorConfig Config => new();
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
 
         public void Init()
         {

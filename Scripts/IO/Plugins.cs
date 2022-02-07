@@ -7,7 +7,7 @@ namespace GalacticScale
 {
     public static partial class GS2
     {
-        public static List<iConfigurablePlugin> Plugins = new List<iConfigurablePlugin>();
+        public static List<iConfigurablePlugin> Plugins = new();
 
         public static void LoadPlugins()
         {

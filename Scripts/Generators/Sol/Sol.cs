@@ -11,7 +11,7 @@ namespace GalacticScale.Generators
         private int availMoons;
         private GSPlanet birthPlanet;
 
-        private GSGenPreferences preferences = new GSGenPreferences();
+        private GSGenPreferences preferences = new();
 
         //private GSUI UI_accurateStars;
         //private GSUI UI_galaxyDensity;
@@ -24,7 +24,7 @@ namespace GalacticScale.Generators
         //private GSUI UI_regularBirthTheme;
         //private GSUI UI_systemDensity;
         private GS2.Random random;
-        public GSStars stars = new GSStars();
+        public GSStars stars = new();
 
         private GSUI UI_maxPlanetSize;
 
@@ -43,9 +43,9 @@ namespace GalacticScale.Generators
 
         public string GUID => "space.customizing.generators.sol";
 
-        public GSGeneratorConfig Config { get; } = new GSGeneratorConfig();
+        public GSGeneratorConfig Config { get; } = new();
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
 
         public void Init()
         {
@@ -271,10 +271,10 @@ namespace GalacticScale.Generators
             var serializer = new fsSerializer();
             //string json = File.ReadAllText(path);
             var assembly = Assembly.GetExecutingAssembly();
-            //var all = assembly.GetManifestResourceNames();
-            //GS2.LogJson(all, true);
+            // var all = assembly.GetManifestResourceNames();
+            // GS2.LogJson(all, true);
 
-            var reader = new StreamReader(assembly.GetManifestResourceStream("GalacticScale.Scripts.Assets.galaxy.json"));
+            var reader = new StreamReader(assembly.GetManifestResourceStream("GalacticScale3.Assets.galaxy.json"));
             var json = reader.ReadToEnd();
             var data2 = fsJsonParser.Parse(json);
             var localStars = new List<ExternalStarData>();
@@ -720,28 +720,28 @@ namespace GalacticScale.Generators
             planets.Add(new GSPlanet("Ceres", "DwarfPlanet", 30, 2.77f, 10.6f, 82437.6f, 120.6f, 0.034f, 45.5f, 31.7f, 0.2926f));
             var jovianMoons = new GSPlanets
             {
-                new GSPlanet("Io", "IceGelisol", 110, 0.2f, 0.04f, 216f, 0, 0, 212.5f, 0, 0.05f),
-                new GSPlanet("Europa", "IceGelisol", 100, 0.25f, 0.47f, 432f, 0, 0, 426f, 0, 0.05f),
-                new GSPlanet("Ganymede", "IceGelisol", 160, 0.3f, 0.18f, 864f, 0, 0, 858.5f, 0, 0.0526f),
-                new GSPlanet("Callisto", "IceGelisol", 150, 0.35f, 0.19f, 2004f, 0, 0, 2002.5f, 0, 0.05f)
+                new("Io", "IceGelisol", 110, 0.2f, 0.04f, 216f, 0, 0, 212.5f, 0, 0.05f),
+                new("Europa", "IceGelisol", 100, 0.25f, 0.47f, 432f, 0, 0, 426f, 0, 0.05f),
+                new("Ganymede", "IceGelisol", 160, 0.3f, 0.18f, 864f, 0, 0, 858.5f, 0, 0.0526f),
+                new("Callisto", "IceGelisol", 150, 0.35f, 0.19f, 2004f, 0, 0, 2002.5f, 0, 0.05f)
             };
             planets.Add(new GSPlanet("Jupiter", "GasGiant", 450, 5.2f, 1.3053f, 519670f, 0f, 3.13f, 49.63f, 0, 0.05026f, jovianMoons));
             var g = planets.Add(new GSPlanet("Saturn", "GasGiant2", 380, 9.58f, 2.48446f, 1291106f, 0f, 26.73f, 53.28f, 0, 0.01482f, new GSPlanets
             {
-                new GSPlanet("Titan", "AshenGelisol", 160, 0.2f, 0.33f, 1908f, 0f, 0f, 1913.5f, 0f, 0.01482f)
+                new("Titan", "AshenGelisol", 160, 0.2f, 0.33f, 1908f, 0f, 0f, 1913.5f, 0f, 0.01482f)
             }));
             //GS2.Warn($"Periods for {g.Name} : Current:{g.OrbitalPeriod} Kepler:{Utils.CalculateOrbitPeriodFromStarMass(g.OrbitRadius, sol.mass)}");
             planets.Add(new GSPlanet("Uranus", "IceGiant", 160, 19.2f, 0.8f, 3682248f, 0f, 97.77f, 1000f, 0, 0.00369f));
             planets.Add(new GSPlanet("Neptune", "IceGiant2", 155, 30.05f, 1.769f, 72142680f, 0f, 28.3f, 80.55f, 0f, 0.001508f, new GSPlanets
             {
-                new GSPlanet("Triton", "AshenGelisol", 80, 0.2f, 157.3f, 708f, 0f, 0f, 1000f, 0f, 0.001508f)
+                new("Triton", "AshenGelisol", 80, 0.2f, 157.3f, 708f, 0f, 0f, 1000f, 0f, 0.001508f)
             }));
             var PlutoCharon = planets.Add(new GSPlanet(" ", "Center", 10, 39.48f, 17.16f, 10867200.0f, 0, 122.53f, 1000f, 0f, 0.000873f));
             PlutoCharon.Scale = 0.0001f;
             PlutoCharon.Moons = new GSPlanets
             {
-                new GSPlanet("Pluto", "AshenGelisol", 70, .002f, 17.16f, 108.0f, 0, 122.53f, 1000f, 0f, 0.000873f),
-                new GSPlanet("Charon", "BarrenSatellite", 30, .015f, 17.16f, 108.0f, 180.03f, 122.53f, 1000f, 0f, 0.000873f)
+                new("Pluto", "AshenGelisol", 70, .002f, 17.16f, 108.0f, 0, 122.53f, 1000f, 0f, 0.000873f),
+                new("Charon", "BarrenSatellite", 30, .015f, 17.16f, 108.0f, 180.03f, 122.53f, 1000f, 0f, 0.000873f)
             };
             oily.Scale = 1f;
             if (preferences.GetBool("startInSol", true))

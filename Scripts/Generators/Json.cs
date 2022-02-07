@@ -6,9 +6,9 @@ namespace GalacticScale.Generators
     public class JsonImport : iConfigurableGenerator
     {
         // private GSUI minifyCheckbox;
-        public readonly GSOptions options = new GSOptions();
+        public readonly GSOptions options = new();
 
-        private List<string> filenames = new List<string>();
+        private List<string> filenames = new();
         // private string dumpFilename = "_dump";
 
         private string ImportFilename = "";
@@ -27,7 +27,7 @@ namespace GalacticScale.Generators
 
         public GSOptions Options => options;
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig(true, true);
+        public GSGeneratorConfig Config => new(true, true);
 
         public void Init()
         {

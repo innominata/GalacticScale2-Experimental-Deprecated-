@@ -217,7 +217,7 @@ namespace GalacticScale
 
         private class ErrorObject
         {
-            public readonly List<string> stack = new List<string>();
+            public readonly List<string> stack = new();
             public string message;
             public string version = Version;
         }

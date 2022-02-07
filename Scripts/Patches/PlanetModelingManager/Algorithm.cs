@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using NebulaAPI;
 
 namespace GalacticScale
 {
@@ -24,6 +23,7 @@ namespace GalacticScale
                 if (gsPlanet.veinSettings == null || gsPlanet.veinSettings == new GSVeinSettings())
                     return true;
             }
+
             GS2.Warn("USING CUSTOM GENERATION FOR PLANET " + planet.displayName);
             __result = new GS2PlanetAlgorithm(gsPlanet); //new GS2PlanetAlgorithm(gsPlanet);
             __result.Reset(5, planet);

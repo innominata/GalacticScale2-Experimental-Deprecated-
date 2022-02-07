@@ -124,9 +124,9 @@ namespace GSSerializer
             return new fsData(new List<fsData>(capacity));
         }
 
-        public static readonly fsData True = new fsData(true);
-        public static readonly fsData False = new fsData(false);
-        public static readonly fsData Null = new fsData();
+        public static readonly fsData True = new(true);
+        public static readonly fsData False = new(false);
+        public static readonly fsData Null = new();
 
         #endregion Constructors
 

@@ -5,7 +5,7 @@ namespace GalacticScale
 {
     public static class PlanetRawDataExtension
     {
-        private static readonly Dictionary<PlanetRawData, float> FactoredRadius = new Dictionary<PlanetRawData, float>();
+        private static readonly Dictionary<PlanetRawData, float> FactoredRadius = new();
 
         public static void AddFactoredRadius(this PlanetRawData planetRawData, PlanetData planet)
         {

@@ -17,27 +17,27 @@ namespace GalacticScale
         public static bool Failed = false;
         public static string updateMessage = "";
         public static bool Initialized = false;
-        public static Dictionary<string, ThemeLibrary> availableExternalThemes = new Dictionary<string, ThemeLibrary>();
+        public static Dictionary<string, ThemeLibrary> availableExternalThemes = new();
         public static bool canvasOverlay = false;
-        public static bool ResearchUnlocked = false;
         public static Image splashImage;
         public static bool SaveOrLoadWindowOpen = false;
         public static bool NebulaClient = false;
 
+        public static TeleportComponent TP;
         // public static bool MinifyJson = false;
         // public static ThemeLibrary ThemeLibrary = ThemeLibrary.Vanilla();
         public static TerrainAlgorithmLibrary TerrainAlgorithmLibrary = TerrainAlgorithmLibrary.Init();
         public static VeinAlgorithmLibrary VeinAlgorithmLibrary = VeinAlgorithmLibrary.Init();
         public static VegeAlgorithmLibrary VegeAlgorithmLibrary = VegeAlgorithmLibrary.Init();
-        public static GS2MainSettings Config = new GS2MainSettings();
+        public static GS2MainSettings Config = new();
 
         //public static int[] tmp_state;
         public static GalaxyData galaxy;
 
         //private static Random random;
         public static GameDesc gameDesc;
-        public static Dictionary<int, GSPlanet> gsPlanets = new Dictionary<int, GSPlanet>();
-        public static Dictionary<int, GSStar> gsStars = new Dictionary<int, GSStar>();
+        public static Dictionary<int, GSPlanet> gsPlanets = new();
+        public static Dictionary<int, GSStar> gsStars = new();
         private static AssetBundle bundle;
 
         public static bool MenuHasLoaded;
@@ -118,14 +118,14 @@ namespace GalacticScale
 
         {
             Log($"Vanilla Theme Count: {LDB._themes.dataArray.Length.ToString()}");
-            
+
             if (File.Exists(Path.Combine(AssemblyPath, "icon.png")))
             {
                 if (ActiveGenerator != null && ActiveGenerator.GUID == "space.customizing.generators.vanilla") updateMessage += "Note: Settings for this mod are in the settings menu. Make sure to change the Generator to get the full Galactic Scale experience.\r\n";
                 updateMessage += "Update Detected. Please do not save over existing saves \r\nuntil you are sure you can load saves saved with this version!\r\nPlease Click GS2 Help and click the link to join our community on discord for preview builds and to help shape the mod going forward".Translate();
                 File.Delete(Path.Combine(AssemblyPath, "icon.png"));
                 updateMessage += "The latest DSP update has added additional planet themes which are yet to be included in GS2. \r\nI'm working on getting them added to the GS2 themeset, as well as implementing their new subtheme system";
-                }
+            }
 
             // Warn("Step2");
             if (Directory.Exists(OldDataDir) && !Directory.Exists(DataDir))
@@ -134,6 +134,7 @@ namespace GalacticScale
                 Directory.Move(OldDataDir, DataDir);
                 updateMessage += "Galactic Scale config Directory has changed to \r\n ...\\BepInEx\\config\\GalacticScale \r\nThis is to prevent data being lost when updating using the mod manager.\r\n".Translate();
             }
+
             // Warn("Step3");
             if (!Directory.Exists(DataDir)) Directory.CreateDirectory(DataDir);
             // Warn("Step4");
@@ -188,12 +189,14 @@ namespace GalacticScale
 
                 DumpObjectToJson(Path.Combine(DataDir, "ldbvege.json"), vegeDict);
             }
+
             // Warn("Step7");
             if (updateMessage != "")
             {
                 UIMessageBox.Show("Update Information", updateMessage, "Noted!", 0);
                 updateMessage = "";
             }
+
             // Warn("Step8");
             UpdateNebulaSettings();
             // Warn("Step9");

@@ -1,42 +1,34 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GalacticScale
 
 {
-
     public class PatchOnWhatever
     {
-        [HarmonyPrefix, HarmonyPatch(typeof(PlanetData), "AddHeightMapModLevel")]
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(PlanetData), "AddHeightMapModLevel")]
         public static bool AddHeightMapModLevel(int index, int level, PlanetData __instance)
         {
             if (__instance.data.AddModLevel(index, level))
             {
-                int num = __instance.precision / __instance.segment;
-                int num2 = index % __instance.data.stride;
-                int num3 = index / __instance.data.stride;
-                int num4 = ((num2 < __instance.data.substride) ? 0 : 1) + ((num3 < __instance.data.substride) ? 0 : 2);
-                int num5 = num2 % __instance.data.substride;
-                int num6 = num3 % __instance.data.substride;
-                int num7 = (num5 - 1) / num;
-                int num8 = (num6 - 1) / num;
-                int num9 = num5 / num;
-                int num10 = num6 / num;
-                if (num9 >= __instance.segment)
-                {
-                    num9 = __instance.segment - 1;
-                }
-                if (num10 >= __instance.segment)
-                {
-                    num10 = __instance.segment - 1;
-                }
-                int num11 = num4 * __instance.segment * __instance.segment;
-                int num12 = num7 + num8 * __instance.segment + num11;
-                int num13 = num9 + num8 * __instance.segment + num11;
-                int num14 = num7 + num10 * __instance.segment + num11;
-                int num15 = num9 + num10 * __instance.segment + num11;
+                var num = __instance.precision / __instance.segment;
+                var num2 = index % __instance.data.stride;
+                var num3 = index / __instance.data.stride;
+                var num4 = (num2 < __instance.data.substride ? 0 : 1) + (num3 < __instance.data.substride ? 0 : 2);
+                var num5 = num2 % __instance.data.substride;
+                var num6 = num3 % __instance.data.substride;
+                var num7 = (num5 - 1) / num;
+                var num8 = (num6 - 1) / num;
+                var num9 = num5 / num;
+                var num10 = num6 / num;
+                if (num9 >= __instance.segment) num9 = __instance.segment - 1;
+                if (num10 >= __instance.segment) num10 = __instance.segment - 1;
+                var num11 = num4 * __instance.segment * __instance.segment;
+                var num12 = num7 + num8 * __instance.segment + num11;
+                var num13 = num9 + num8 * __instance.segment + num11;
+                var num14 = num7 + num10 * __instance.segment + num11;
+                var num15 = num9 + num10 * __instance.segment + num11;
                 num12 = Mathf.Clamp(num12, 0, 99);
                 num13 = Mathf.Clamp(num13, 0, 99);
                 num14 = Mathf.Clamp(num14, 0, 99);
@@ -49,20 +41,17 @@ namespace GalacticScale
 
             return false;
         }
-        
-        [HarmonyPostfix, HarmonyPatch(typeof(BuildTool_Inserter), "CheckBuildConditions")]
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(BuildTool_Inserter), "CheckBuildConditions")]
         public static void BuildToolInserter(BuildTool_Inserter __instance, ref bool __result)
         {
-            if (__instance.buildPreviews.Count == 0)
-            {
-                return;
-            }
+            if (__instance.buildPreviews.Count == 0) return;
             // if (__instance.buildPreviews == null) return;
             var preview = __instance.buildPreviews[0];
             // GS2.Warn(preview?.condition.ToString());
-            
+
             if (__instance.planet.realRadius < 20)
-            {
                 if (preview.condition == EBuildCondition.TooSkew)
                 {
                     preview.condition = EBuildCondition.Ok;
@@ -73,28 +62,28 @@ namespace GalacticScale
                     __instance.actionBuild.model.cursorText = "Click to build";
                     __instance.actionBuild.model.cursorState = 0;
                 }
-            } 
         }
-        
-        [HarmonyPrefix, HarmonyPatch(typeof(UILoadGameWindow), "_OnOpen")]
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UILoadGameWindow), "_OnOpen")]
         public static bool UILoadGameWindow_OnOpen()
         {
             GS2.Warn("Disabled Import");
             GS2.SaveOrLoadWindowOpen = true;
             return true;
-
         }
 
-        [HarmonyPrefix, HarmonyPatch(typeof(UILoadGameWindow), "LoadSelectedGame")]
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UILoadGameWindow), "LoadSelectedGame")]
         public static bool UILoadGameWindow_LoadSelectedGame()
         {
             GS2.Warn("Enabled Import");
             GS2.SaveOrLoadWindowOpen = false;
             return true;
-
         }
 
-        [HarmonyPrefix, HarmonyPatch(typeof(UILoadGameWindow), "_OnClose")]
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UILoadGameWindow), "_OnClose")]
         public static bool UILoadGameWindow_OnClose()
         {
             GS2.Warn("Enabled Import");
@@ -102,18 +91,20 @@ namespace GalacticScale
             GS2.SaveOrLoadWindowOpen = false;
             return true;
         }
-        [HarmonyPrefix, HarmonyPatch(typeof(UISaveGameWindow), "_OnOpen")]
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UISaveGameWindow), "_OnOpen")]
         public static bool UISaveGameWindow_OnOpen()
         {
             GS2.Warn("Disabled Import");
 
             GS2.SaveOrLoadWindowOpen = true;
             return true;
-
         }
 
 
-        [HarmonyPrefix, HarmonyPatch(typeof(UISaveGameWindow), "_OnClose")]
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UISaveGameWindow), "_OnClose")]
         public static bool UISaveGameWindow_OnClose()
         {
             GS2.Warn("Enabled Import");
@@ -121,7 +112,9 @@ namespace GalacticScale
             GS2.SaveOrLoadWindowOpen = false;
             return true;
         }
-        [HarmonyPrefix, HarmonyPatch(typeof(UIAchievementPanel), "LoadData")]
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UIAchievementPanel), "LoadData")]
         public static bool LoadData(UIAchievementPanel __instance)
         {
             // __instance.unlockedEntries.Clear();
@@ -178,8 +171,9 @@ namespace GalacticScale
         // {
         //     return false;
         // }
-        
-        [HarmonyPostfix, HarmonyPatch(typeof(WarningSystem), "Init")]
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(WarningSystem), "Init")]
         public static void Init(ref WarningSystem __instance)
         {
             GS2.Warn("Warning System Initializing");
@@ -200,7 +194,9 @@ namespace GalacticScale
             __instance.astroBuffer = new ComputeBuffer(l, 32, ComputeBufferType.Default);
             GS2.Warn($"Pool Length: {__instance.tmpEntityPools.Length}");
         }
-            [HarmonyPrefix, HarmonyPatch(typeof(ThemeProto), "Preload")]
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ThemeProto), "Preload")]
         public static bool Preload(ref ThemeProto __instance)
         {
             __instance.displayName = __instance.DisplayName.Translate();
@@ -212,10 +208,7 @@ namespace GalacticScale
             __instance.minimapMat = Utils.ResourcesLoadArray<Material>(__instance.MaterialPath + "minimap", "{0}-{1}", true);
             __instance.ambientDesc = Utils.ResourcesLoadArray<AmbientDesc>(__instance.MaterialPath + "ambient", "{0}-{1}", true);
             __instance.ambientSfx = Utils.ResourcesLoadArray<AudioClip>(__instance.SFXPath, "{0}-{1}", true);
-            if (__instance.RareSettings.Length != __instance.RareVeins.Length * 4)
-            {
-                Debug.LogError("稀有矿物数组长度有误 " + __instance.displayName);
-            }
+            if (__instance.RareSettings.Length != __instance.RareVeins.Length * 4) Debug.LogError("稀有矿物数组长度有误 " + __instance.displayName);
             return false;
         }
         // [HarmonyPrefix, HarmonyPatch(typeof(LandPlanetCountCondition), "Check")]
@@ -273,7 +266,7 @@ namespace GalacticScale
         //public static bool ResourcesLoadArray<T>(ref T[] __result, string path, string format, bool emptyNull) where T : UnityEngine.Object
         //{
         //    List<T> list = new List<T>();
-            
+
         //    T t = Resources.Load<T>(path);
         //    if (t == null)
         //    {

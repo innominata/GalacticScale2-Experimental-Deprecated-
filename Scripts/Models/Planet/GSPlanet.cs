@@ -6,9 +6,9 @@ namespace GalacticScale
 {
     public class GSPlanet
     {
-        [NonSerialized] public readonly ValStore genData = new ValStore();
+        [NonSerialized] public readonly ValStore genData = new();
 
-        [NonSerialized] public Dictionary<string, string> fields = new Dictionary<string, string>(); // Temporary string store for generator use, not saved
+        [NonSerialized] public Dictionary<string, string> fields = new(); // Temporary string store for generator use, not saved
 
         private float luminosity = -1;
 
@@ -33,7 +33,7 @@ namespace GalacticScale
 
         private string theme;
 
-        [NonSerialized] public GSPlanetVeins veinData = new GSPlanetVeins();
+        [NonSerialized] public GSPlanetVeins veinData = new();
 
         //[NonSerialized] public Dictionary<string, GSVein> veins = new Dictionary<string, GSVein>();
 
@@ -77,7 +77,7 @@ namespace GalacticScale
 
         [SerializeField] public int Seed { get; set; } = -1;
 
-        [SerializeField] public GSPlanets Moons { get; set; } = new GSPlanets();
+        [SerializeField] public GSPlanets Moons { get; set; } = new();
 
         [SerializeField] public string Name { get; set; }
 

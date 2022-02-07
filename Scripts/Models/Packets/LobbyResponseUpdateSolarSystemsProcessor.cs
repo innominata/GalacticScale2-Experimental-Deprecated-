@@ -1,22 +1,19 @@
-﻿using NebulaAPI;
-using System.IO;
+﻿using System.IO;
+using NebulaAPI;
 
 namespace GalacticScale
 {
     [RegisterPacketProcessor]
-    public class LobbyResponseUpdateSolarSystemsProcessor: BasePacketProcessor<LobbyResponseUpdateSolarSystems>
+    public class LobbyResponseUpdateSolarSystemsProcessor : BasePacketProcessor<LobbyResponseUpdateSolarSystems>
     {
         public override void ProcessPacket(LobbyResponseUpdateSolarSystems packet, INebulaConnection conn)
         {
-            if (IsHost)
-            {
-                return;
-            }
+            if (IsHost) return;
 
-            GameDesc gameDesc = UIRoot.instance.galaxySelect.gameDesc;
-            GalaxyData galaxyData = UIRoot.instance.galaxySelect.starmap.galaxyData;
+            var gameDesc = UIRoot.instance.galaxySelect.gameDesc;
+            var galaxyData = UIRoot.instance.galaxySelect.starmap.galaxyData;
 
-            if(galaxyData == null)
+            if (galaxyData == null)
             {
                 if (GS2.Vanilla)
                     galaxyData = UniverseGen.CreateGalaxy(gameDesc);
@@ -26,8 +23,9 @@ namespace GalacticScale
                 UIRoot.instance.galaxySelect.starmap.galaxyData = galaxyData;
             }
 
-            using(MemoryStream ms = new MemoryStream(packet.GSSettings)){
-                using (BinaryReader r = new BinaryReader(ms))
+            using (var ms = new MemoryStream(packet.GSSettings))
+            {
+                using (var r = new BinaryReader(ms))
                 {
                     GSSettings.FromString(r.ReadString());
                 }

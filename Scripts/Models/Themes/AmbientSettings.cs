@@ -6,9 +6,9 @@ namespace GalacticScale
 {
     public class GSAmbientSettings
     {
-        public Color BiomeColor1 = new Color(1f, 1f, 1f, 0f);
-        public Color BiomeColor2 = new Color(1f, 1f, 1f, 0f);
-        public Color BiomeColor3 = new Color(1f, 1f, 1f, 0f);
+        public Color BiomeColor1 = new(1f, 1f, 1f, 0f);
+        public Color BiomeColor2 = new(1f, 1f, 1f, 0f);
+        public Color BiomeColor3 = new(1f, 1f, 1f, 0f);
         public int BiomeSound1;
         public int BiomeSound2;
         public int BiomeSound3;
@@ -16,9 +16,9 @@ namespace GalacticScale
         public Color Color2 = Color.black;
         public Color Color3 = Color.black;
         public string CubeMap = "Vanilla";
-        public Color DustColor1 = new Color(1f, 1f, 1f, 0f);
-        public Color DustColor2 = new Color(1f, 1f, 1f, 0f);
-        public Color DustColor3 = new Color(1f, 1f, 1f, 0f);
+        public Color DustColor1 = new(1f, 1f, 1f, 0f);
+        public Color DustColor2 = new(1f, 1f, 1f, 0f);
+        public Color DustColor3 = new(1f, 1f, 1f, 0f);
         public float DustStrength1 = 1f;
         public float DustStrength2 = 1f;
         public float DustStrength3 = 1f;
@@ -94,14 +94,10 @@ namespace GalacticScale
                 {
                     var x = GS2.Bundle.LoadAsset<Cubemap>("cube2");
                     if (Reflections.a != 0)
-                    {
                         ReflectionMap = Utils.TintCubeMap(x, Reflections);
-                        // GS2.Log("Set Reflection Map to Tinted One");
-                    }
+                    // GS2.Log("Set Reflection Map to Tinted One");
                     else
-                    {
                         ReflectionMap = x;
-                    }
                 }
             }
 

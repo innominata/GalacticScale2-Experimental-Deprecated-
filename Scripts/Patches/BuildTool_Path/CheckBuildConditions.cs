@@ -13,9 +13,9 @@ namespace GalacticScale
             if (count < 2) return __result; // Check we are building
 
             var preview = __instance.buildPreviews[0];
-            
+
             var preview2 = __instance.buildPreviews[count - 1];
-            
+
             var objId = preview.inputObjId;
             var objId2 = preview2.outputObjId;
             //GS2.Warn(objId.ToString());

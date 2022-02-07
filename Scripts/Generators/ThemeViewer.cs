@@ -5,10 +5,10 @@ namespace GalacticScale.Generators
 {
     public class ThemeViewer : iConfigurableGenerator
     {
-        public static List<string> themeNames = new List<string>();
+        public static List<string> themeNames = new();
 
         public static string themename;
-        public ThemeLibrary ThemeTestLibrary = new ThemeLibrary();
+        public ThemeLibrary ThemeTestLibrary = new();
         public GSUI uiList;
 
         public string Name => "ThemeViewer";
@@ -21,9 +21,9 @@ namespace GalacticScale.Generators
 
         public string GUID => "space.customizing.generators.theme";
 
-        public GSGeneratorConfig Config => new GSGeneratorConfig(false, false, 1, 512);
+        public GSGeneratorConfig Config => new(false, false, 1, 512);
 
-        public GSOptions Options { get; } = new GSOptions();
+        public GSOptions Options { get; } = new();
 
         public void Init()
         {

@@ -257,6 +257,7 @@ namespace GalacticScale.Generators
                     else planet.Theme = "Mediterranean";
                     planet.Scale = 1f;
                 }
+
                 //Warn($"Planet Theme Selected. {planet.Name}:{planet.Theme} Radius:{planet.Radius * planet.Scale} {((planet.Scale == 10f) ? EThemeType.Gas : EThemeType.Planet)}");
                 foreach (var body in planet.Bodies)
                     if (body != planet)

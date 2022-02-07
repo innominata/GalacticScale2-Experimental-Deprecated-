@@ -2,7 +2,7 @@
 {
     public static partial class GS2
     {
-        public static ThemeLibrary externalThemes = new ThemeLibrary();
+        public static ThemeLibrary externalThemes = new();
 
         public static class ExternalThemeProcessor
         {

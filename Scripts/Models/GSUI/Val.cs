@@ -73,7 +73,7 @@
             return def;
         }
 
-        public GSSliderConfig GSSliderConfig(GSSliderConfig def = new GSSliderConfig())
+        public GSSliderConfig GSSliderConfig(GSSliderConfig def = new())
         {
             if (val is GSSliderConfig) return (GSSliderConfig)val;
             GS2.Error("Failed to parse GSSliderConfig");

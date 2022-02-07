@@ -83,7 +83,7 @@ namespace GSSerializer
         /// <summary>
         ///     A successful result.
         /// </summary>
-        public static fsResult Success = new fsResult
+        public static fsResult Success = new()
         {
             _success = true
         };

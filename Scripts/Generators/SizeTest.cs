@@ -16,7 +16,7 @@ namespace GalacticScale.Generators
         public string Version => "0.0";
 
         public string GUID => "space.customizing.generators.SizeTest";
-        public GSGeneratorConfig Config { get; } = new GSGeneratorConfig();
+        public GSGeneratorConfig Config { get; } = new();
 
         public void Init()
         {

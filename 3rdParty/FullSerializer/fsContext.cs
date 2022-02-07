@@ -12,7 +12,7 @@ namespace GSSerializer
         /// <summary>
         ///     All of the context objects.
         /// </summary>
-        private readonly Dictionary<Type, object> _contextObjects = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _contextObjects = new();
 
         /// <summary>
         ///     Removes all context objects from the context.

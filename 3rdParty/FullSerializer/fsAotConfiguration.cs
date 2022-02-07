@@ -15,7 +15,7 @@ namespace GSSerializer
             Disabled
         }
 
-        public List<Entry> aotTypes = new List<Entry>();
+        public List<Entry> aotTypes = new();
         public string outputDirectory = "Assets/AotModels";
 
         public bool TryFindEntry(Type type, out Entry result)

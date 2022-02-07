@@ -23,7 +23,7 @@ namespace GalacticScale
             __instance.entries.Clear();
             if (__instance.star == null) return false;
             var magnitude = (__instance.star.uPosition - GameMain.mainPlayer.uPosition).magnitude;
-            var _observed = true;// GameMain.history.universeObserveLevel >= (__instance.star != GameMain.localStar ? magnitude >= 14400000.0 ? 4 : 3 : 2);
+            var _observed = true; // GameMain.history.universeObserveLevel >= (__instance.star != GameMain.localStar ? magnitude >= 14400000.0 ? 4 : 3 : 2);
             ___nameInput.text = __instance.star.displayName;
             ___typeText.text = __instance.star.typeString;
             ___massValueText.text = __instance.star.mass.ToString("0.000") + " M    ";

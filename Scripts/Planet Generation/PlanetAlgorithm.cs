@@ -26,20 +26,16 @@
             // GS2.Log($"GS2PlanetAlgorithm|Constructor|Custom Generation:{gsPlanet.GsTheme.CustomGeneration} Terrain Algo: " + gsTheme.TerrainSettings.Algorithm + " Vein Algo: " + gsTheme.VeinSettings.Algorithm + " Vege Algo: " + gsTheme.VegeSettings.Algorithm);
 
             if (gsTheme.TerrainSettings.Algorithm == "Vanilla")
-            {
                 // GS2.Log("GS2PlanetAlgorithm|Constructor|Terrain Algo Being Set to Vanilla");
                 terrainAlgo = (p, modX, modY) =>
                 {
                     // GS2.Log("GS2PlanetAlgorithm|Constructor|Vanilla Terrain Algo Running");
                     baseAlgorithm.GenerateTerrain(modX, modY);
                 };
-            }
             else
-            {
                 // GS2.Log("GS2PlanetAlgorithm|Constructor|Terrain Algo Being Set to " + gsTheme.TerrainSettings.Algorithm);
                 terrainAlgo = GS2.TerrainAlgorithmLibrary.Find(gsTheme.TerrainSettings.Algorithm);
-                //this.}terrainAlgo = (gsTheme.TerrainSettings.Algorithm == "Vanilla") ? (GSPlanet p, double modX, double modY) => { baseAlgorithm.GenerateTerrain(modX, modY); } : 
-            }
+            //this.}terrainAlgo = (gsTheme.TerrainSettings.Algorithm == "Vanilla") ? (GSPlanet p, double modX, double modY) => { baseAlgorithm.GenerateTerrain(modX, modY); } : 
 
             if (gsPlanet.veinSettings == null || gsPlanet.veinSettings == new GSVeinSettings())
             {
@@ -68,20 +64,16 @@
 
             //this.veinAlgo = (gsTheme.VeinSettings.Algorithm == "Vanilla") ? (GSPlanet p, bool sketchOnly) => { baseAlgorithm.GenerateVeins(sketchOnly); } : GS2.VeinAlgorithmLibrary.Find(gsTheme.VeinSettings.Algorithm);
             if (gsTheme.VegeSettings.Algorithm == "Vanilla")
-            {
                 vegeAlgo = p =>
                 {
                     // GS2.Log("GS2PlanetAlgorithm|Constructor|Vanilla Vege Algo Running");
                     baseAlgorithm.GenerateVegetables();
                 };
-            }
             else
-            {
                 // GS2.Log("GS2PlanetAlgorithm|Constructor|GS Vege Algo Running");
 
                 vegeAlgo = GS2.VegeAlgorithmLibrary.Find(gsTheme.VegeSettings.Algorithm);
-                // GS2.Warn("NonstandardVegealgo");
-            }
+            // GS2.Warn("NonstandardVegealgo");
 
             //this.vegeAlgo = (gsTheme.VegeSettings.Algorithm == "Vanilla") ? (GSPlanet p) => { 
             //    GS2.Log("GS2.VeinAlgorithmLibrary.Find(gsTheme.VegeSettings.Algorithm);")
@@ -124,8 +116,9 @@
                 case 6: return new PlanetAlgorithm6();
                 case 7: return new PlanetAlgorithm7();
                 case 8: return new PlanetAlgorithm8();
-                case 9: if (GS2.Config.ScarletRevert) return new PlanetAlgorithm0(); 
-                        return new PlanetAlgorithm9();
+                case 9:
+                    if (GS2.Config.ScarletRevert) return new PlanetAlgorithm0();
+                    return new PlanetAlgorithm9();
             }
 
             return new PlanetAlgorithm0();

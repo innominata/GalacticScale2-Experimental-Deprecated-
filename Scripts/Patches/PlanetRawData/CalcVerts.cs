@@ -7,8 +7,8 @@ namespace GalacticScale
 {
     public partial class PatchOnPlanetRawData
     {
-        public static Dictionary<int, Vector3[]> verDict = new Dictionary<int, Vector3[]>();
-        public static Dictionary<int, int[]> inDict = new Dictionary<int, int[]>();
+        public static Dictionary<int, Vector3[]> verDict = new();
+        public static Dictionary<int, int[]> inDict = new();
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(PlanetRawData), "CalcVerts")]
