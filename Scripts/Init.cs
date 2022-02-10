@@ -24,7 +24,10 @@ namespace GalacticScale
         public static bool NebulaClient = false;
         public static bool Initialized = false;
         public static bool MenuHasLoaded;
-        
+
+        //Temp until GS2Cheats workaround
+        public static bool ResearchUnlocked = false;
+
         public static TeleportComponent TP;
         public static InputComponent Input;
 
