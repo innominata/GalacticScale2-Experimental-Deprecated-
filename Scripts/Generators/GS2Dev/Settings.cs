@@ -207,7 +207,7 @@ namespace GalacticScale.Generators
             preferences.Set("inclination", -1);
             preferences.Set("orbitLongitude", -1);
             preferences.Set("rareChance", -1f);
-            preferences.Set("luminosityBoost", 0);
+            preferences.Set("luminosityBoost", 1);
             for (var i = 0; i < 14; i++)
             {
                 preferences.Set($"{typeLetter[i]}minStars", 0);
@@ -335,7 +335,7 @@ namespace GalacticScale.Generators
             UI.Add("galaxyDensity", gOptions.Add(GSUI.Slider("Galaxy Spread".Translate(), 1, 5, 20, "galaxyDensity", null, "Lower = Stars are closer to each other. Default is 5".Translate())));
             UI.Add("defaultStarCount", gOptions.Add(GSUI.Slider("Default StarCount".Translate(), 1, 64, 1024, "defaultStarCount", DefaultStarCountCallback, "How many stars should the slider default to".Translate())));
             UI.Add("starSizeMulti", gOptions.Add(GSUI.Slider("Star Size Multiplier".Translate(), 0.5f, 5f, 20, 0.5f, "starSizeMulti", null, "GS2 uses 10x as standard. They just look cooler.".Translate())));
-            UI.Add("luminosityBoost", gOptions.Add(GSUI.Slider("Luminosity Boost".Translate(), 0, 0, 10, .25f, "luminosityBoost", LuminosityBoostCallback, "Increase the luminosity of all stars by this amount".Translate(), "Default".Translate())));
+            UI.Add("luminosityBoost", gOptions.Add(GSUI.Slider("Luminosity Multiplier".Translate(), 0, 0, 10, .25f, "luminosityBoost", LuminosityBoostCallback, "Increase the luminosity of all stars by this multiplier".Translate(), "Default".Translate())));
 
             AddSpacer(gOptions);
             gOptions.Add(GSUI.Group("Binary Star Settings".Translate(), CreateBinaryStarOptions(), "Settings that control Binary Star formation".Translate()));
@@ -381,7 +381,7 @@ namespace GalacticScale.Generators
                 UI.Add($"{typeLetter[i]}inclination", tOptions.Add(GSUI.Slider("Max Inclination".Translate(), -1, -1, 180, 1f, $"{typeLetter[i]}inclination", null, "Maximum angle of orbit".Translate(), "Random".Translate())));
                 UI.Add($"{typeLetter[i]}orbitLongitude", tOptions.Add(GSUI.Slider("Max Orbit Longitude".Translate(), -1, -1, 360, 1f, $"{typeLetter[i]}orbitLongitude", null, "Maximum longitude of the ascending node".Translate(), "Random".Translate())));
                 UI.Add($"{typeLetter[i]}rareChance", tOptions.Add(GSUI.Slider("Rare Vein Chance % Override".Translate(), -1, -1, 100, 1f, $"{typeLetter[i]}rareChance", null, "Override the chance of planets spawning rare veins".Translate(), "Default".Translate())));
-                UI.Add($"{typeLetter[i]}luminosityBoost", tOptions.Add(GSUI.Slider("Luminosity Boost".Translate(), 0, 0, 10, .25f, $"{typeLetter[i]}luminosityBoost", null, "Increase the luminosity of this star type by this amount".Translate(), "Default".Translate())));
+                UI.Add($"{typeLetter[i]}luminosityBoost", tOptions.Add(GSUI.Slider("Luminosity Boost".Translate(), 0.25f, 1, 10, .25f, $"{typeLetter[i]}luminosityBoost", null, "Increase the luminosity of this star type by this amount".Translate(), "Default".Translate())));
                 AddSpacer(tOptions);
                 oOptions.Add(GSUI.Group($"{typeDesc[i]} Overrides".Translate(), tOptions, $"Change Settings for Type {typeDesc[i]} stars".Translate()));
             }
@@ -606,13 +606,15 @@ namespace GalacticScale.Generators
         private void InitForcedStars()
         {
             _forcedStars = new List<string>();
-
+            
 
             for (var i = 0; i < 14; i++)
             {
                 var count = preferences.GetInt($"{typeLetter[i]}minStars", 0);
                 for (var j = 0; j < count; j++) _forcedStars.Add(typeLetter[i]);
             }
+            var bsInt = preferences.GetInt("birthStar", 14);
+            if (!_forcedStars.Contains(typeLetter[bsInt])) _forcedStars.Add(typeLetter[bsInt]);
         }
 
         private (EStarType type, ESpectrType spectr) ChooseStarType(bool birth = false)

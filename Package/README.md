@@ -1,5 +1,9 @@
 # DSP Galactic Scale 2.0 Mod
 
+Note: This mod required Nebula API https://dsp.thunderstore.io/package/nebula/NebulaMultiplayerModApi
+
+- Version 2.3.1 - Changed Luminosity Boost. Fixed Slider rounding error. Fixed Moon size for Starter Planet.
+
 - Version 2.3 - Experimental UI Changes to sliders. Includes button to switch between slider and text entry. Floating point bug not fixed. :(
 
 
