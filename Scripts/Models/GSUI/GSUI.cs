@@ -348,12 +348,14 @@ namespace GalacticScale
                         else
                         {
                             //GS2.Warn($"Executing increment test of {increment} on {label}");
-                            existingCallback(value - value % increment);
-                            if (value - value % increment != value)
-                            {
-                                GS2.Warn($"Increment thing {value} [] { value%increment} ");
-                                instance.Set(value - value % increment);
-                            }
+                            // existingCallback(value - value % increment);
+                            // if (value - value % increment != value)
+                            // {
+                            //     GS2.Warn($"Increment thing {value} [] { value%increment} ");
+                            //     instance.Set(value - value % increment);
+                            // }
+                            existingCallback(value);
+                           
                         }
                     }
                 }
