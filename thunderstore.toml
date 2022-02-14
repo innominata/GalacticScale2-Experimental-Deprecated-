@@ -4,8 +4,8 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "Galactic_Scale"
 name = "GalacticScale_Experimental"
-versionNumber = "2.3.1"
-description = "v2.3.1 Settings Fixes"
+versionNumber = "2.3.2"
+description = "v2.3.2 Pole Markers Fixed"
 websiteUrl = "https://github.com/innominata/GalacticScale3"
 containsNsfwContent = false
 
