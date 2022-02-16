@@ -25,20 +25,20 @@ namespace GalacticScale
                     Warn(LDB._themes.dataArray.Length.ToString());
                     if (LDB._themes.dataArray != null && LDB._themes.dataArray.Length > 128) Array.Resize(ref LDB._themes.dataArray, 128);
                     Warn(LDB._themes.dataArray.Length.ToString());
-                    // GS2.LogJson(gameDesc);
-                    // GS2.Warn(gameDesc.resourceMultiplier.ToString());
-                    // GS2.Warn(GSSettings.Instance.galaxyParams.resourceMulti.ToString());
+                    GS2.LogJson(gameDesc);
+                    GS2.Warn(gameDesc.resourceMultiplier.ToString());
+                    GS2.Warn(GSSettings.Instance.galaxyParams.resourceMulti.ToString());
                     Log("Seed From gameDesc = " + GSSettings.Seed);
                     gsPlanets.Clear();
                     gsStars.Clear();
 
-                    //Warn("Cleared");
-                    Log("Loading Data from Generator : " + ActiveGenerator.Name);
+                    Warn("Cleared");
+                    Warn("Loading Data from Generator : " + ActiveGenerator.Name);
                     ActiveGenerator.Generate(gameDesc.starCount);
                     GSSettings.Instance.galaxyParams.resourceMulti = gameDesc.resourceMultiplier;
                     GSSettings.Instance.generatorGUID = ActiveGenerator.GUID;
                     Log("Final Seed = " + GSSettings.Seed);
-                    //Log("End");
+                    Log("End");
                     // WarnJson(GSSettings.ThemeLibrary.Select(x=>x.Key).ToList());
                 }
                 else

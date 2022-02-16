@@ -79,9 +79,9 @@ namespace GalacticScale.Generators
             {
                 var birthStarDesc = ((EStar)bsInt).Convert();
                 var availBirthStars = (from s in GSSettings.Stars where s.Type == birthStarDesc.Item1 where s.Spectr == birthStarDesc.Item2 where s.Decorative == false select s).ToList();
-                // GS2.Warn($"Stars that are {birthStarDesc.Item1} {birthStarDesc.Item2}");
-                // GS2.WarnJson(availBirthStars);
-                // GS2.WarnJson(GSSettings.Stars);
+                GS2.Warn($"Stars that are {birthStarDesc.Item1} {birthStarDesc.Item2}");
+                GS2.WarnJson(availBirthStars);
+                GS2.WarnJson(GSSettings.Stars);
                 birthStar = random.Item(availBirthStars);
             }
             else

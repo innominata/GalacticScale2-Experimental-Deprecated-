@@ -1,336 +1,318 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace GalacticScale
 
 {
     public class PatchOnWhatever
     {
+        public static bool pressSpamProtector = false;
+        private static float orbitScaler = 5f;
+
+        public static int customBirthStar = -1;
+        public static int customBirthPlanet = -1;
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UniverseSimulator), "FindStarSimulator")]
         public static bool FindStarSimulator(UniverseSimulator __instance, StarData star, ref StarSimulator __result)
         {
-        
-                if (__instance.starSimulators != null && star != null)
-                {
-                    if (star.index > __instance.starSimulators.Length -1)
+            if (__instance.starSimulators != null && star != null)
+            {
+                if (star.index > __instance.starSimulators.Length - 1)
                 {
                     __result = null;
                     return false;
                 }
-                    __result = __instance.starSimulators[star.index];
+
+                __result = __instance.starSimulators[star.index];
                 return false;
-                }
-                __result = null;
+            }
+
+            __result = null;
             return false;
-                
-
         }
-        private delegate void ShowSolarsystemDetails(UIVirtualStarmap starmap, int starIndex);
-            private delegate bool IsBirthStar(UIVirtualStarmap starmap, int starIndex);
-            private delegate bool IsBirthStar2(StarData starData, UIVirtualStarmap starmap);
-            private delegate void TrackPlayerClick(UIVirtualStarmap starmap, int starIndex);
 
-            public static bool pressSpamProtector = false;
-            private static float orbitScaler = 5f;
-
-            public static int customBirthStar = -1;
-            public static int customBirthPlanet = -1;
-            /*
-            if (flag2 && flag)
+        /*
+        if (flag2 && flag)
+        {
+            if (pressing)
             {
-                if (pressing)
-                {
-                    this.starPool[j].nameText.text = this.starPool[j].textContent + "\r\n" + this.clickText.Translate();
-                }
-                this.starPool[j].nameText.rectTransform.sizeDelta = new Vector2(this.starPool[j].nameText.preferredWidth, this.starPool[j].nameText.preferredHeight);
+                this.starPool[j].nameText.text = this.starPool[j].textContent + "\r\n" + this.clickText.Translate();
             }
-            to
-            if (flag2 && pressing)
+            this.starPool[j].nameText.rectTransform.sizeDelta = new Vector2(this.starPool[j].nameText.preferredWidth, this.starPool[j].nameText.preferredHeight);
+        }
+        to
+        if (flag2 && pressing)
+        {
+            own logic
+        }
+        NOTE: the game does not use UIVirtualStarmap.clickText yet so the original logic would never be called anyways.
+        Also change iteration over stars to start at 0 instead of 1 to also have a detailed solar system view of the default starting system
+        By default the game always marks the first star as birth point, but as we can change that we also need to adapt the code for the visualisation
+         */
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(UIVirtualStarmap), "_OnLateUpdate")]
+        public static IEnumerable<CodeInstruction> _OnLateUpdate_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            CodeMatcher matcher = new CodeMatcher(instructions).MatchForward(true, new CodeMatch(OpCodes.Ldarg_0), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "starPool")), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_Item"), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap.StarNode), "nameText")), new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_gameObject"), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "SetActive"), new CodeMatch(OpCodes.Ldloc_S));
+            if (matcher.IsInvalid)
             {
-                own logic
+                GS2.Warn("UIVirtualStarmap transpiler could not find injection point, not patching!");
+                return instructions;
             }
-            NOTE: the game does not use UIVirtualStarmap.clickText yet so the original logic would never be called anyways.
-            Also change iteration over stars to start at 0 instead of 1 to also have a detailed solar system view of the default starting system
-            By default the game always marks the first star as birth point, but as we can change that we also need to adapt the code for the visualisation
-             */
-            [HarmonyTranspiler]
-            [HarmonyPatch(typeof(UIVirtualStarmap),"_OnLateUpdate")]
-            public static IEnumerable<CodeInstruction> _OnLateUpdate_Transpiler(IEnumerable<CodeInstruction> instructions)
+
+            matcher.Advance(1).SetAndAdvance(OpCodes.Ldloc_2, null) // change 'if (flag2 && flag)' to 'if (flag2 && pressing)'
+                .Advance(2);
+
+            // now remove original logic in this if(){}
+            for (int i = 0; i < 39; i++)
             {
-                CodeMatcher matcher = new CodeMatcher(instructions)
-                    .MatchForward(true,
-                        new CodeMatch(OpCodes.Ldarg_0),
-                        new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "starPool")),
-                        new CodeMatch(OpCodes.Ldloc_S),
-                        new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_Item"),
-                        new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap.StarNode), "nameText")),
-                        new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_gameObject"),
-                        new CodeMatch(OpCodes.Ldloc_S),
-                        new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "SetActive"),
-                        new CodeMatch(OpCodes.Ldloc_S));
-                if (matcher.IsInvalid)
+                matcher.SetAndAdvance(OpCodes.Nop, null);
+            }
+
+            // add own logic
+            matcher.InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldloc_S, 12), Transpilers.EmitDelegate<ShowSolarsystemDetails>((UIVirtualStarmap starmap, int starIndex) =>
+            {
+                // GS2.Warn("pressSpamProtector");
+                if (pressSpamProtector)
                 {
-                    GS2.Warn("UIVirtualStarmap transpiler could not find injection point, not patching!");
-                    return instructions;
+                    // GS2.Warn("was true");
+                    return;
                 }
 
-                matcher.Advance(1)
-                    .SetAndAdvance(OpCodes.Ldloc_2, null) // change 'if (flag2 && flag)' to 'if (flag2 && pressing)'
-                    .Advance(2);
+                // GS2.Warn("pressSpamProtector enable");
+                pressSpamProtector = true;
 
-                // now remove original logic in this if(){}
-                for (int i = 0; i < 39; i++)
+                if (starmap.clickText == "")
                 {
-                    matcher.SetAndAdvance(OpCodes.Nop, null);
+                    ClearStarmap(starmap);
+                    ShowSolarSystem(starmap, starIndex);
                 }
-
-                // add own logic
-                matcher.InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, 12),
-                    HarmonyLib.Transpilers.EmitDelegate<ShowSolarsystemDetails>((UIVirtualStarmap starmap, int starIndex) =>
-                    {
-                        GS2.Warn("pressSpamProtector");
-                        if (pressSpamProtector)
-                        {
-                            GS2.Warn("was true");
-                            return;
-                        }
-                        GS2.Warn("pressSpamProtector enable");
-                        pressSpamProtector = true;
-
-                        if (starmap.clickText == "")
-                        {
-                            ClearStarmap(starmap);
-                            ShowSolarSystem(starmap, starIndex);
-                        }
-                        else if (starmap.clickText != "")
-                        {
-                            string[] split = starmap.clickText.Split(' ');
-                            int starId = 0;
-                            GS2.Warn($"starid {split[0]}");
-                            starId = Convert.ToInt32(split[0]);
-
-                            StarData starData = starmap._galaxyData.StarById(starId); // no increment as we stored the actual id in there
-                        if (starData == null || starIndex == 0) // starIndex == 0 is the star in the middle, so we need to decrement by 1 below
-                        {
-                                return;
-                            }
-
-                            PlanetData pData = starData.planets[starIndex - 1];
-                            if (pData == null)
-                            {
-                                return;
-                            }
-
-                            if (UIRoot.instance.uiGame.planetDetail.planet != null && UIRoot.instance.uiGame.planetDetail.planet.id == pData.id && pData.type != EPlanetType.Gas)
-                            {
-                            // clicked on planet and details already visible, so set as new birth planet
-                            starmap._galaxyData.birthStarId = starId;
-                                starmap._galaxyData.birthPlanetId = pData.id;
-
-                                GameMain.data.galaxy.birthStarId = starId;
-                                GameMain.data.galaxy.birthPlanetId = pData.id;
-
-                                pData.GenBirthPoints();
-
-                                customBirthStar = starData.id;
-                                customBirthPlanet = pData.id;
-
-                                Debug.Log("set birth planet");
-                            }
-
-                            starmap.clickText = split[0] + " " + starIndex.ToString();
-                            UIRoot.instance.uiGame.SetPlanetDetail(pData);
-
-                            GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group")?.SetActive(false);
-
-                            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(true);
-                            UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-                            UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-
-                            UIRoot.instance.uiGame.planetDetail._OnUpdate();
-                        }
-                    }));
-
-                // change for loop to start at 0 instead of 1
-                matcher.Start();
-                matcher.MatchForward(true,
-                    new CodeMatch(OpCodes.Stloc_2),
-                    new CodeMatch(OpCodes.Ldarg_0),
-                    new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "clickText")),
-                    new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "IsNullOrEmpty"),
-                    new CodeMatch(OpCodes.Ldc_I4_0),
-                    new CodeMatch(OpCodes.Ceq),
-                    new CodeMatch(OpCodes.Stloc_3)
-                )
-                .Advance(1)
-                .SetInstruction(new CodeInstruction(OpCodes.Ldc_I4_0));
-
-                // mark the correct star as birth point
-                matcher.Start();
-                matcher.MatchForward(true,
-                    new CodeMatch(OpCodes.Ldc_R4),
-                    new CodeMatch(OpCodes.Stloc_1),
-                    new CodeMatch(OpCodes.Br),
-                    new CodeMatch(OpCodes.Ldloc_S),
-                    new CodeMatch(OpCodes.Stloc_1),
-                    new CodeMatch(OpCodes.Ldloc_S),
-                    new CodeMatch(OpCodes.Stloc_0),
-                    new CodeMatch(OpCodes.Ldloc_S),
-                    new CodeMatch(OpCodes.Brtrue)
-                )
-                .Advance(-1)
-                .SetAndAdvance(OpCodes.Nop, null)
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_S, 5))
-                .Insert(HarmonyLib.Transpilers.EmitDelegate<IsBirthStar>((UIVirtualStarmap starmap, int starIndex) =>
+                else if (starmap.clickText != "")
                 {
-                    return starmap.starPool[starIndex].starData.id != starmap._galaxyData.birthStarId && starmap.starPool[starIndex].starData.id != starmap._galaxyData.birthPlanetId;
-                }));
+                    string[] split = starmap.clickText.Split(' ');
+                    int starId = 0;
+                    GS2.Warn($"starid {split[0]}");
+                    starId = Convert.ToInt32(split[0]);
 
-                // listen for general mouse clicks to deselect planet / solar system
-                matcher.Start();
-                matcher.MatchForward(true,
-                    new CodeMatch(OpCodes.Br),
-                    new CodeMatch(OpCodes.Ldarg_0),
-                    new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "starPool")),
-                    new CodeMatch(OpCodes.Ldloc_S),
-                    new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_Item"),
-                    new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap.StarNode), "active")),
-                    new CodeMatch(OpCodes.Brfalse),
-                    new CodeMatch(OpCodes.Ldloc_S),
-                    new CodeMatch(OpCodes.Ldloc_0),
-                    new CodeMatch(OpCodes.Ceq)
-                )
-                .Advance(3)
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0))
-                .InsertAndAdvance(HarmonyLib.Transpilers.EmitDelegate<TrackPlayerClick>((UIVirtualStarmap starmap, int starIndex) =>
-                {
-                    //GS2.Warn($"pressing {starmap.clickText}");
-                    bool pressing = VFInput.rtsConfirm.pressing;
-                    if ((pressing && !pressSpamProtector) && starIndex == -1)
+                    StarData starData = starmap._galaxyData.StarById(starId); // no increment as we stored the actual id in there
+                    if (starData == null || starIndex == 0) // starIndex == 0 is the star in the middle, so we need to decrement by 1 below
                     {
-                        GS2.Warn("pressing1");
-                        if (starmap.clickText != "" && UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf) // hide planet details
-                    {
-                            GS2.Warn("hiding planet");
-                            GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group").SetActive(true);
-                            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(false);
-                        }
-                        else if (starmap.clickText != "" && !UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf) // hide solar system details
-                    {
-                            GS2.Warn("hiding system");
-                            starmap.clickText = "";
-                            starmap.OnGalaxyDataReset();
-                        }
-                        pressSpamProtector = true;
+                        return;
                     }
-                }));
 
-                return matcher.InstructionEnumeration();
-            }
+                    PlanetData pData = starData.planets[starIndex - 1];
+                    if (pData == null)
+                    {
+                        return;
+                    }
 
-            private static void ClearStarmap(UIVirtualStarmap starmap)
+                    if (UIRoot.instance.uiGame.planetDetail.planet != null && UIRoot.instance.uiGame.planetDetail.planet.id == pData.id && pData.type != EPlanetType.Gas)
+                    {
+                        // clicked on planet and details already visible, so set as new birth planet
+                        starmap._galaxyData.birthStarId = starId;
+                        starmap._galaxyData.birthPlanetId = pData.id;
+
+                        GameMain.data.galaxy.birthStarId = starId;
+                        GameMain.data.galaxy.birthPlanetId = pData.id;
+
+                        pData.GenBirthPoints();
+
+                        customBirthStar = starData.id;
+                        customBirthPlanet = pData.id;
+
+                        Debug.Log("set birth planet");
+                    }
+
+                    starmap.clickText = split[0] + " " + starIndex.ToString();
+                    UIRoot.instance.uiGame.SetPlanetDetail(pData);
+
+                    GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group")?.SetActive(false);
+
+                    UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(true);
+                    UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
+                    UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
+
+                    UIRoot.instance.uiGame.planetDetail._OnUpdate();
+                }
+            }));
+
+            // change for loop to start at 0 instead of 1
+            matcher.Start();
+            matcher.MatchForward(true, new CodeMatch(OpCodes.Stloc_2), new CodeMatch(OpCodes.Ldarg_0), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "clickText")), new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "IsNullOrEmpty"), new CodeMatch(OpCodes.Ldc_I4_0), new CodeMatch(OpCodes.Ceq), new CodeMatch(OpCodes.Stloc_3)).Advance(1).SetInstruction(new CodeInstruction(OpCodes.Ldc_I4_0));
+
+            // mark the correct star as birth point
+            matcher.Start();
+            matcher.MatchForward(true, new CodeMatch(OpCodes.Ldc_R4), new CodeMatch(OpCodes.Stloc_1), new CodeMatch(OpCodes.Br), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Stloc_1), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Stloc_0), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Brtrue)).Advance(-1).SetAndAdvance(OpCodes.Nop, null).InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0)).InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_S, 5)).Insert(Transpilers.EmitDelegate<IsBirthStar>((UIVirtualStarmap starmap, int starIndex) => { return starmap.starPool[starIndex].starData.id != starmap._galaxyData.birthStarId && starmap.starPool[starIndex].starData.id != starmap._galaxyData.birthPlanetId; }));
+
+            // listen for general mouse clicks to deselect planet / solar system
+            matcher.Start();
+            matcher.MatchForward(true, new CodeMatch(OpCodes.Br), new CodeMatch(OpCodes.Ldarg_0), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "starPool")), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_Item"), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap.StarNode), "active")), new CodeMatch(OpCodes.Brfalse), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Ldloc_0), new CodeMatch(OpCodes.Ceq)).Advance(3).InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0)).InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0)).InsertAndAdvance(Transpilers.EmitDelegate<TrackPlayerClick>((UIVirtualStarmap starmap, int starIndex) =>
             {
+                bool ScrollUp = Input.mouseScrollDelta.y > 0;
+                bool ScrollDown = Input.mouseScrollDelta.y < 0;
+                var s = starmap.gameObject.transform.localScale.x;
+                if (ScrollDown)
+                {
+                    s *= 0.9f;
+                    GS2.Log("Down");
+                    starmap.gameObject.transform.localScale = new Vector3(s,s,s);
+                }
+
+                if (ScrollUp)
+                {
+                    s /= 0.9f;
+                    GS2.Log($"Up {starmap.gameObject.transform.localScale}");
+                    starmap.gameObject.transform.localScale = new Vector3(s,s,s);
+                }
+                //GS2.Warn($"pressing {starmap.clickText}");
+                bool pressing = VFInput.rtsConfirm.pressing;
+                if ((pressing && !pressSpamProtector) && starIndex == -1)
+                {
+                    // GS2.Warn("pressing1");
+                    if (starmap.clickText != "" && UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf) // hide planet details
+                    {
+                        // GS2.Warn("hiding planet");
+                        GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group").SetActive(true);
+                        UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(false);
+                    }
+                    else if (starmap.clickText != "" && !UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf) // hide solar system details
+                    {
+                        // GS2.Warn("hiding system");
+                        starmap.clickText = "";
+                        starmap.OnGalaxyDataReset();
+                    }
+
+                    pressSpamProtector = true;
+                }
+            }));
+
+            return matcher.InstructionEnumeration();
+        }
+
+        private static void ClearStarmap(UIVirtualStarmap starmap)
+        {
             GS2.Warn("ClearStarmap");
             starmap.starPointBirth.gameObject.SetActive(false);
 
-                foreach (UIVirtualStarmap.StarNode starNode in starmap.starPool)
-                {
-                    starNode.active = false;
-                    starNode.starData = null;
-                    starNode.pointRenderer.gameObject.SetActive(false);
-                    starNode.nameText.gameObject.SetActive(false);
-                }
-                foreach (UIVirtualStarmap.ConnNode connNode in starmap.connPool)
-                {
-                    connNode.active = false;
-                    connNode.starA = null;
-                    connNode.starB = null;
-                    connNode.lineRenderer.gameObject.SetActive(false);
-                }
-            }
-            private static float PlanetTemperatureToStarColor(float temperature)
-        {
-            var color = temperature = -1 * temperature + 5;
-            color *= 0.1f;
-            color = Mathf.Clamp(color, 0, 1);
-            return color;
-        }
-            private static void ShowSolarSystem(UIVirtualStarmap starmap, int starIndex)
+            foreach (UIVirtualStarmap.StarNode starNode in starmap.starPool)
             {
+                starNode.active = false;
+                starNode.starData = null;
+                starNode.pointRenderer.gameObject.SetActive(false);
+                starNode.nameText.gameObject.SetActive(false);
+            }
+
+            foreach (UIVirtualStarmap.ConnNode connNode in starmap.connPool)
+            {
+                connNode.active = false;
+                connNode.starA = null;
+                connNode.starB = null;
+                connNode.lineRenderer.gameObject.SetActive(false);
+            }
+        }
+
+        private static float PlanetTemperatureToStarColor(float temperature)
+        {
+            // case EStarType.BlackHole: return random.NextFloat(0.9f, 0.97f);
+            // case EStarType.NeutronStar: return random.NextFloat(0.83f, 0.89f);
+            // case EStarType.WhiteDwarf: return random.NextFloat(0.02f, 0.75f);
+            // case EStarType.GiantStar:
+            // case EStarType.MainSeqStar:
+            // switch (s)
+            // {
+            //     case ESpectrType.A: return random.NextFloat(0.60f, 0.799f);
+            //     case ESpectrType.B: return random.NextFloat(0.8f, 0.999f);
+            //     case ESpectrType.F: return random.NextFloat(0.4f, 0.599f);
+            //     case ESpectrType.G: return random.NextFloat(0.2f, 0.399f);
+            //     case ESpectrType.K: return random.NextFloat(0.0f, 0.199f);
+            //     case ESpectrType.M: return 0f;
+            //     case ESpectrType.O: return 1f;
+            if (temperature > 4) return 0;
+            if (temperature > 1) return 0.3f;
+            if (temperature > -1) return 0.5f;
+            if (temperature > -3.1f) return 0.8f;
+            return 0.9f;
+        }
+
+        private static void ShowSolarSystem(UIVirtualStarmap starmap, int starIndex)
+        {
             GS2.Warn("ShowSolarSystem");
-                // start planet compute thread if not done already
-                PlanetModelingManager.StartPlanetComputeThread();
+            // start planet compute thread if not done already
+            PlanetModelingManager.StartPlanetComputeThread();
 
-                // add star
-                StarData starData = starmap._galaxyData.StarById(starIndex + 1); // because StarById() decrements by 1
-                AddStarToStarmap(starmap, starData);
+            // add star
+            StarData starData = starmap._galaxyData.StarById(starIndex + 1); // because StarById() decrements by 1
+            AddStarToStarmap(starmap, starData);
+            
+            var starScale = starmap.starPool[0].starData.radius;
+            GS2.Warn($"Scale : {starScale} Radius:{starmap.starPool[0].starData.radius} OrigScale:{starmap.starPool[0].pointRenderer.transform.localScale}");
+            starmap.starPool[0].pointRenderer.transform.localScale = new Vector3(starScale,starScale,starScale);
+            starmap.clickText = starData.id.ToString();
+            Debug.Log("Setting it to " + starmap.clickText + " " + starData.id);
 
-                starmap.clickText = starData.id.ToString();
-                Debug.Log("Setting it to " + starmap.clickText + " " + starData.id);
+            for (int i = 0; i < starData.planetCount; i++)
+            {
+                // add planets
+                PlanetData pData = starData.planets[i];
+                Color color = starmap.neutronStarColor;
+                float scaleFactor = 1f;
+                bool isMoon = false;
 
-                for (int i = 0; i < starData.planetCount; i++)
-                {
-                    // add planets
-                    PlanetData pData = starData.planets[i];
-                    Color color = starmap.neutronStarColor;
-                    float scaleFactor = 1.6f;
-                    bool isMoon = false;
-
-                    VectorLF3 pPos = GetRelativeRotatedPlanetPos(starData, pData, ref isMoon);
-                GS2.Warn("ShowSolarSystem2");
+                VectorLF3 pPos = GetRelativeRotatedPlanetPos(starData, pData, ref isMoon);
+                // GS2.Warn("ShowSolarSystem2");
                 // request generation of planet surface data to display its details when clicked and if not already loaded
                 if (!pData.loaded) PlanetModelingManager.RequestLoadPlanet(pData);
-                GS2.Warn("ShowSolarSystem3");
+                // GS2.Warn("ShowSolarSystem3");
                 // create fake StarData to pass _OnLateUpdate()
                 StarData dummyStarData = new StarData();
-                    dummyStarData.position = pPos;
-                    dummyStarData.color = PlanetTemperatureToStarColor(GS2.GetGSPlanet(pData).GsTheme.Temperature);
+                dummyStarData.position = pPos;
+                dummyStarData.color = PlanetTemperatureToStarColor(GS2.GetGSPlanet(pData).GsTheme.Temperature);
                 GS2.Log($"Color of {starData.name} a {starData.typeString} star is {starData.color}");
-                    dummyStarData.id = pData.id;
+                dummyStarData.id = pData.id;
 
-                    Vector3 scale = Vector3.one * scaleFactor * (pData.realRadius / 100);
-                    if (scale.x > 3 || scale.y > 3 || scale.z > 3)
-                    {
-                        scale = new Vector3(3, 3, 3);
-                    }
-                GS2.Warn($"ShowSolarSystem4 {i}");
-                GS2.Warn($"Planet: {starData.planets[i].name}");
-                GS2.Warn($"Pool Length: {i+1} / {starmap.starPool.Count}");
-                while (starmap.starPool.Count <= i+1)
+                Vector3 scale = Vector3.one * scaleFactor * (pData.realRadius / 100);
+                if (scale.x > 3 || scale.y > 3 || scale.z > 3)
+                {
+                    scale = new Vector3(3, 3, 3);
+                }
+
+                // GS2.Warn($"ShowSolarSystem4 {i}");
+                // GS2.Warn($"Planet: {starData.planets[i].name}");
+                // GS2.Warn($"Pool Length: {i + 1} / {starmap.starPool.Count}");
+                while (starmap.starPool.Count <= i + 1)
                 {
                     UIVirtualStarmap.StarNode starNode2 = new UIVirtualStarmap.StarNode();
                     starNode2.active = false;
                     starNode2.starData = null;
-                    starNode2.pointRenderer = UnityEngine.Object.Instantiate<MeshRenderer>(starmap.starPointPrefab, starmap.starPointPrefab.transform.parent);
-                    starNode2.nameText = UnityEngine.Object.Instantiate<Text>(starmap.nameTextPrefab, starmap.nameTextPrefab.transform.parent);
+                    starNode2.pointRenderer = Object.Instantiate<MeshRenderer>(starmap.starPointPrefab, starmap.starPointPrefab.transform.parent);
+                    starNode2.nameText = Object.Instantiate<Text>(starmap.nameTextPrefab, starmap.nameTextPrefab.transform.parent);
                     starmap.starPool.Add(starNode2);
                 }
-                    starmap.starPool[i + 1].active = true;
 
-                GS2.Warn("ShowSolarSystem4a");
+                starmap.starPool[i + 1].active = true;
+
+                // GS2.Warn("ShowSolarSystem4a");
 
                 starmap.starPool[i + 1].starData = dummyStarData;
-                    starmap.starPool[i + 1].pointRenderer.material.SetColor("_TintColor", starmap.starColors.Evaluate(dummyStarData.color));
-                    starmap.starPool[i + 1].pointRenderer.transform.localPosition = pPos;
-                    starmap.starPool[i + 1].pointRenderer.transform.localScale = scale;
-                    starmap.starPool[i + 1].pointRenderer.gameObject.SetActive(true);
-                    starmap.starPool[i + 1].nameText.text = pData.displayName + " (" + pData.typeString + ")";
-                    starmap.starPool[i + 1].nameText.color = Color.Lerp(starmap.starColors.Evaluate(dummyStarData.color), Color.white, 0.5f);
-                    starmap.starPool[i + 1].nameText.rectTransform.sizeDelta = new Vector2(starmap.starPool[i + 1].nameText.preferredWidth, starmap.starPool[i + 1].nameText.preferredHeight);
-                    starmap.starPool[i + 1].nameText.rectTransform.anchoredPosition = new Vector2(-2000f, -2000f);
-                    starmap.starPool[i + 1].textContent = pData.displayName + " (" + pData.typeString + ")";
+                starmap.starPool[i + 1].pointRenderer.material.SetColor("_TintColor", starmap.starColors.Evaluate(dummyStarData.color));
+                starmap.starPool[i + 1].pointRenderer.transform.localPosition = pPos;
+                starmap.starPool[i + 1].pointRenderer.transform.localScale = scale;
+                starmap.starPool[i + 1].pointRenderer.gameObject.SetActive(true);
+                starmap.starPool[i + 1].nameText.text = pData.displayName + " (" + pData.typeString + ")";
+                starmap.starPool[i + 1].nameText.color = Color.Lerp(starmap.starColors.Evaluate(dummyStarData.color), Color.white, 0.5f);
+                starmap.starPool[i + 1].nameText.rectTransform.sizeDelta = new Vector2(starmap.starPool[i + 1].nameText.preferredWidth, starmap.starPool[i + 1].nameText.preferredHeight);
+                starmap.starPool[i + 1].nameText.rectTransform.anchoredPosition = new Vector2(-2000f, -2000f);
+                starmap.starPool[i + 1].textContent = pData.displayName + " (" + pData.typeString + ")";
 
-                    starmap.starPool[i + 1].nameText.gameObject.SetActive(true);
-                GS2.Warn($"ShowSolarSystem5 {i} / {starmap.connPool.Count}");
+                starmap.starPool[i + 1].nameText.gameObject.SetActive(true);
+                // GS2.Warn($"ShowSolarSystem5 {i} / {starmap.connPool.Count}");
                 // add orbit renderer
                 while (starmap.connPool.Count <= i)
                 {
@@ -339,210 +321,209 @@ namespace GalacticScale
                         active = false,
                         starA = null,
                         starB = null,
-                        lineRenderer = UnityEngine.Object.Instantiate(starmap.connLinePrefab, starmap.connLinePrefab.transform.parent)
+                        lineRenderer = Object.Instantiate(starmap.connLinePrefab, starmap.connLinePrefab.transform.parent)
                     });
                     //starmap.connPool[starmap.connPool.Count-1].lineRenderer.material.SetColor("_LineColorA", Color.Lerp(color, Color.white, 0.65f));
                     //starmap.connPool[starmap.connPool.Count - 1].lineRenderer.material.SetColor("_LineColorB", Color.Lerp(color, Color.white, 0.65f));
                 }
+
                 //if (starmap.connPool.Count -1 >= i) {
-                    starmap.connPool[i].active = true;
-                    starmap.connPool[i].lineRenderer.material.SetColor("_LineColorA", Color.Lerp(starmap.starColors.Evaluate(dummyStarData.color), Color.white, 0.65f));
+                starmap.connPool[i].active = true;
+                starmap.connPool[i].lineRenderer.material.SetColor("_LineColorA", Color.Lerp(starmap.starColors.Evaluate(dummyStarData.color), Color.white, 0.65f));
                 starmap.connPool[i].lineRenderer.material.SetColor("_LineColorB", Color.Lerp(starmap.starColors.Evaluate(dummyStarData.color), Color.white, 0.65f));
                 if (starmap.connPool[i].lineRenderer.positionCount != 61)
-                    {
-                        starmap.connPool[i].lineRenderer.positionCount = 61;
-                    }
+                {
+                    starmap.connPool[i].lineRenderer.positionCount = 61;
+                }
+
                 //}
-                GS2.Warn("ShowSolarSystem6");
+                // GS2.Warn("ShowSolarSystem6");
                 for (int j = 0; j < 61; j++)
-                    {
-                    GS2.Warn("ShowSolarSystem7");
+                {
+                    // GS2.Warn("ShowSolarSystem7");
                     float f = (float)j * 0.017453292f * 6f; // ty dsp devs :D
-                        Vector3 cPos = GetCenterOfOrbit(starData, pData, ref isMoon);
-                        Vector3 position;
-                        if (isMoon)
-                        {
-                            position = new Vector3(Mathf.Cos(f) * pData.orbitRadius * orbitScaler * 8 + (float)cPos.x, cPos.y, Mathf.Sin(f) * pData.orbitRadius * orbitScaler * 8 + (float)cPos.z);
-                        }
-                        else
-                        {
-                            position = new Vector3(Mathf.Cos(f) * pData.orbitRadius * orbitScaler + (float)cPos.x, cPos.y, Mathf.Sin(f) * pData.orbitRadius * orbitScaler + (float)cPos.z);
-                        }
-                    GS2.Warn("ShowSolarSystem7a");
-
-                    // rotate position around center by orbit angle
-                    Quaternion quaternion = Quaternion.Euler(pData.orbitInclination, pData.orbitInclination, pData.orbitInclination);
-                        Vector3 dir = quaternion * (position - cPos);
-                        position = dir + cPos;
-
-                        starmap.connPool[i].lineRenderer.SetPosition(j, position);
-                    }
-                GS2.Warn("ShowSolarSystem7b");
-
-                starmap.connPool[i].lineRenderer.gameObject.SetActive(true);
-                }
-            }
-
-            private static VectorLF3 GetCenterOfOrbit(StarData starData, PlanetData pData, ref bool isMoon)
-            {
-            GS2.Warn("GetCenterOfOrbit");
-            if (pData.orbitAroundPlanet != null)
-                {
-                    return GetRelativeRotatedPlanetPos(starData, pData.orbitAroundPlanet, ref isMoon);
-                }
-                isMoon = false;
-                return starData.position;
-            }
-
-            private static VectorLF3 GetRelativeRotatedPlanetPos(StarData starData, PlanetData pData, ref bool isMoon)
-            {
-            GS2.Warn("GetRelativeRotatedPlanetPos");
-            VectorLF3 pos;
-                VectorLF3 dir;
-                Quaternion quaternion;
-                if (pData.orbitAroundPlanet != null)
-                {
-                    VectorLF3 centerPos = GetRelativeRotatedPlanetPos(starData, pData.orbitAroundPlanet, ref isMoon);
-                    isMoon = true;
-                    pos = new VectorLF3(Mathf.Cos(pData.orbitPhase) * pData.orbitRadius * orbitScaler * 8 + centerPos.x, centerPos.y, Mathf.Sin(pData.orbitPhase) * pData.orbitRadius * orbitScaler * 8 + centerPos.z);
-                    quaternion = Quaternion.Euler(pData.orbitInclination, pData.orbitInclination, pData.orbitInclination);
-                    dir = quaternion * (pos - centerPos);
-                    return dir + centerPos;
-                }
-                pos = new VectorLF3(Mathf.Cos(pData.orbitPhase) * pData.orbitRadius * orbitScaler + starData.position.x, starData.position.y, Mathf.Sin(pData.orbitPhase) * pData.orbitRadius * orbitScaler + starData.position.z);
-                quaternion = Quaternion.Euler(pData.orbitInclination, pData.orbitInclination, pData.orbitInclination);
-                dir = quaternion * (pos - starData.position);
-                return dir + starData.position;
-            }
-
-            // probably reverse patch this if there is time
-            private static void AddStarToStarmap(UIVirtualStarmap starmap, StarData starData)
-            {
-            GS2.Warn("AddStarToStarMap");
-            Color color = starmap.starColors.Evaluate(starData.color);
-                if (starData.type == EStarType.NeutronStar)
-                {
-                    color = starmap.neutronStarColor;
-                }
-                else if (starData.type == EStarType.WhiteDwarf)
-                {
-                    color = starmap.whiteDwarfColor;
-                }
-                else if (starData.type == EStarType.BlackHole)
-                {
-                    color = starmap.blackholeColor;
-                }
-                float num2 = 1.2f;
-                if (starData.type == EStarType.GiantStar)
-                {
-                    num2 = 3f;
-                }
-                else if (starData.type == EStarType.WhiteDwarf)
-                {
-                    num2 = 0.6f;
-                }
-                else if (starData.type == EStarType.NeutronStar)
-                {
-                    num2 = 0.6f;
-                }
-                else if (starData.type == EStarType.BlackHole)
-                {
-                    num2 = 0.8f;
-                }
-                string text = starData.displayName + "  ";
-                if (starData.type == EStarType.GiantStar)
-                {
-                    if (starData.spectr <= ESpectrType.K)
+                    Vector3 cPos = GetCenterOfOrbit(starData, pData, ref isMoon);
+                    Vector3 position;
+                    if (isMoon)
                     {
-                        text += "红巨星".Translate();
-                    }
-                    else if (starData.spectr <= ESpectrType.F)
-                    {
-                        text += "黄巨星".Translate();
-                    }
-                    else if (starData.spectr == ESpectrType.A)
-                    {
-                        text += "白巨星".Translate();
+                        position = new Vector3(Mathf.Cos(f) * pData.orbitRadius * orbitScaler * 8 + (float)cPos.x, cPos.y, Mathf.Sin(f) * pData.orbitRadius * orbitScaler * 8 + (float)cPos.z);
                     }
                     else
                     {
-                        text += "蓝巨星".Translate();
+                        position = new Vector3(Mathf.Cos(f) * pData.orbitRadius * orbitScaler + (float)cPos.x, cPos.y, Mathf.Sin(f) * pData.orbitRadius * orbitScaler + (float)cPos.z);
                     }
-                }
-                else if (starData.type == EStarType.WhiteDwarf)
-                {
-                    text += "白矮星".Translate();
-                }
-                else if (starData.type == EStarType.NeutronStar)
-                {
-                    text += "中子星".Translate();
-                }
-                else if (starData.type == EStarType.BlackHole)
-                {
-                    text += "黑洞".Translate();
-                }
-                else if (starData.type == EStarType.MainSeqStar)
-                {
-                    text = text + starData.spectr.ToString() + "型恒星".Translate();
-                }
-                if (starData.index == ((customBirthStar != -1) ? customBirthStar - 1 : starmap._galaxyData.birthStarId - 1))
-                {
-                    text = "即将登陆".Translate() + "\r\n" + text;
-                }
-                starmap.starPool[0].active = true;
-                starmap.starPool[0].starData = starData;
-                starmap.starPool[0].pointRenderer.material.SetColor("_TintColor", color);
-                starmap.starPool[0].pointRenderer.transform.localPosition = starData.position;
-                starmap.starPool[0].pointRenderer.transform.localScale = Vector3.one * num2 * 2;
-                starmap.starPool[0].pointRenderer.gameObject.SetActive(true);
-                starmap.starPool[0].nameText.text = text;
-                starmap.starPool[0].nameText.color = Color.Lerp(color, Color.white, 0.5f);
-                starmap.starPool[0].nameText.rectTransform.sizeDelta = new Vector2(starmap.starPool[0].nameText.preferredWidth, starmap.starPool[0].nameText.preferredHeight);
-                starmap.starPool[0].nameText.rectTransform.anchoredPosition = new Vector2(-2000f, -2000f);
-                starmap.starPool[0].textContent = text;
 
-                starmap.starPool[0].nameText.gameObject.SetActive(true);
+                    // GS2.Warn("ShowSolarSystem7a");
+
+                    // rotate position around center by orbit angle
+                    Quaternion quaternion = Quaternion.Euler(pData.orbitInclination, pData.orbitInclination, pData.orbitInclination);
+                    Vector3 dir = quaternion * (position - cPos);
+                    position = dir + cPos;
+
+                    starmap.connPool[i].lineRenderer.SetPosition(j, position);
+                }
+
+                // GS2.Warn("ShowSolarSystem7b");
+
+                starmap.connPool[i].lineRenderer.gameObject.SetActive(true);
             }
+        }
 
-            // mark correct star with the '>> Mission start <<' text
-            [HarmonyTranspiler]
-            [HarmonyPatch(typeof(UIVirtualStarmap), "OnGalaxyDataReset")]
-
-            public static IEnumerable<CodeInstruction> OnGalaxyDataReset_Transpiler(IEnumerable<CodeInstruction> instructions)
+        private static VectorLF3 GetCenterOfOrbit(StarData starData, PlanetData pData, ref bool isMoon)
+        {
+            // GS2.Warn("GetCenterOfOrbit");
+            if (pData.orbitAroundPlanet != null)
             {
-                CodeMatcher matcher = new CodeMatcher(instructions)
-                    .MatchForward(true,
-                        new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Translate"),
-                        new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Concat"),
-                        new CodeMatch(OpCodes.Stloc_S),
-                        new CodeMatch(OpCodes.Ldloc_S),
-                        new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(StarData), "index")),
-                        new CodeMatch(OpCodes.Brtrue))
-                    .Advance(-1)
-                    .SetAndAdvance(OpCodes.Ldarg_0, null)
-                    .InsertAndAdvance(HarmonyLib.Transpilers.EmitDelegate<IsBirthStar2>((starData, starmap) =>
-                    {
-                        GS2.Warn("OnGalaxyDataReset");
-                        if (starData == null || starmap == null)
-                        {
-                            return true;
-                        }
-                        return starData.index != ((customBirthStar != -1) ? customBirthStar - 1 : starmap._galaxyData.birthStarId - 1);
-                    }));
-                return matcher.InstructionEnumeration();
+                return GetRelativeRotatedPlanetPos(starData, pData.orbitAroundPlanet, ref isMoon);
             }
-        
-    
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(UIGalaxySelect), "_OnUpdate")]
+
+            isMoon = false;
+            return starData.position;
+        }
+
+        private static VectorLF3 GetRelativeRotatedPlanetPos(StarData starData, PlanetData pData, ref bool isMoon)
+        {
+            // GS2.Warn("GetRelativeRotatedPlanetPos");
+            VectorLF3 pos;
+            VectorLF3 dir;
+            Quaternion quaternion;
+            if (pData.orbitAroundPlanet != null)
+            {
+                VectorLF3 centerPos = GetRelativeRotatedPlanetPos(starData, pData.orbitAroundPlanet, ref isMoon);
+                isMoon = true;
+                pos = new VectorLF3(Mathf.Cos(pData.orbitPhase) * pData.orbitRadius * orbitScaler * 8 + centerPos.x, centerPos.y, Mathf.Sin(pData.orbitPhase) * pData.orbitRadius * orbitScaler * 8 + centerPos.z);
+                quaternion = Quaternion.Euler(pData.orbitInclination, pData.orbitInclination, pData.orbitInclination);
+                dir = quaternion * (pos - centerPos);
+                return dir + centerPos;
+            }
+
+            pos = new VectorLF3(Mathf.Cos(pData.orbitPhase) * pData.orbitRadius * orbitScaler + starData.position.x, starData.position.y, Mathf.Sin(pData.orbitPhase) * pData.orbitRadius * orbitScaler + starData.position.z);
+            quaternion = Quaternion.Euler(pData.orbitInclination, pData.orbitInclination, pData.orbitInclination);
+            dir = quaternion * (pos - starData.position);
+            return dir + starData.position;
+        }
+
+        // probably reverse patch this if there is time
+        private static void AddStarToStarmap(UIVirtualStarmap starmap, StarData starData)
+        {
+            // GS2.Warn("AddStarToStarMap");
+            Color color = starmap.starColors.Evaluate(starData.color);
+            if (starData.type == EStarType.NeutronStar)
+            {
+                color = starmap.neutronStarColor;
+            }
+            else if (starData.type == EStarType.WhiteDwarf)
+            {
+                color = starmap.whiteDwarfColor;
+            }
+            else if (starData.type == EStarType.BlackHole)
+            {
+                color = starmap.blackholeColor;
+            }
+
+            float num2 = 1.2f;
+            if (starData.type == EStarType.GiantStar)
+            {
+                num2 = 3f;
+            }
+            else if (starData.type == EStarType.WhiteDwarf)
+            {
+                num2 = 0.6f;
+            }
+            else if (starData.type == EStarType.NeutronStar)
+            {
+                num2 = 0.6f;
+            }
+            else if (starData.type == EStarType.BlackHole)
+            {
+                num2 = 0.8f;
+            }
+
+            string text = starData.displayName + "  ";
+            if (starData.type == EStarType.GiantStar)
+            {
+                if (starData.spectr <= ESpectrType.K)
+                {
+                    text += "红巨星".Translate();
+                }
+                else if (starData.spectr <= ESpectrType.F)
+                {
+                    text += "黄巨星".Translate();
+                }
+                else if (starData.spectr == ESpectrType.A)
+                {
+                    text += "白巨星".Translate();
+                }
+                else
+                {
+                    text += "蓝巨星".Translate();
+                }
+            }
+            else if (starData.type == EStarType.WhiteDwarf)
+            {
+                text += "白矮星".Translate();
+            }
+            else if (starData.type == EStarType.NeutronStar)
+            {
+                text += "中子星".Translate();
+            }
+            else if (starData.type == EStarType.BlackHole)
+            {
+                text += "黑洞".Translate();
+            }
+            else if (starData.type == EStarType.MainSeqStar)
+            {
+                text = text + starData.spectr.ToString() + "型恒星".Translate();
+            }
+
+            if (starData.index == ((customBirthStar != -1) ? customBirthStar - 1 : starmap._galaxyData.birthStarId - 1))
+            {
+                text = "即将登陆".Translate() + "\r\n" + text;
+            }
+
+            starmap.starPool[0].active = true;
+            starmap.starPool[0].starData = starData;
+            starmap.starPool[0].pointRenderer.material.SetColor("_TintColor", color);
+            starmap.starPool[0].pointRenderer.transform.localPosition = starData.position;
+            starmap.starPool[0].pointRenderer.transform.localScale = Vector3.one * num2 * 2;
+            starmap.starPool[0].pointRenderer.gameObject.SetActive(true);
+            starmap.starPool[0].nameText.text = text;
+            starmap.starPool[0].nameText.color = Color.Lerp(color, Color.white, 0.5f);
+            starmap.starPool[0].nameText.rectTransform.sizeDelta = new Vector2(starmap.starPool[0].nameText.preferredWidth, starmap.starPool[0].nameText.preferredHeight);
+            starmap.starPool[0].nameText.rectTransform.anchoredPosition = new Vector2(-2000f, -2000f);
+            starmap.starPool[0].textContent = text;
+
+            starmap.starPool[0].nameText.gameObject.SetActive(true);
+        }
+
+        // mark correct star with the '>> Mission start <<' text
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(UIVirtualStarmap), "OnGalaxyDataReset")]
+        public static IEnumerable<CodeInstruction> OnGalaxyDataReset_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            CodeMatcher matcher = new CodeMatcher(instructions).MatchForward(true, new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Translate"), new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Concat"), new CodeMatch(OpCodes.Stloc_S), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(StarData), "index")), new CodeMatch(OpCodes.Brtrue)).Advance(-1).SetAndAdvance(OpCodes.Ldarg_0, null).InsertAndAdvance(Transpilers.EmitDelegate<IsBirthStar2>((starData, starmap) =>
+            {
+                GS2.Warn("OnGalaxyDataReset");
+                if (starData == null || starmap == null)
+                {
+                    return true;
+                }
+
+                return starData.index != ((customBirthStar != -1) ? customBirthStar - 1 : starmap._galaxyData.birthStarId - 1);
+            }));
+            return matcher.InstructionEnumeration();
+        }
+
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(UIGalaxySelect), "_OnUpdate")]
         public static void _OnUpdate_Postfix()
         {
-           
-                // as we need to load and generate planets for the detail view in the lobby, update the loading process here
-                PlanetModelingManager.ModelingPlanetCoroutine();
-                UIRoot.instance.uiGame.planetDetail._OnUpdate();
-            
+            // as we need to load and generate planets for the detail view in the lobby, update the loading process here
+            PlanetModelingManager.ModelingPlanetCoroutine();
+            UIRoot.instance.uiGame.planetDetail._OnUpdate();
         }
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UIVirtualStarmap), "_OnLateUpdate")]
         public static bool _OnLateUpdate_Prefix(UIVirtualStarmap __instance)
@@ -552,6 +533,7 @@ namespace GalacticScale
             {
                 pressSpamProtector = false;
             }
+
             return true;
         }
 
@@ -1336,5 +1318,13 @@ namespace GalacticScale
 
             return false;
         }
+
+        private delegate void ShowSolarsystemDetails(UIVirtualStarmap starmap, int starIndex);
+
+        private delegate bool IsBirthStar(UIVirtualStarmap starmap, int starIndex);
+
+        private delegate bool IsBirthStar2(StarData starData, UIVirtualStarmap starmap);
+
+        private delegate void TrackPlayerClick(UIVirtualStarmap starmap, int starIndex);
     }
 }

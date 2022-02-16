@@ -38,7 +38,7 @@ namespace GalacticScale.Generators
 
         public void Import(GSGenPreferences importedPreferences)
         {
-            Warn("Importing Preferences");
+            // Warn("Importing Preferences");
             for (var i = 0; i < importedPreferences.Count; i++)
             {
                 var key = importedPreferences.Keys.ElementAt(i);
@@ -58,7 +58,7 @@ namespace GalacticScale.Generators
 
         public GSGenPreferences Export()
         {
-            Warn("Exporting Preferences");
+            // Warn("Exporting Preferences");
             return preferences;
         }
 
@@ -607,13 +607,14 @@ namespace GalacticScale.Generators
         {
             _forcedStars = new List<string>();
             
-
+            GS2.Warn(preferences.GetInt("birthStar", 14).ToString());
             for (var i = 0; i < 14; i++)
             {
                 var count = preferences.GetInt($"{typeLetter[i]}minStars", 0);
                 for (var j = 0; j < count; j++) _forcedStars.Add(typeLetter[i]);
             }
             var bsInt = preferences.GetInt("birthStar", 14);
+            if (bsInt >= 14) return;
             if (!_forcedStars.Contains(typeLetter[bsInt])) _forcedStars.Add(typeLetter[bsInt]);
         }
 

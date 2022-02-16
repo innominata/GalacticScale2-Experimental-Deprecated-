@@ -110,7 +110,7 @@ namespace GalacticScale
             //
             //     return;
             // }
-
+            
             if (GameMain.universeSimulator == null)
             {
                 GameMain.universeSimulator = Object.Instantiate(Configs.builtin.universeSimulatorPrefab);
