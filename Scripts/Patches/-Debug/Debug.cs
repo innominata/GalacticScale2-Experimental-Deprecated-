@@ -155,21 +155,29 @@ namespace GalacticScale
             matcher.Start();
             matcher.MatchForward(true, new CodeMatch(OpCodes.Br), new CodeMatch(OpCodes.Ldarg_0), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap), "starPool")), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(i => i.opcode == OpCodes.Callvirt && ((MethodInfo)i.operand).Name == "get_Item"), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(UIVirtualStarmap.StarNode), "active")), new CodeMatch(OpCodes.Brfalse), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Ldloc_0), new CodeMatch(OpCodes.Ceq)).Advance(3).InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0)).InsertAndAdvance(new CodeInstruction(OpCodes.Ldloc_0)).InsertAndAdvance(Transpilers.EmitDelegate<TrackPlayerClick>((UIVirtualStarmap starmap, int starIndex) =>
             {
-                bool ScrollUp = Input.mouseScrollDelta.y > 0;
-                bool ScrollDown = Input.mouseScrollDelta.y < 0;
-                var s = starmap.gameObject.transform.localScale.x;
-                if (ScrollDown)
-                {
-                    s *= 0.9f;
-                    GS2.Log("Down");
-                    starmap.gameObject.transform.localScale = new Vector3(s,s,s);
-                }
+                if (Input.mouseScrollDelta.y < 0) UIRoot.instance.galaxySelect.cameraPoser.distRatio += 0.01f;
+                if (Input.mouseScrollDelta.y > 0) UIRoot.instance.galaxySelect.cameraPoser.distRatio -= 0.01f;
+                
 
-                if (ScrollUp)
+                if (VFInput._moveRight)
                 {
-                    s /= 0.9f;
-                    GS2.Log($"Up {starmap.gameObject.transform.localScale}");
-                    starmap.gameObject.transform.localScale = new Vector3(s,s,s);
+                    GS2.Warn("R");
+                    GameCamera.instance.transform.localPosition = new Vector3( GameCamera.instance.transform.localPosition.x + 1f, 0f,0f);
+                }
+                if (VFInput._moveLeft)
+                {
+                    GS2.Warn($"R { GameCamera.instance.transform.localPosition}");
+                    GameCamera.instance.transform.localPosition = GameCamera.instance.transform.localPosition + Vector3.left;
+                }
+                if (VFInput._moveForward)
+                {
+                    GS2.Warn($"U { GameCamera.instance.transform.localPosition}");
+                    GameCamera.instance.transform.localPosition = GameCamera.instance.transform.localPosition + (GameCamera.instance.transform.rotation * Vector3.up);
+                }
+                if (VFInput._moveBackward)
+                {
+                    GS2.Warn($"D { GameCamera.instance.transform.localPosition} { GameCamera.instance.transform.up}");
+                    GameCamera.instance.transform.localPosition = GameCamera.instance.transform.localPosition + (-1*GameCamera.instance.transform.up);
                 }
                 //GS2.Warn($"pressing {starmap.clickText}");
                 bool pressing = VFInput.rtsConfirm.pressing;
