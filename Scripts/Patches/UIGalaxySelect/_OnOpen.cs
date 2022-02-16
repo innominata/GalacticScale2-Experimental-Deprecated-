@@ -42,6 +42,7 @@ namespace GalacticScale
             if (__instance.gameDesc == null) GS2.Warn("GameDesc Null 2");
             if (__instance.gameDesc?.starCount <= 0) __instance.gameDesc.starCount = 1;
             __instance.SetStarmapGalaxy();
+            PlanetModelingManager.PrepareWorks();
             return false;
         }
         //[HarmonyPostfix]

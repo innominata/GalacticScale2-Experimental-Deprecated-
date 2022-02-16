@@ -18,9 +18,10 @@ namespace GalacticScale
         [HarmonyPatch(typeof(UIVirtualStarmap), "_OnLateUpdate")]
         public static void _OnLateUpdate(ref UIVirtualStarmap __instance)
         {
+            return;
             if (GS2.Vanilla) return;
             if (GS2.NebulaClient && NebulaModAPI.MultiplayerSession != null) return; // use new lobby feature in multiplayer but preserve existing functionality in single player
-
+            GS2.Warn("*");
             var index1 = -1;
             var num1 = 1.7f;
             for (var index2 = 0; index2 < __instance.starPool.Count; ++index2)
