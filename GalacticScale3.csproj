@@ -11,8 +11,6 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>9.0</LangVersion>
 		<OutDir>bin/$(Configuration)</OutDir>
-		<GameDir>C:\Program Files (x86)\Steam\steamapps\common\Dyson Sphere Program</GameDir>
-		<PluginDir>$(UserProfile)\AppData\Roaming\r2modmanPlus-local\DysonSphereProgram\profiles\Default\BepInEx\plugins</PluginDir>
 		<OutDir Condition="Exists($(PluginDir))">$(PluginDir)\Galactic_Scale_GalacticScale\</OutDir>
 	</PropertyGroup>
 	<ItemGroup>
