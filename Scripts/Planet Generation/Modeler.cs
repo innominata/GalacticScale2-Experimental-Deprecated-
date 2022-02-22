@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading;
 using static GalacticScale.GS2;
 using static PlanetModelingManager;
@@ -12,13 +13,14 @@ namespace GalacticScale
         public static bool planetModQueueSorted;
         public static List<PlanetData> planetQueue = new();
         public static bool planetQueueSorted;
-
+        public static bool aborted = false;
         public static void Reset()
         {
             planetModQueue = new List<PlanetData>();
             planetModQueueSorted = false;
             planetQueue = new List<PlanetData>();
             planetQueueSorted = false;
+            aborted = true;
         }
 
         public static int DistanceComparison(PlanetData p1, PlanetData p2)
@@ -47,6 +49,7 @@ namespace GalacticScale
             while (true)
             {
                 cycles++;
+                aborted = false;
                 var pqsw = new HighStopwatch();
                 pqsw.Begin();
                 var num = 0;
@@ -85,14 +88,15 @@ namespace GalacticScale
                 {
                     planetData = planetQueue[0];
                     planetQueue.RemoveAt(0);
-                    //Log($"Retrieved sorted planet from list: {planetData.name}");
+                    Log($"Retrieved sorted planet from list: {planetData.name}");
                 }
 
                 if (planetData != null)
                 {
-                    //Log($"Preamble time taken:{pqsw.duration:F5}");
+                    Log($"Preamble time taken:{pqsw.duration:F5}");
                     try
                     {
+                        
                         var planetAlgorithm = Algorithm(planetData);
                         if (planetAlgorithm != null)
                         {
@@ -102,6 +106,11 @@ namespace GalacticScale
                             var num4 = 0.0;
                             if (planetData.data == null)
                             {
+                                if (aborted)
+                                {
+                                    GS2.Warn("Aborted");
+                                    return false;
+                                }
                                 Log($"Creating Planet {planetData.name}");
                                 highStopwatch.Begin();
                                 planetData.data = new PlanetRawData(planetData.precision);
@@ -116,6 +125,11 @@ namespace GalacticScale
 
                             if (planetData.factory == null)
                             {
+                                if (aborted)
+                                {
+                                    GS2.Warn("Aborted");
+                                    return false;
+                                }
                                 Log("Creating Factory");
                                 highStopwatch.Begin();
                                 if (planetData.type != EPlanetType.Gas) planetAlgorithm.GenerateVegetables();

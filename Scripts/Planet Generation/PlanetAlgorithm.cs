@@ -89,19 +89,19 @@
         public override void GenerateTerrain(double modX, double modY)
         {
             //GS2.Log("PlanetAlgorithm|GenerateTerrain|" + gsPlanet.Name);
-            terrainAlgo(gsPlanet, modX, modY); //GS2.Log("PlanetAlgorithm|GenerateTerrain|End");
+            if (gsPlanet != null) terrainAlgo(gsPlanet, modX, modY); //GS2.Log("PlanetAlgorithm|GenerateTerrain|End");
         }
 
         public override void GenerateVegetables()
         {
             //GS2.Log("PlanetAlgorithm|GenerateVegetables()");
-            vegeAlgo(gsPlanet);
+            if (gsPlanet != null) vegeAlgo(gsPlanet);
         }
 
         public override void GenerateVeins(bool sketchOnly)
         {
             // GS2.Log($"PlanetAlgorithm|GenerateVeins() for {gsPlanet.Name} {gsPlanet.Theme}");
-            veinAlgo(gsPlanet, sketchOnly);
+            if (gsPlanet != null) veinAlgo(gsPlanet, sketchOnly);
         }
 
         public static PlanetAlgorithm GetBaseAlgo(int algoId)

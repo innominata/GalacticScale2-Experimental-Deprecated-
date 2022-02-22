@@ -22,6 +22,7 @@ namespace GalacticScale
             }
 
             if (GS2.ActiveGenerator == null) return true;
+            // SystemDisplay.backButton = __instance.find
             ___starCountSlider.maxValue = GS2.ActiveGenerator.Config.MaxStarCount;
             ___starCountSlider.minValue = GS2.ActiveGenerator.Config.MinStarCount;
             if (__instance.gameDesc == null) GS2.Warn("GameDesc Null");
@@ -43,6 +44,13 @@ namespace GalacticScale
             if (__instance.gameDesc?.starCount <= 0) __instance.gameDesc.starCount = 1;
             __instance.SetStarmapGalaxy();
             PlanetModelingManager.PrepareWorks();
+            var grids = GameObject.Find("UI Root/Galaxy Select Starmap/grids");
+            if (grids != null) for (int i = 0; i < grids.transform.childCount; i++)
+            {
+                var grid = grids.transform.GetChild(i);
+                if (grid.name != "grid-0" && grid.name != "stars") grid.gameObject.SetActive(false);
+            }
+                
             return false;
         }
         //[HarmonyPostfix]

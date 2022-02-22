@@ -21,7 +21,7 @@ namespace GalacticScale
             num = Mathf.Clamp(num, GS2.ActiveGenerator.Config.MinStarCount, GS2.ActiveGenerator.Config.MaxStarCount);
             ___gameDesc.starCount = num;
             GS2.gameDesc = ___gameDesc;
-
+            SystemDisplay.AbortRender(__instance.starmap);
             return false;
         }
 

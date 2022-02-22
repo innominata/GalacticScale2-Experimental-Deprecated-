@@ -100,6 +100,7 @@ namespace GalacticScale
             Harmony.CreateAndPatchAll(typeof(PatchOnUIVersionText));
             Harmony.CreateAndPatchAll(typeof(PatchOnUIVirtualStarmap));
             Harmony.CreateAndPatchAll(typeof(PatchOnUniverseGen));
+            Harmony.CreateAndPatchAll(typeof(PatchOnUniverseSimulator));
             Harmony.CreateAndPatchAll(typeof(PatchOnVFPreload));
             Harmony.CreateAndPatchAll(typeof(PatchOnUIAchievementPanel));
         }

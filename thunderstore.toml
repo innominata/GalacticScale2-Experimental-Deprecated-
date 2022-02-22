@@ -4,14 +4,15 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "Galactic_Scale"
 name = "GalacticScale_Experimental"
-versionNumber = "2.3.2"
-description = "v2.3.2 Pole Markers Fixed"
+versionNumber = "2.3.4"
+description = "v2.3.4 Newgame System Viewer. Take a look before you leap!"
 websiteUrl = "https://github.com/innominata/GalacticScale3"
 containsNsfwContent = false
 
 [package.dependencies]
 "xiaoye97-BepInEx" = "5.4.17"
 "nebula-NebulaMultiplayerModApi" = "1.1.2"
+"crecheng-CloseError" = "1.0.0"
 
 [build]
 icon = "./Package/icon.png"
