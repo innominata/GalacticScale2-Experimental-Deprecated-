@@ -13,9 +13,6 @@
 		<OutDir>bin/$(Configuration)</OutDir>
 		<OutDir Condition="Exists($(PluginDir))">$(PluginDir)\Galactic_Scale_GalacticScale\</OutDir>
 	</PropertyGroup>
-	<ItemGroup>
-	  <None Remove="Scripts\Publicizer.csold" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />

@@ -16,3 +16,4 @@ TCLI.bat
 *.zip
 **/obj/*
 DevEnv.targets
+GalacticScale2.sln.DotSettings.user
