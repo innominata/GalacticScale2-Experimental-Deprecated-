@@ -19,7 +19,7 @@ namespace GalacticScale
 
         public static void AbortRender(UIVirtualStarmap starmap)
         {
-            Modeler.Reset();
+            // Modeler.Reset();
             HideSolarSystem(starmap);
         }
         public static void OnUpdate(UIVirtualStarmap starmap, int starIndex)
@@ -224,10 +224,11 @@ namespace GalacticScale
         }
         public static void ShowSolarSystem(UIVirtualStarmap starmap, int starIndex)
         {
+            ClearStarmap(starmap);
             inSystemDisplay = true;
             GS2.Warn("ShowSolarSystem");
             // start planet compute thread if not done already
-            Modeler.aborted = false;
+            // Modeler.aborted = false;
             PlanetModelingManager.StartPlanetComputeThread();
 
             // add star

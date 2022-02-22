@@ -9,7 +9,7 @@ namespace GalacticScale
 {
     public class PatchOnStationComponent
     {
-        [HarmonyDebug]
+        // [HarmonyDebug]
         [HarmonyTranspiler]
         [HarmonyPatch(typeof(StationComponent), "InternalTickRemote")]
         public static IEnumerable<CodeInstruction> BuildTool_Click_DeterminePreviews_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
@@ -19,7 +19,7 @@ namespace GalacticScale
             
             if (codeMatcher.IsInvalid)
             {
-                GS2.Warn("FAILED TO CODEMATCH");
+                GS2.Error("InternalTickRemote Transpiler Failed");
                 return instructions;
             }
             instructions = codeMatcher.Repeat( z => z

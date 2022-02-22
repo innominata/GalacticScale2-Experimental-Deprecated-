@@ -14,7 +14,7 @@ namespace GalacticScale
     {
         public static bool pressSpamProtector = false;
 
-
+        
 
 
         /*
@@ -88,22 +88,22 @@ namespace GalacticScale
         
 
         // mark correct star with the '>> Mission start <<' text
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(UIVirtualStarmap), "OnGalaxyDataReset")]
-        public static IEnumerable<CodeInstruction> OnGalaxyDataReset_Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            CodeMatcher matcher = new CodeMatcher(instructions).MatchForward(true, new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Translate"), new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Concat"), new CodeMatch(OpCodes.Stloc_S), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(StarData), "index")), new CodeMatch(OpCodes.Brtrue)).Advance(-1).SetAndAdvance(OpCodes.Ldarg_0, null).InsertAndAdvance(Transpilers.EmitDelegate<IsBirthStar2>((starData, starmap) =>
-            {
-                GS2.Warn("OnGalaxyDataReset");
-                if (starData == null || starmap == null)
-                {
-                    return true;
-                }
-
-                return starData.index != ((SystemDisplay.customBirthStar != -1) ? SystemDisplay.customBirthStar - 1 : starmap._galaxyData.birthStarId - 1);
-            }));
-            return matcher.InstructionEnumeration();
-        }
+        // [HarmonyTranspiler]
+        // [HarmonyPatch(typeof(UIVirtualStarmap), "OnGalaxyDataReset")]
+        // public static IEnumerable<CodeInstruction> OnGalaxyDataReset_Transpiler(IEnumerable<CodeInstruction> instructions)
+        // {
+        //     CodeMatcher matcher = new CodeMatcher(instructions).MatchForward(true, new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Translate"), new CodeMatch(i => i.opcode == OpCodes.Call && ((MethodInfo)i.operand).Name == "Concat"), new CodeMatch(OpCodes.Stloc_S), new CodeMatch(OpCodes.Ldloc_S), new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(StarData), "index")), new CodeMatch(OpCodes.Brtrue)).Advance(-1).SetAndAdvance(OpCodes.Ldarg_0, null).InsertAndAdvance(Transpilers.EmitDelegate<IsBirthStar2>((starData, starmap) =>
+        //     {
+        //         GS2.Warn("OnGalaxyDataReset");
+        //         if (starData == null || starmap == null)
+        //         {
+        //             return true;
+        //         }
+        //
+        //         return starData.index != ((SystemDisplay.customBirthStar != -1) ? SystemDisplay.customBirthStar - 1 : starmap._galaxyData.birthStarId - 1);
+        //     }));
+        //     return matcher.InstructionEnumeration();
+        // }
 
 
         [HarmonyPostfix]

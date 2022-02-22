@@ -3,7 +3,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<AssemblyName>GalacticScale</AssemblyName>
 		<Description>Galaxy Customization for Dyson Sphere Program</Description>
-		<Version>2.3.4</Version>
+		<Version>2.3.6</Version>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>9.0</LangVersion>
 		<OutDir>bin/$(Configuration)</OutDir>
@@ -30,6 +30,7 @@
 	  <Reference Include="NebulaAPI">
 	    <HintPath>3rdParty\NebulaAPI.dll</HintPath>
 	  </Reference>
+	  
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,7 +1,9 @@
 # DSP Galactic Scale 2.0 Mod
 
 Note: This mod required Nebula API https://dsp.thunderstore.io/package/nebula/NebulaMultiplayerModApi
-- 
+
+- Version 2.3.5 - Fixed cargo ships not docking on outer planets in large systems
+
 - Version 2.3.4 - Further refinement of system view
 
 - Version 2.3.3 - Implemented System View in Galaxy Select Screen. Click a star to view the system. Currently testing scale of planets etc, help by trying new values under Debug Options in settings. Post screenshots to our discord if you find a combination that works well. I'm thinking we might need to apply some sort of logarithmic compression to boost tiny planets and shrink huge gas giants. 

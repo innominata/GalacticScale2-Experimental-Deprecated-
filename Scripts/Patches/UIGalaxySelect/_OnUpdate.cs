@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 namespace GalacticScale
 {
@@ -11,6 +12,14 @@ namespace GalacticScale
         public static bool _OnUpdate(UIGalaxySelect __instance)
         {
             __instance.starmap._Update();
+            if (GS2.ModellingDone)
+            {
+                StartButton.GetComponent<UIButton>().button.onClick.AddListener(__instance.EnterGame);
+            }
+            else
+            {
+                StartButton.GetComponent<UIButton>().button.onClick.RemoveAllListeners();
+            }
             if (Mathf.Abs(Mathf.DeltaAngle(__instance.lastCameraYaw, __instance.cameraPoser.yawWanted)) > 1f)
             {
                 __instance.autoCameraYaw = false;

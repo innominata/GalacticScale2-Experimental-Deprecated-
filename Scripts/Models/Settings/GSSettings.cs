@@ -166,10 +166,15 @@ namespace GalacticScale
         {
             var count = 0;
             // var companions = new List<
-            for (var i = 0; i < Stars.Count; i++)
+            for (var i = 0; i < Stars?.Count; i++)
                 // var companion = Stars[i].BinaryCompanion;
+            {
+                if (Stars[i] == null)
+                    continue;
+                if (Stars[i].genData == null) continue;
                 if (!Stars[i].genData.ContainsKey("binary") || !Stars[i].genData["binary"])
                     count++;
+            }
             // if (companion == string.Empty || companion == null) count++;
 
             return count;

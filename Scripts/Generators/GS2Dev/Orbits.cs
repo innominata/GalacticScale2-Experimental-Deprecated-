@@ -41,7 +41,7 @@ namespace GalacticScale.Generators
             ref var planets = ref star.Planets;
             var brokenPlanets = new GSPlanets();
             planets.Sort(PlanetSortBySystemRadius);
-            GS2.WarnJson((from s in planets select s.details).ToList());
+            // GS2.WarnJson((from s in planets select s.details).ToList());
             CalculateHabitableZone(star);
             var minimumOrbit = CalculateMinimumOrbit(star);
             var maximumOrbit = CalculateMaximumOrbit(star);

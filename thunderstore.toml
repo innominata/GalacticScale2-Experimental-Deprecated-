@@ -4,8 +4,8 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "Galactic_Scale"
 name = "GalacticScale_Experimental"
-versionNumber = "2.3.4"
-description = "v2.3.4 Newgame System Viewer. Take a look before you leap!"
+versionNumber = "2.3.5"
+description = "v2.3.5 Newgame System Viewer. Take a look before you leap! - Fixed Cargoships"
 websiteUrl = "https://github.com/innominata/GalacticScale3"
 containsNsfwContent = false
 

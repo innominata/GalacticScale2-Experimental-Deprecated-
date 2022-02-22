@@ -1,6 +1,7 @@
 ﻿using System;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GalacticScale
@@ -8,7 +9,7 @@ namespace GalacticScale
     public partial class PatchOnUIGalaxySelect
     {
         public static GameObject StartButton;
-
+        public static UnityAction startAction;
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UIGalaxySelect), "_OnOpen")]
         public static bool _OnOpen(UIGalaxySelect __instance, ref Slider ___starCountSlider, ref Slider ___resourceMultiplierSlider)
@@ -27,8 +28,10 @@ namespace GalacticScale
             ___starCountSlider.minValue = GS2.ActiveGenerator.Config.MinStarCount;
             if (__instance.gameDesc == null) GS2.Warn("GameDesc Null");
             if (StartButton == null) StartButton = __instance.GetComponentInChildren<UIButton>()?.gameObject;
+
             if (StartButton == null) GS2.Warn("StartButton Null");
             StartButton?.SetActive(true);
+            
             GS2.Log(StartButton?.name);
             __instance.random =
                 //new DotNet35Random(GSSettings.Seed);

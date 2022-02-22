@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using NebulaAPI;
 using UnityEngine;
 
 namespace GalacticScale
@@ -11,7 +12,7 @@ namespace GalacticScale
         {
             //GS2.Error("............................................");
             if (GS2.Vanilla) return true;
-
+            if (NebulaModAPI.NebulaIsInstalled) return true;
             foreach (var starNode in __instance.starPool)
             {
                 starNode.active = false;

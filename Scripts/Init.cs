@@ -16,7 +16,7 @@ namespace GalacticScale
         public static readonly string DataDir = Path.Combine(Paths.ConfigPath, "GalacticScale2");
         public static bool Failed = false;
         public static string updateMessage = "";
-        
+        public static bool ModellingDone = true;
         public static Dictionary<string, ThemeLibrary> availableExternalThemes = new();
         public static bool canvasOverlay = false;
         public static Image splashImage;

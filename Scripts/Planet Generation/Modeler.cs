@@ -69,7 +69,7 @@ namespace GalacticScale
                 {
                     if (genPlanetReqList.Count > 0)
                     {
-                        //Log("Processing List");
+                        Log("Processing List");
                         planetQueueSorted = false;
                         while (genPlanetReqList.Count > 0) planetQueue.Add(genPlanetReqList.Dequeue());
                     }
@@ -78,15 +78,16 @@ namespace GalacticScale
                 if (!planetQueueSorted && planetQueue.Count > 1)
                     lock (planetQueue)
                     {
-                        //Log($"Sorting Queue with {planetQueue.Count} entries");
+                        Log($"Sorting Queue with {planetQueue.Count} entries");
                         planetQueue.Sort(DistanceComparison);
                         planetQueueSorted = true;
-                        //Log("Sorted");
+                        Log("Sorted");
                     }
 
                 if (planetQueue.Count > 0)
                 {
                     planetData = planetQueue[0];
+                    GS2.ModellingDone = false;
                     planetQueue.RemoveAt(0);
                     Log($"Retrieved sorted planet from list: {planetData.name}");
                 }
@@ -106,11 +107,11 @@ namespace GalacticScale
                             var num4 = 0.0;
                             if (planetData.data == null)
                             {
-                                if (aborted)
-                                {
-                                    GS2.Warn("Aborted");
-                                    return false;
-                                }
+                                // if (aborted)
+                                // {
+                                //     GS2.Warn("Aborted");
+                                //     return false;
+                                // }
                                 Log($"Creating Planet {planetData.name}");
                                 highStopwatch.Begin();
                                 planetData.data = new PlanetRawData(planetData.precision);
@@ -167,7 +168,10 @@ namespace GalacticScale
                     cycles = 0;
                 //Log("Modeler 10sec Tick");
                 if (planetData == null)
+                {
+                    GS2.ModellingDone = true;
                     Thread.Sleep(50);
+                }
                 else if (num % 20 == 0) Thread.Sleep(2);
             }
         }

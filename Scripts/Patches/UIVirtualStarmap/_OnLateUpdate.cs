@@ -14,9 +14,9 @@ namespace GalacticScale
         // __instance.OnGalaxyDataReset();
 
 
-        [HarmonyPostfix]
+        [HarmonyPrefix]
         [HarmonyPatch(typeof(UIVirtualStarmap), "_OnLateUpdate")]
-        public static void _OnLateUpdate(ref UIVirtualStarmap __instance)
+        public static bool _OnLateUpdate(ref UIVirtualStarmap __instance)
         {
             if (Input.mouseScrollDelta.y < 0) UIRoot.instance.galaxySelect.cameraPoser.distRatio += 0.1f;
             if (Input.mouseScrollDelta.y > 0) UIRoot.instance.galaxySelect.cameraPoser.distRatio -= 0.1f;
@@ -24,6 +24,10 @@ namespace GalacticScale
             if (VFInput._moveLeft) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.left);
             if (VFInput._moveForward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.up);
             if (VFInput._moveBackward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.down);
+            if (!VFInput.rtsConfirm.onDown)
+            {
+                return true;
+            }
             var starIndex = -1;
             var clickTolerance = 1.7f;
             for (var i = 0; i < __instance.starPool.Count; ++i)
@@ -54,7 +58,12 @@ namespace GalacticScale
                     // }
                 }
 
-            if (VFInput.rtsConfirm.onDown) SystemDisplay.OnStarMapClick(__instance, starIndex);
+            if (VFInput.rtsConfirm.onDown)
+            {
+                SystemDisplay.OnStarMapClick(__instance, starIndex);
+            }
+
+            return false;
             // return;
             // if (GS2.Vanilla) return;
             // if (GS2.NebulaClient && NebulaModAPI.MultiplayerSession != null) return; // use new lobby feature in multiplayer but preserve existing functionality in single player

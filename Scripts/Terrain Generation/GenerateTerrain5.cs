@@ -16,9 +16,9 @@ namespace GalacticScale
             }
 
             random = new GS2.Random(gsPlanet.Seed);
-            //GS2.Log($"USING GSTA5 FOR {gsPlanet.Name} with seed {GSSettings.Seed}");
+            GS2.Log($"USING GSTA5 FOR {gsPlanet.Name} with seed {GSSettings.Seed}");
             var t = gsPlanet.GsTheme.TerrainSettings;
-            //GS2.Log("Generate 2 Terrain ");
+            GS2.Log("Generate 2 Terrain ");
             var seed = random.Next();
             var seed2 = random.Next();
             var simplexNoise = new SimplexNoise(seed);

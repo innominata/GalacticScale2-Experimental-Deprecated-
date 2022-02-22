@@ -79,9 +79,9 @@ namespace GalacticScale.Generators
             {
                 var birthStarDesc = ((EStar)bsInt).Convert();
                 var availBirthStars = (from s in GSSettings.Stars where s.Type == birthStarDesc.Item1 where s.Spectr == birthStarDesc.Item2 where s.Decorative == false select s).ToList();
-                GS2.Warn($"Stars that are {birthStarDesc.Item1} {birthStarDesc.Item2}");
-                GS2.WarnJson(availBirthStars);
-                GS2.WarnJson(GSSettings.Stars);
+                // GS2.Warn($"Stars that are {birthStarDesc.Item1} {birthStarDesc.Item2}");
+                // GS2.WarnJson(availBirthStars);
+                // GS2.WarnJson(GSSettings.Stars);
                 birthStar = random.Item(availBirthStars);
             }
             else
@@ -197,7 +197,7 @@ namespace GalacticScale.Generators
 
         private FloatPair CalculateHabitableZone(GSStar star)
         {
-            Warn($"Calculating Habitable Zone for {star.Name}");
+            // Warn($"Calculating Habitable Zone for {star.Name}");
             var lum = star.luminosity;
             var flp = Utils.CalculateHabitableZone(lum);
             var min = flp.low;
@@ -214,23 +214,23 @@ namespace GalacticScale.Generators
 
             if (star.genData.Get("hasBinary", false))
             {
-                Warn($"{star.Name} Binary offset : {star.genData.Get("binaryOffset", 1f)}");
-                Warn($"Increasing by {star.genData.Get("binaryOffset", 1) * 60f}");
-                Warn($"Star RadiusAU:{star.RadiusAU}");
-                WarnJson(GSSettings.Stars.Select(o => (o.Name, o.RadiusAU)).ToList());
+                // Warn($"{star.Name} Binary offset : {star.genData.Get("binaryOffset", 1f)}");
+                // Warn($"Increasing by {star.genData.Get("binaryOffset", 1) * 60f}");
+                // Warn($"Star RadiusAU:{star.RadiusAU}");
+                // WarnJson(GSSettings.Stars.Select(o => (o.Name, o.RadiusAU)).ToList());
                 min += star.genData.Get("binaryOffset", 1f) * 60f;
                 max += star.genData.Get("binaryOffset", 1f) * 60f;
             }
 
             star.genData.Set("minHZ", min);
             star.genData.Set("maxHZ", max);
-            Warn($"HZ of {star.Name} {min}:{max}");
+            // Warn($"HZ of {star.Name} {min}:{max}");
             return new FloatPair(min, max);
         }
 
         private float CalculateMinimumOrbit(GSStar star)
         {
-            Warn($"Calculating Minimum Orbit for {star.Name}");
+            // Warn($"Calculating Minimum Orbit for {star.Name}");
             var sl = GetTypeLetterFromStar(star);
 
             var radius = star.RadiusAU;
@@ -240,26 +240,26 @@ namespace GalacticScale.Generators
             if (preferences.GetBool($"{sl}orbitOverride"))
             {
                 var fp = preferences.GetFloatFloat($"{sl}orbits", new FloatPair(0.02f, 20f));
-                Warn($"Using Star Type Override {fp.low}");
+                // Warn($"Using Star Type Override {fp.low}");
                 min = fp.low;
             }
 
             if (star.genData.Get("hasBinary", false))
             {
-                Warn("Increasing for Binary");
+                // Warn("Increasing for Binary");
                 min += star.genData.Get("binaryOffset", 1f) * 60f;
             }
 
             min = Clamp(min, radius * 1.1f, 100f);
             star.genData.Set("minOrbit", min);
-            Warn($"Getting Min Orbit for Star {star.Name} Min:{min}");
+            // Warn($"Getting Min Orbit for Star {star.Name} Min:{min}");
             return min;
         }
 
         private float CalculateMaximumOrbit(GSStar star)
         {
             var sl = GetTypeLetterFromStar(star);
-            Warn($"Calculating Maximum Orbit for {star.Name}");
+            // Warn($"Calculating Maximum Orbit for {star.Name}");
             var minMaxOrbit = 5f;
             var lum = star.luminosity;
             var hzMax = star.genData.Get("maxHZ");
@@ -274,14 +274,14 @@ namespace GalacticScale.Generators
             {
                 var fp = preferences.GetFloatFloat($"{sl}orbits", new FloatPair(0.02f, 20f));
                 max = fp.high;
-                Warn($"Using Star Type Override {fp.high} from {fp} in {sl}orbits");
+                // Warn($"Using Star Type Override {fp.high} from {fp} in {sl}orbits");
             }
 
-            Warn($"Getting Max Orbit for Star {star.Name}\r\n HardCap:{star.MaxOrbit} \r\nMaxbyRadius({star.radius}):{maxOrbitByRadius} \r\nMaxbyPlanets({star.PlanetCount}):{maxByPlanetCount} \r\nMaxbyLum({lum}):{maxOrbitByLuminosity} \r\nMaxByHZ({hzMax}):{maxOrbitByHabitableZone} \r\n HabitableZone:{star.genData.Get("minHZ")}:{hzMax}");
-            Warn($"Final Max({max}):{max}");
+            // Warn($"Getting Max Orbit for Star {star.Name}\r\n HardCap:{star.MaxOrbit} \r\nMaxbyRadius({star.radius}):{maxOrbitByRadius} \r\nMaxbyPlanets({star.PlanetCount}):{maxByPlanetCount} \r\nMaxbyLum({lum}):{maxOrbitByLuminosity} \r\nMaxByHZ({hzMax}):{maxOrbitByHabitableZone} \r\n HabitableZone:{star.genData.Get("minHZ")}:{hzMax}");
+            // Warn($"Final Max({max}):{max}");
             if (star.genData.Get("hasBinary", false))
             {
-                Warn("Increasing Max Orbit for Binary");
+                // Warn("Increasing Max Orbit for Binary");
                 max += star.genData.Get("binaryOffset", 1f) * 60f;
             }
 

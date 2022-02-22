@@ -10,8 +10,8 @@ namespace GalacticScale
         [HarmonyPatch(typeof(UIPlanetDetail), "OnPlanetDataSet")]
         public static void OnPlanetDataSet(ref UIPlanetDetail __instance)
         {
-            GS2.Warn("Dataset");
-            GS2.Warn(__instance.obliquityValueText.transform.parent.transform.parent.childCount.ToString());
+            // GS2.Warn("Dataset");
+            // GS2.Warn(__instance.obliquityValueText.transform.parent.transform.parent.childCount.ToString());
             // Add the planets radius to the Planet Detail UI
             if (__instance.obliquityValueText.transform.parent.transform.parent.childCount == 7)
             {

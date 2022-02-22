@@ -401,7 +401,7 @@ namespace GalacticScale.Generators
 
         private void AddSiTiToBirthPlanet()
         {
-            Warn($"Adding SI/TI to birthPlanet {birthPlanet.Name}");
+            // Warn($"Adding SI/TI to birthPlanet {birthPlanet.Name}");
 
             //Warn("2");
             var s = GSVeinType.Generate(EVeinType.Silicium, 1, 10, 0.6f, 0.6f, 5, 10, false);
@@ -415,7 +415,7 @@ namespace GalacticScale.Generators
                 if (vt.type == EVeinType.Silicium || vt.type == EVeinType.Titanium)
                     vt.rare = false;
 
-            WarnJson(birthPlanet.veinSettings);
+            // WarnJson(birthPlanet.veinSettings);
         }
 
         private void PickNewBirthPlanet()

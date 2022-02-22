@@ -32,7 +32,7 @@ namespace GalacticScale
                     gsPlanets.Clear();
                     gsStars.Clear();
 
-                    Warn("Cleared");
+                    // Warn("Cleared");
                     Warn("Loading Data from Generator : " + ActiveGenerator.Name);
                     ActiveGenerator.Generate(gameDesc.starCount);
                     GSSettings.Instance.galaxyParams.resourceMulti = gameDesc.resourceMultiplier;
