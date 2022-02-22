@@ -90,9 +90,9 @@ namespace GalacticScale
             if (__instance.surfaceRenderer != null && __instance.surfaceRenderer.Length > 0)
             {
                 var sharedMaterial = __instance.surfaceRenderer[0].sharedMaterial;
-                sharedMaterial.SetVector("_SunDir", vector3_2);
-                sharedMaterial.SetVector("_Rotation", new Vector4(localRotation.x, localRotation.y, localRotation.z, localRotation.w));
-                sharedMaterial.SetFloat("_Distance", magnitude);
+                sharedMaterial?.SetVector("_SunDir", vector3_2);
+                sharedMaterial?.SetVector("_Rotation", new Vector4(localRotation.x, localRotation.y, localRotation.z, localRotation.w));
+                sharedMaterial?.SetFloat("_Distance", magnitude);
             }
 
             if (__instance.reformRenderer != null && __instance.reformMat0 != null && __instance.reformMat0 != null && __instance.planetData.factory != null)
