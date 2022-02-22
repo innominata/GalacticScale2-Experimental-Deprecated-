@@ -11,7 +11,7 @@ containsNsfwContent = false
 
 [package.dependencies]
 "xiaoye97-BepInEx" = "5.4.17"
-"nebula-NebulaMultiplayerModApi" = "1.1.2"
+"nebula-NebulaMultiplayerModApi" = "1.1.4"
 "crecheng-CloseError" = "1.0.0"
 
 [build]
