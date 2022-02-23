@@ -37,6 +37,11 @@ namespace GalacticScale
                 {
                     __instance.gameData.localPlanet = GameMain.localPlanet;
                 }
+                else if (NebulaAPI.NebulaModAPI.IsMultiplayerActive && NebulaAPI.NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient)
+                {
+                    // let clients join in space if they want to
+                    return false;
+                }
                 else
                 {
                     __instance.gameData.ArrivePlanet(__instance.gameData.galaxy.PlanetById(__instance.gameData.galaxy.birthPlanetId));
@@ -50,11 +55,14 @@ namespace GalacticScale
             __instance.targetUPos = __instance.localPlanet.uPosition + (VectorLF3)(__instance.localPlanet.runtimeRotation * __instance.targetPos);
             __instance.targetRot = Maths.SphericalRotation(__instance.localPlanet.birthPoint, 0.0f);
             __instance.targetURot = __instance.localPlanet.runtimeRotation * __instance.targetRot;
-            __instance.localPlanet.factory.FlattenTerrain(__instance.targetPos, __instance.targetRot, new Bounds(Vector3.zero, new Vector3(10f, 5f, 10f)), removeVein: true, lift: true);
-            GS2.Log("Waking in SpacePod");
-            __instance.CreateSpaceCapsuleVegetable();
-            GS2.Log("Searching for landing place");
-            __instance.gameData.InitLandingPlace();
+            if(__instance.localPlanet.factory != null)
+            {
+                __instance.localPlanet.factory.FlattenTerrain(__instance.targetPos, __instance.targetRot, new Bounds(Vector3.zero, new Vector3(10f, 5f, 10f)), removeVein: true, lift: true);
+                GS2.Log("Waking in SpacePod");
+                __instance.CreateSpaceCapsuleVegetable();
+                GS2.Log("Searching for landing place");
+                __instance.gameData.InitLandingPlace();
+            }
             __instance.player.controller.memCameraTargetRot = __instance.targetRot;
             __instance.player.cameraTarget.rotation = __instance.targetRot;
             // if (GS2.Config.CheatMode && !GS2.ResearchUnlocked)
