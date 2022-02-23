@@ -13,7 +13,7 @@ namespace GalacticScale
         // __instance.galaxyData = GS2.ProcessGalaxy(GS2.gameDesc, true);
         // __instance.OnGalaxyDataReset();
 
-
+        public static bool deBounce = false;
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UIVirtualStarmap), "_OnLateUpdate")]
         public static bool _OnLateUpdate(ref UIVirtualStarmap __instance)
@@ -24,10 +24,14 @@ namespace GalacticScale
             if (VFInput._moveLeft) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.left);
             if (VFInput._moveForward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.up);
             if (VFInput._moveBackward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.down);
-            if (!VFInput.rtsConfirm.onDown)
+            if (!(VFInput.rtsConfirm.pressing || VFInput.rtsCancel.pressing))
             {
+                deBounce = false;
+                //GS2.Log($"Nope {VFInput.rtsConfirm.pressing}{VFInput.rtsCancel.pressing}{VFInput.rtsConfirm.onDown}{VFInput.rtsCancel.onDown}{VFInput.axis_button.down[0]}{VFInput.axis_button.down[1]}");
                 return true;
             }
+            if (deBounce) return false;
+            deBounce = true;
             var starIndex = -1;
             var clickTolerance = 1.7f;
             for (var i = 0; i < __instance.starPool.Count; ++i)
@@ -58,11 +62,14 @@ namespace GalacticScale
                     // }
                 }
 
-            if (VFInput.rtsConfirm.onDown)
+            if (VFInput.rtsConfirm.pressing)
             {
                 SystemDisplay.OnStarMapClick(__instance, starIndex);
             }
-
+            if (VFInput.rtsCancel.pressing)
+            {
+                SystemDisplay.OnStarMapRightClick(__instance, starIndex);
+            }
             return false;
             // return;
             // if (GS2.Vanilla) return;

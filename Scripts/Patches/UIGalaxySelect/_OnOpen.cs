@@ -21,7 +21,7 @@ namespace GalacticScale
                 UIRoot.instance.overlayCanvas.renderMode = RenderMode.ScreenSpaceCamera;
                 GS2.canvasOverlay = false;
             }
-
+            UIRoot.instance.galaxySelect.cameraPoser.distRatio = 1;
             if (GS2.ActiveGenerator == null) return true;
             // SystemDisplay.backButton = __instance.find
             ___starCountSlider.maxValue = GS2.ActiveGenerator.Config.MaxStarCount;

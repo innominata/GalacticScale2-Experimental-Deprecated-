@@ -11,8 +11,6 @@ namespace GalacticScale
         public static bool inSystemDisplay = false;
         private static StarData viewStar;
         public static Button backButton;
-        private static float orbitScaler = 10f;
-        private static float scaleFactor = 50f;
         public static int customBirthStar = -1;
         public static int customBirthPlanet = -1;
         public static bool pressSpamProtector = false;
@@ -20,137 +18,118 @@ namespace GalacticScale
         public static void AbortRender(UIVirtualStarmap starmap)
         {
             // Modeler.Reset();
-            HideSolarSystem(starmap);
+            ShowStarMap(starmap);
         }
         public static void OnUpdate(UIVirtualStarmap starmap, int starIndex)
         {
-            // GS2.Warn("pressSpamProtector");
-                // if (pressSpamProtector)
-                // {
-                //     // GS2.Warn("was true");
-                //     return;
-                // }
-                //
-                // // GS2.Warn("pressSpamProtector enable");
-                // pressSpamProtector = true;
-
-                // if (starmap.clickText == "")
-                // {
-                //     ClearStarmap(starmap);
-                //     ShowSolarSystem(starmap, starIndex);
-                // }
-                // else if (starmap.clickText != "")
-                // {
-                //     string[] split = starmap.clickText.Split(' ');
-                //     int starId = 0;
-                //     GS2.Warn($"starid {split[0]}");
-                //     starId = Convert.ToInt32(split[0]);
-                //
-                //     StarData starData = starmap._galaxyData.StarById(starId); // no increment as we stored the actual id in there
-                    // if (starData == null || starIndex == 0) // starIndex == 0 is the star in the middle, so we need to decrement by 1 below
-                    // {
-                    //     return;
-                    // }
-
-                    // PlanetData pData = starData.planets[starIndex - 1];
-                    // if (pData == null)
-                    // {
-                    //     return;
-                    // }
-                    //
-                    // if (UIRoot.instance.uiGame.planetDetail.planet != null && UIRoot.instance.uiGame.planetDetail.planet.id == pData.id && pData.type != EPlanetType.Gas)
-                    // {
-                    //     // clicked on planet and details already visible, so set as new birth planet
-                    //     starmap._galaxyData.birthStarId = starId;
-                    //     starmap._galaxyData.birthPlanetId = pData.id;
-                    //
-                    //     GameMain.data.galaxy.birthStarId = starId;
-                    //     GameMain.data.galaxy.birthPlanetId = pData.id;
-                    //
-                    //     pData.GenBirthPoints();
-                    //
-                    //     SystemDisplay.customBirthStar = starData.id;
-                    //     SystemDisplay.customBirthPlanet = pData.id;
-                    //
-                    //     Debug.Log("set birth planet");
-                    // }
-
-                    // starmap.clickText = split[0] + " " + starIndex.ToString();
-                    // UIRoot.instance.uiGame.SetPlanetDetail(pData);
-                    //
-                    // GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group")?.SetActive(false);
-                    //
-                    // UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(true);
-                    // UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-                    // UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-                    //
-                    // UIRoot.instance.uiGame.planetDetail._OnUpdate();
-                // }
+           
         }
         
         public static void OnBackClick(UIGalaxySelect instance)
         {
             GS2.Warn("BackClick");
             if (!inSystemDisplay) instance.CancelSelect();
-            else HideSolarSystem(instance.starmap);
+            else ShowStarMap(instance.starmap);
         }
 
         public static void OnStarMapClick(UIVirtualStarmap starmap, int starIndex)
         {
             GS2.Warn($"StarmapClick { starIndex}");
-            if (starIndex == -1)
+            switch (starIndex)
             {
-                if (UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf) // hide planet details
-                {
-                    GS2.Warn("Hiding Details");
-                    HideStarPlanetDetails();
-                }
-                else if (!UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf) // hide solar system details
-                {
+                case -1 when (UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf):
+                    GS2.Warn("Hiding Planet Details");
+                    HidePlanetDetail();
+                    break;
+                case -1 when (!UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf):
                     GS2.Warn("Hiding SolarSystem");
-                    HideSolarSystem(starmap);
-                }
-
-                // pressSpamProtector = true;
-            }
-
-            if (starIndex >= 0 && !inSystemDisplay)
-            {
-                GS2.Warn($"- {starIndex} OnStarMapClick");
-
-                OnStarClick(starmap, starIndex);
-            }
-            else if (starIndex > 0 && inSystemDisplay)
-            {
-                GS2.Warn($"PlanetClick {starIndex}");
-                OnSolarSystemPlanetClick(starmap, starIndex);
-            }
-            else if (starIndex == 0 && inSystemDisplay)
-            {
-                GS2.Warn("System Star Click");
-                OnSolarSystemStarClick(starmap);
+                    ShowStarMap(starmap);
+                    break;
+                case 0 when inSystemDisplay:
+                    GS2.Warn("System Star Click");
+                    OnSolarSystemStarClick(starmap);
+                    break;
+                case int x when x >= 0 && inSystemDisplay:
+                    GS2.Warn($"PlanetClick {starIndex}");
+                    OnSolarSystemPlanetClick(starmap, starIndex);
+                    break;
+                case int x when x >= 0 && !inSystemDisplay:                   ;
+                    GS2.Warn($"- {starIndex} OnStarMapClick");
+                    OnStarClick(starmap, starIndex);
+                    break;
+                default:
+                    GS2.Warn($"Clicked Starmap with Erroneous starIndex of {starIndex}");
+                    break;
             }
         }
-
+        public static void OnStarMapRightClick(UIVirtualStarmap starmap, int starIndex)
+        {
+            GS2.Warn($"StarmapRightClick { starIndex}");
+            switch (starIndex)
+            {
+                case -1 when (UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf):
+                    GS2.Warn("Rightclick Hiding Details");
+                    HidePlanetDetail();
+                    ShowStarCount();
+                    break;
+                case -1 when (!UIRoot.instance.uiGame.planetDetail.gameObject.activeSelf):
+                    GS2.Warn("RightClick Hiding SolarSystem");
+                    ShowStarMap(starmap);
+                    break;
+                case 0 when inSystemDisplay:
+                    GS2.Warn("System Star RightClick");
+                    OnSolarSystemStarClick(starmap);
+                    break;
+                case int x when x >= 0 && inSystemDisplay:
+                    GS2.Warn($"Planet RightClick {starIndex}");
+                    OnSolarSystemPlanetClick(starmap, starIndex);
+                    break;
+                case int x when x >= 0 && !inSystemDisplay:
+                    ;
+                    GS2.Warn($"- {starIndex} OnStarMapRightClick");
+                    OnStarClick(starmap, starIndex);
+                    break;
+                default:
+                    GS2.Warn($"RightClicked Starmap with Erroneous starIndex of {starIndex}");
+                    break;
+            }
+        }
         public static void OnSolarSystemStarClick(UIVirtualStarmap starmap)
         {
-            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(false);
-            UIRoot.instance.uiGame.SetStarDetail(viewStar);
-            GS2.Warn("D");
+            HidePlanetDetail();
+            HideStarCount();
+            ShowStarDetail(viewStar);
+        }
+        public static void HideStarCount()
+        {
             GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group")?.SetActive(false);
-            GS2.Warn("E");
+        }
+        public static void HidePlanetDetail()
+        {
+            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(false);
+        }
+        public static void HideStarDetail()
+        {
+            UIRoot.instance.uiGame.starDetail.gameObject.SetActive(false);
+        }
+        public static void ShowPlanetDetail(PlanetData pData)
+        {
+            UIRoot.instance.uiGame.SetPlanetDetail(pData);
+            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(true);
+            UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
+            UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
+            UIRoot.instance.uiGame.planetDetail._OnUpdate();
+        }
+        public static void ShowStarDetail(StarData starData)
+        {
+            UIRoot.instance.uiGame.SetStarDetail(starData);
             UIRoot.instance.uiGame.starDetail.gameObject.SetActive(true);
-            GS2.Warn("F");
             UIRoot.instance.uiGame.starDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-            GS2.Warn("G");
             UIRoot.instance.uiGame.starDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-            GS2.Warn("H");
-            
             UIRoot.instance.uiGame.starDetail._OnUpdate();
         }
         public static void OnStarClick(UIVirtualStarmap starmap, int starIndex)
         {
-            GS2.Warn("OnStarClick");
             viewStar = starmap.starPool[starIndex].starData;
             ClearStarmap(starmap);
             GS2.Warn($"OnStarClick {viewStar.name}");
@@ -159,67 +138,32 @@ namespace GalacticScale
 
         public static void OnSolarSystemPlanetClick(UIVirtualStarmap starmap, int clickIndex)
         {
-            GS2.Warn("A");
             int planetIndex = clickIndex -1;
-            GS2.Warn("B");
-            GS2.Warn($"{viewStar.name}");
-            GS2.Warn($"{viewStar.planetCount}");
+            GS2.Warn($"System:{viewStar.name} PlanetCount:{viewStar.planetCount}");
             PlanetData pData = viewStar?.planets[planetIndex];
             GS2.Warn("C");
-            if (pData == null)
-            {
-                return;
-            }
-            
-            // if (UIRoot.instance.uiGame.planetDetail.planet != null && UIRoot.instance.uiGame.planetDetail.planet.id == pData.id && pData.type != EPlanetType.Gas)
-            // {
-            //     // clicked on planet and details already visible, so set as new birth planet
-            //     // starmap._galaxyData.birthStarId = viewStar.id;
-            //     // starmap._galaxyData.birthPlanetId = pData.id;
-            //     //
-            //     // GameMain.data.galaxy.birthStarId = viewStar.id;
-            //     // GameMain.data.galaxy.birthPlanetId = pData.id;
-            //     //
-            //     // pData.GenBirthPoints();
-            //     //
-            //     // SystemDisplay.customBirthStar = viewStar.id;
-            //     // SystemDisplay.customBirthPlanet = pData.id;
-            //     //
-            //     // Debug.Log("set birth planet");
-            // }
-
-            // starmap.clickText = split[0] + " " + starIndex.ToString();
+            if (pData == null) return;
             GS2.Warn($"{pData.name}");
-            UIRoot.instance.uiGame.SetPlanetDetail(pData);
-            GS2.Warn("D");
-            GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group")?.SetActive(false);
-            GS2.Warn("E");
-            UIRoot.instance.uiGame.starDetail.gameObject.SetActive(false);
-            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(true);
-            GS2.Warn("F");
-            UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-            GS2.Warn("G");
-            UIRoot.instance.uiGame.planetDetail.gameObject.GetComponent<RectTransform>().parent.gameObject.GetComponent<RectTransform>().parent.gameObject.SetActive(true);
-            GS2.Warn("H");
-            
-            UIRoot.instance.uiGame.planetDetail._OnUpdate();
-            GS2.Warn("end");
+            HideStarDetail();
+            HideStarCount();
+            ShowPlanetDetail(pData);
         }
-        public static void HideStarPlanetDetails()
+        public static void ShowStarCount()
         {
             GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group").SetActive(true);
-            UIRoot.instance.uiGame.planetDetail.gameObject.SetActive(false);
-            UIRoot.instance.uiGame.starDetail.gameObject.SetActive(false);
+
             
         }
-        public static void HideSolarSystem(UIVirtualStarmap starmap)
+        public static void ShowStarMap(UIVirtualStarmap starmap)
         {
             GS2.Warn("Reverting to galaxy view");
             inSystemDisplay = false;
             viewStar = null;
             starmap.clickText = "";
+            HidePlanetDetail();
+            HideStarDetail();
             ClearStarmap(starmap);
-            HideStarPlanetDetails();
+            ShowStarCount();
             starmap.OnGalaxyDataReset();
         }
         public static void ShowSolarSystem(UIVirtualStarmap starmap, int starIndex)
@@ -238,8 +182,8 @@ namespace GalacticScale
             var starScale = starmap.starPool[0].starData.radius /40f * GS2.Config.VirtualStarmapStarScaleFactor;
             GS2.Warn($"Scale : {starScale} Radius:{starmap.starPool[0].starData.radius} OrigScale:{starmap.starPool[0].pointRenderer.transform.localScale}");
             starmap.starPool[0].pointRenderer.transform.localScale = new Vector3(starScale,starScale,starScale);
-            starmap.clickText = starData.id.ToString();
-            Debug.Log("Setting it to " + starmap.clickText + " " + starData.id);
+            //starmap.clickText = starData.id.ToString();
+            //Debug.Log("Setting it to " + starmap.clickText + " " + starData.id);
 
             for (int i = 0; i < starData.planetCount; i++)
             {
@@ -252,7 +196,7 @@ namespace GalacticScale
                 VectorLF3 pPos = GetRelativeRotatedPlanetPos(starData, pData, ref isMoon);
                 // GS2.Warn("ShowSolarSystem2");
                 // request generation of planet surface data to display its details when clicked and if not already loaded
-                if (!pData.loaded) PlanetModelingManager.RequestLoadPlanet(pData);
+                //if (!pData.loaded) PlanetModelingManager.RequestLoadPlanet(pData);
                 // GS2.Warn("ShowSolarSystem3");
                 // create fake StarData to pass _OnLateUpdate()
                 StarData dummyStarData = new StarData();
