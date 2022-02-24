@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using NebulaAPI;
 using NGPT;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 namespace GalacticScale
@@ -24,6 +25,17 @@ namespace GalacticScale
             if (VFInput._moveLeft) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.left);
             if (VFInput._moveForward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.up);
             if (VFInput._moveBackward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.down);
+            for (var i = 0; i < __instance.starPool.Count; ++i)
+                if (__instance.starPool[i].active && i == GSSettings.BirthPlanet.planetData.star.index)
+            {
+                GS2.Warn(GSSettings.BirthPlanet.Name + " is birthPlanet");
+                GS2.Warn($"Highlighting {__instance.starPool[i].starData.name}");
+                    var starData = __instance.starPool[i].starData;
+                    var color = __instance.starColors.Evaluate(starData.color);
+                __instance.starPointBirth.gameObject.SetActive(true);
+                __instance.starPointBirth.material.SetColor("_TintColor", color);
+                __instance.starPointBirth.transform.localPosition = starData.position;
+            }
             if (!(VFInput.rtsConfirm.pressing || VFInput.rtsCancel.pressing))
             {
                 deBounce = false;
@@ -52,14 +64,7 @@ namespace GalacticScale
                         starIndex = i;
                     }
 
-                    //GS2.Warn($"index2 = {index2} GSSettings.birthStarId:{GSSettings.birthStarId}");
-                    // if (i == GSSettings.BirthPlanet.planetData.star.index)
-                    // {
-                    //     var color = __instance.starColors.Evaluate(starData.color);
-                    //     __instance.starPointBirth.gameObject.SetActive(true);
-                    //     __instance.starPointBirth.material.SetColor("_TintColor", color);
-                    //     __instance.starPointBirth.transform.localPosition = starData.position;
-                    // }
+
                 }
 
             if (VFInput.rtsConfirm.pressing)
