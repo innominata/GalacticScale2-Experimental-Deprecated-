@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using NebulaAPI;
+using NebulaCompatibility;
 using NGPT;
 using UnityEngine;
 

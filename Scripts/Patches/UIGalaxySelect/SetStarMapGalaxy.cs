@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using NebulaAPI;
+using NebulaCompatibility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +12,10 @@ namespace GalacticScale
         public static bool SetStarmapGalaxy(ref UIGalaxySelect __instance)
         {
             GS2.Warn("B");
-            if (NebulaModAPI.MultiplayerSession != null && NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient && !GSSettings.lobbyReceivedUpdateValues)
+            if (NebulaCompat.IsMultiplayerActive && NebulaCompat.IsClient && !GSSettings.lobbyReceivedUpdateValues)
             {
                 GS2.Warn("Running Nebula Code");
-                NebulaModAPI.MultiplayerSession.Network.SendPacket(new LobbyRequestUpdateSolarSystems());
+                NebulaCompat.SendPacket(new LobbyRequestUpdateSolarSystems());
                 GS2.Warn("Nebula Requested Update");
                 return false;
             }
@@ -104,7 +104,7 @@ namespace GalacticScale
                 return;
             }
             GS2.Warn("A");
-            if (NebulaModAPI.MultiplayerSession == null)
+            if (!NebulaCompat.IsMultiplayerActive)
             {
                 GS2.Log("Nebula Null, Returning from Postfix");
             
