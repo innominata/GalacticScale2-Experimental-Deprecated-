@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using NebulaAPI;
+using NebulaCompatibility;
 
 namespace GalacticScale
 {
@@ -9,7 +9,7 @@ namespace GalacticScale
         [HarmonyPatch(typeof(UIGalaxySelect), "EnterGame")]
         public static void EnterGame(ref GameDesc ___gameDesc)
         {
-            if (GS2.Config.SkipPrologue && NebulaModAPI.MultiplayerSession == null) DSPGame.StartGameSkipPrologue(___gameDesc);
+            if (GS2.Config.SkipPrologue && !NebulaCompat.IsMultiplayerActive) DSPGame.StartGameSkipPrologue(___gameDesc);
         }
     }
 }

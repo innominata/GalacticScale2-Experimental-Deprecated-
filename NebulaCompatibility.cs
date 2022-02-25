@@ -3,9 +3,10 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using GalacticScale;
 using NebulaAPI;
 
-namespace GalacticScale
+namespace NebulaCompatibility
 {
     [BepInPlugin("dsp.galactic-scale.2.nebula", "Galactic Scale 2 Nebula Compatibility Plug-In", "1.0.0.0")]
     [BepInDependency(NebulaModAPI.API_GUID)]
@@ -19,6 +20,12 @@ namespace GalacticScale
             var v = Assembly.GetExecutingAssembly().GetName().Version;
             BCE.Console.Init();
             var _ = new Harmony("dsp.galactic-scale.2.depcheck");
+            if (NebulaModAPI.NebulaIsInstalled)
+            {
+                NebulaCompat.NebulaIsInstalled = true;
+                NebulaModAPI.OnMultiplayerGameStarted += NebulaCompat.NebulaStart;
+                NebulaModAPI.OnMultiplayerGameEnded += NebulaCompat.NebulaEnd;
+            }
             Logger = new ManualLogSource("GS2DepCheck");
             BepInEx.Logging.Logger.Sources.Add(Logger);
             Logger.Log(LogLevel.Message, "Loaded");
@@ -52,14 +59,28 @@ namespace GalacticScale
         }
     }
 
-    public static class NebulaCompatPatch
+    public static class NebulaCompat
     {
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(GameData), "SetForNewGame")]
-        public static void NebulaCheck()
+        public static bool NebulaIsInstalled = false;
+        public static bool IsMultiplayerActive = false;
+        public static bool IsClient = false;
+
+        public static void NebulaStart()
         {
-            if (NebulaModAPI.IsMultiplayerActive && NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient) GS2.NebulaClient = true;
-            else GS2.NebulaClient = false;
+            IsMultiplayerActive = NebulaModAPI.IsMultiplayerActive;
+            IsClient = NebulaModAPI.IsMultiplayerActive && NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient;
+            GS2.Log($"IsMultiplayerActive:{IsMultiplayerActive} IsClient:{IsClient}");
+        }
+
+        public static void NebulaEnd()
+        {
+            IsMultiplayerActive = false;
+            IsClient = false;
+        }
+
+        public static void SendPacket(LobbyRequestUpdateSolarSystems packet)
+        {
+            NebulaModAPI.MultiplayerSession.Network.SendPacket(packet);
         }
     }
 }
