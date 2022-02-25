@@ -25,11 +25,26 @@ namespace GalacticScale
             if (VFInput._moveLeft) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.left);
             if (VFInput._moveForward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.up);
             if (VFInput._moveBackward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.down);
+            for (var i = 0; i < __instance.starPool.Count; ++i)
+            {
+                // GS2.Warn($"#{i} {GSSettings.BirthPlanet.planetData.star.index}");
+                if (__instance.starPool[i].active && i == GSSettings.BirthPlanet.planetData.star.index)
+                {
+                    // GS2.Warn($"Setting StarPointBirth to {__instance.starPool[i].starData.name}");
+                    var starData = __instance.starPool[i].starData;
+                    var color = __instance.starColors.Evaluate(starData.color);
+                    __instance.starPointBirth.gameObject.SetActive(true);
+                    __instance.starPointBirth.material.SetColor("_TintColor", color);
+                    __instance.starPointBirth.transform.localPosition = starData.position;
+                }
+            }
+
+
             if (!(VFInput.rtsConfirm.pressing || VFInput.rtsCancel.pressing))
             {
                 deBounce = false;
                 //GS2.Log($"Nope {VFInput.rtsConfirm.pressing}{VFInput.rtsCancel.pressing}{VFInput.rtsConfirm.onDown}{VFInput.rtsCancel.onDown}{VFInput.axis_button.down[0]}{VFInput.axis_button.down[1]}");
-                return true;
+                return false;
             }
             if (deBounce) return false;
             deBounce = true;

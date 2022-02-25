@@ -2,6 +2,12 @@
 
 Note: This mod required Nebula API https://dsp.thunderstore.io/package/nebula/NebulaMultiplayerModApi
 
+- Version 2.3.8 - Version bump to try and fix mismatch
+
+- Version 2.3.7 - SystemDisplay updates, Nebula Fixes. Maybe nebula works, maybe it doesn't :)
+
+- Version 2.3.6 - Maybe nebula works, maybe it doesn't :)
+
 - Version 2.3.5 - Fixed cargo ships not docking on outer planets in large systems
 
 - Version 2.3.4 - Further refinement of system view

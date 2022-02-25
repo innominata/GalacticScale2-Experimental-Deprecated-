@@ -58,7 +58,7 @@ namespace GalacticScale
 
             if (__instance.frame == 10)
             {
-                //GS2.Log("FRAME 10");
+                GS2.Log($"FRAME 10 {!GameMain.instance.isMenuDemo}");
                 GameMain.Begin();
                 __instance.SelfDestroy();
                 if (!GameMain.instance.isMenuDemo)
@@ -73,7 +73,7 @@ namespace GalacticScale
 
                 GameMain.data.patch = 3;
             }
-
+            GS2.Log("Increasing Frame");
             ++__instance.frame;
             return false;
         }
