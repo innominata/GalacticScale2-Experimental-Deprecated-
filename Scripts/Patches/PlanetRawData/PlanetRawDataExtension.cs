@@ -18,7 +18,7 @@ namespace GalacticScale
 
             if (planetRawData == null)
             {
-                GS2.Warn($"RawData Null for planet {planet.name} of radius {planet.radius}");
+                if (!UIRoot.instance.backToMainMenu) GS2.Warn($"RawData Null for planet {planet.name} of radius {planet.radius}");
                 return;
             }
 

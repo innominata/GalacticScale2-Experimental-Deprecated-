@@ -1,6 +1,10 @@
 # DSP Galactic Scale 2.0 Mod
 
-Note: This mod required Nebula API https://dsp.thunderstore.io/package/nebula/NebulaMultiplayerModApi
+- Version 2.3.12 - Removed a lot of logspam. Fixed error on quit while planets loading
+
+- Version 2.3.11 - Fixed version
+
+- Version 2.3.10 - Fixed the galaxy select star/planet labels. Hit alt to get them all to show
 
 - Version 2.3.9 - @starfi5h 's super fast start implemented. No more waiting for every planet to load! Fixed bug when quitting before all planets are generated.
 

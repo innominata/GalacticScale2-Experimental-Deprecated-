@@ -4,7 +4,7 @@
     {
         public static void GenerateVeinsGS2W(GSPlanet gsPlanet, bool sketchOnly)
         {
-            GS2.Warn($"Using GS2W for {gsPlanet.Name}");
+            // GS2.Warn($"Using GS2W for {gsPlanet.Name}");
             random = new GS2.Random(gsPlanet.Seed);
             InitializeFromVeinSettings(gsPlanet);
             if (GSSettings.BirthPlanet == gsPlanet && !sketchOnly)

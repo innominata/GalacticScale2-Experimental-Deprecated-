@@ -15,8 +15,7 @@ namespace GalacticScale
         public static bool deBounce = false;
         public static int customBirthStar = -1;
         public static int customBirthPlanet = -1;
-        public static bool pressSpamProtector = false;
-
+        public static float mouseTolerance = 1.7f;
         public static void AbortRender(UIVirtualStarmap starmap)
         {
             // Modeler.Reset();
@@ -30,19 +29,59 @@ namespace GalacticScale
             if (VFInput._moveLeft) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.left);
             if (VFInput._moveForward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.up);
             if (VFInput._moveBackward) GameCamera.instance.transform.localPosition += GameCamera.instance.galaxySelectPoser.transform.localRotation * (0.1f * Vector3.down);
+            int targetIndex = -1;
             for (var i = 0; i < starmap.starPool.Count; ++i)
             {
                 // GS2.Warn($"#{i} {GSSettings.BirthPlanet.planetData.star.index}");
-                if (starmap.starPool[i].active && i == GSSettings.BirthPlanet.planetData.star.index)
+                if (starmap.starPool[i].active) //&& i == GSSettings.BirthPlanet.planetData.star.index
                 {
-                    // GS2.Warn($"Setting StarPointBirth to {__instance.starPool[i].starData.name}");
-                    var starData = starmap.starPool[i].starData;
-                    var color = starmap.starColors.Evaluate(starData.color);
-                    starmap.starPointBirth.gameObject.SetActive(true);
-                    starmap.starPointBirth.material.SetColor("_TintColor", color);
-                    starmap.starPointBirth.transform.localPosition = starData.position;
+                    StarData starData = starmap.starPool[i].starData;
+                    Vector2 zero = Vector2.zero;
+                    UIRoot.ScreenPointIntoRect(Camera.main.WorldToScreenPoint(starData.position), starmap.textGroup, out zero);
+                    zero.x += 18f;
+                    zero.y += 6f;
+                    starmap.starPool[i].nameText.rectTransform.anchoredPosition = zero;
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    float num3 = Kit.ClosestPoint2Straight(ray.origin, ray.GetPoint(300f), starData.position);
+                    float num4 = Vector3.Distance(ray.GetPoint(300f * num3), starData.position);
+                    if (num4 < mouseTolerance)
+                    {
+                        // GS2.Warn($"Mouse Close to {starData.name}");
+                        // if (num4 < starmap.starPool[i].pointRenderer.transform.localScale.x * 0.25f)
+                        // {
+                        //     mouseTolerance = 0f;
+                        // }
+                        // else
+                        // {
+                        //     mouseTolerance = num4;
+                        // }
+                        targetIndex = i;
+                    }
+                    if (i == GSSettings.BirthPlanet.planetData.star.index)
+                    {
+                        Color value = starmap.starColors.Evaluate(starData.color);
+                        starmap.starPointBirth.gameObject.SetActive(true);
+                        starmap.starPointBirth.material.SetColor("_TintColor", value);
+                        starmap.starPointBirth.transform.localPosition = starData.position;
+                    }
+
+                    starmap.starPool[i].nameText.gameObject.SetActive(targetIndex == i || VFInput.alt || i == GSSettings.BirthPlanet.planetData.star.index);
+
+                    starmap.starPool[i].nameText.rectTransform.sizeDelta = new Vector2(starmap.starPool[i].nameText.preferredWidth, starmap.starPool[i].nameText.preferredHeight);
+
+                    starmap.starPool[i].nameText.text = starmap.starPool[i].textContent;
+                    starmap.starPool[i].nameText.rectTransform.sizeDelta = new Vector2(starmap.starPool[i].nameText.preferredWidth, starmap.starPool[i].nameText.preferredHeight);
+
+                    
                 }
+                // GS2.Warn($"Setting StarPointBirth to {__instance.starPool[i].starData.name}");
+                // var starData = starmap.starPool[i].starData;
+                // var color = starmap.starColors.Evaluate(starData.color);
+                // starmap.starPointBirth.gameObject.SetActive(true);
+                // starmap.starPointBirth.material.SetColor("_TintColor", color);
+                // starmap.starPointBirth.transform.localPosition = starData.position;
             }
+            
 
 
             if (!(VFInput.rtsConfirm.pressing || VFInput.rtsCancel.pressing))
@@ -256,10 +295,20 @@ namespace GalacticScale
                     OnSolarSystemPlanetClick(starmap, starIndex);
                     break;
                 case int x when x >= 0 && !inSystemDisplay:
-                    ;
+                    
                     GS2.Warn($"- {starIndex} OnStarMapRightClick");
-                    OnStarClick(starmap, starIndex);
+                    // SetBirthStar(starmap.starPool[starIndex].starData);
+                    if (!GS2.GetGSStar(starmap.starPool[starIndex].starData).Decorative)
+                    {
+                        if (GS2.ActiveGenerator.Config.enableStarSelector)
+                        {
+                            GS2.ActiveGenerator.Generate(GSSettings.StarCount, starmap.starPool[starIndex].starData);
+                            starmap.galaxyData = GS2.ProcessGalaxy(GS2.gameDesc, true);
+                            starmap.OnGalaxyDataReset();
+                        }
+                    }
                     break;
+                   
                 default:
                     GS2.Warn($"RightClicked Starmap with Erroneous starIndex of {starIndex}");
                     break;
@@ -305,6 +354,7 @@ namespace GalacticScale
             
             ClearStarmap(starmap);
             GS2.Warn($"OnStarClick {viewStar.name}");
+            HideStarCount();
             ShowSolarSystem(starmap, starIndex);
         }
 
@@ -377,7 +427,7 @@ namespace GalacticScale
                 var gsTheme = gsPlanet.GsTheme;
                 var orbitColor = PlanetTemperatureToStarColor(gsTheme.Temperature);
                 var planetColor = (gsTheme.minimapMaterial.Colors.ContainsKey("_Color"))? gsTheme.minimapMaterial.Colors["_Color"]:Color.magenta;
-                GS2.Log($"Color of {starData.name} a {starData.typeString} star is {starData.color}");
+                // GS2.Log($"Color of {starData.name} a {starData.typeString} star is {starData.color}");
                 dummyStarData.id = pData.id;
 
                 Vector3 scale = Vector3.one * GS2.Config.VirtualStarmapScaleFactor * (pData.realRadius / 1000);

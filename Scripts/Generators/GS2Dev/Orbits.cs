@@ -107,7 +107,7 @@ namespace GalacticScale.Generators
                     foreach (var existingOrbit in orbits)
                         if (existingOrbit.hasRoom && existingOrbit.SystemRadius > planet.SystemRadius)
                         {
-                            GS2.Warn($"Existing orbit {existingOrbit.radius} used for planet {planet.Name}");
+                            // GS2.Warn($"Existing orbit {existingOrbit.radius} used for planet {planet.Name}");
                             existingOrbit.planets.Add(planet);
                             planet.OrbitRadius = existingOrbit.radius;
                             planet.OrbitalPeriod = Utils.CalculateOrbitPeriod(planet.OrbitRadius);
