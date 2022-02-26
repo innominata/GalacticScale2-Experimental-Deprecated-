@@ -13,7 +13,7 @@ namespace GalacticScale
             //if (GS2.Vanilla) return true;
             if (GS2.IsMenuDemo) return true;
             //GS2.Warn(NebulaCompatibility.IsMasterClient.ToString());
-            if (NebulaCompat.IsClient) return false;
+            // if (NebulaCompat.IsClient) return false;
             if (GS2.Failed) return false;
 
             GS2.Log("Checking gameData... " + (_gameData == null ? "Null" : "Exists"));
@@ -39,6 +39,7 @@ namespace GalacticScale
                 else if (NebulaCompat.IsMultiplayerActive && NebulaCompat.IsClient)
                 {
                     // let clients join in space if they want to
+                    GS2.Warn($"Multiplayer Active and NebulaClient. Skipping Arriving at planet {GameMain.localPlanet.name}");
                     return false;
                 }
                 else

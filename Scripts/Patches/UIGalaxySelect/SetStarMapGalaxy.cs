@@ -104,13 +104,14 @@ namespace GalacticScale
                 return;
             }
             GS2.Warn("A");
-            if (!NebulaCompat.IsMultiplayerActive)
-            {
-                GS2.Log("Nebula Null, Returning from Postfix");
-            
-                return;
-            }
-            
+            // if (!NebulaCompat.IsMultiplayerActive)
+            // {
+            //     GS2.Log("Nebula Null, Returning from Postfix");
+            //
+            //     return;
+            // }
+
+            GS2.Warn("B");
             if (GameMain.universeSimulator == null)
             {
                 GameMain.universeSimulator = Object.Instantiate(Configs.builtin.universeSimulatorPrefab);

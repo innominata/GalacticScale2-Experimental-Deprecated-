@@ -12,7 +12,13 @@ namespace GalacticScale
 {
     public class PatchOnWhatever
     {
-   
+        // [HarmonyPostfix]
+        // [HarmonyPatch(typeof(GameLoader), "CreateLoader")]
+        // public static void CreateLoader()
+        // {
+        //     GS2.Warn("Added Gameloader component");
+        //     GS2.Error(":)");
+        // }
         [HarmonyPostfix]
         [HarmonyPatch(typeof(UIGalaxySelect), "_OnUpdate")]
         public static void _OnUpdate_Postfix()

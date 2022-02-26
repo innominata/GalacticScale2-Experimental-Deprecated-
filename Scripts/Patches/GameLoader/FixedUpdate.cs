@@ -11,26 +11,34 @@ namespace GalacticScale
         [HarmonyPatch(typeof(GameLoader), "FixedUpdate")]
         public static bool FixedUpdate(ref GameLoader __instance)
         {
+            // GS2.Warn($"Start {__instance.frame}");
+            if (GS2.IsMenuDemo || GS2.Vanilla) return true;
+            // GS2.Warn("Not Vanilla");
             if (__instance.frame == 1)
             {
-                //GS2.Log("FRAME 1");
+                // GS2.Warn("FRAME 1");
                 DSPGame.CreateGameMainObject();
                 DSPGame.Game.isMenuDemo = DSPGame.IsMenuDemo;
             }
 
+            // GS2.Warn(".");
             if (__instance.frame == 3 && GameMain.isNull)
             {
-                //GS2.Log("FRAME 3");
+                // GS2.Warn("FRAME 3");
                 __instance.LoadFailed();
                 __instance.frame = 3;
             }
-
+            // GS2.Warn(".");
             if (__instance.frame == 5 && GameMain.localStar != null)
-                //GS2.Log("FRAME 5"); 
+            {
+                // GS2.Warn($"FRAME 5");
+                // GS2.Warn($"{GameMain.localStar?.name}");
                 GameMain.localStar.Load();
+            }
+
             if (__instance.frame >= 7)
             {
-                //GS2.Log("FRAME 7");
+                // GS2.Warn("FRAME 7");
                 if (GameMain.localStar != null && !GameMain.localStar.loaded) __instance.frame = 7;
 
                 if (GameMain.localPlanet != null && !GameMain.localPlanet.factoryLoaded) __instance.frame = 7;
@@ -38,7 +46,7 @@ namespace GalacticScale
 
             if (__instance.frame == 9)
             {
-                //GS2.Log("FRAME 9");
+                GS2.Warn("FRAME 9");
                 if (GameMain.gameTick == 0L)
                 {
                     if (GameMain.data == null) return false;
@@ -48,7 +56,7 @@ namespace GalacticScale
                     else
                         GameMain.data.StartStandardModeGuide();
                 }
-                //GS2.Log("FRAME x");
+                // GS2.Warn("FRAME x");
 
                 GameMain.data.SetReady();
                 if (GameCamera.instance == null) return false;
@@ -58,7 +66,7 @@ namespace GalacticScale
 
             if (__instance.frame == 10)
             {
-                GS2.Log($"FRAME 10 {!GameMain.instance.isMenuDemo}");
+                // GS2.Warn($"FRAME 10 {!GameMain.instance?.isMenuDemo} {__instance.GetInstanceID()}");
                 GameMain.Begin();
                 __instance.SelfDestroy();
                 if (!GameMain.instance.isMenuDemo)
@@ -73,8 +81,8 @@ namespace GalacticScale
 
                 GameMain.data.patch = 3;
             }
-            GS2.Log("Increasing Frame");
-            ++__instance.frame;
+            // GS2.Warn("Increasing Frame");
+            __instance.frame++;
             return false;
         }
     }

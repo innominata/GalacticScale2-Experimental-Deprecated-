@@ -131,6 +131,7 @@ namespace GalacticScale
         public static void OnStarClick(UIVirtualStarmap starmap, int starIndex)
         {
             viewStar = starmap.starPool[starIndex].starData;
+            
             ClearStarmap(starmap);
             GS2.Warn($"OnStarClick {viewStar.name}");
             ShowSolarSystem(starmap, starIndex);

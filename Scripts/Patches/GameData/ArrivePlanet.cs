@@ -28,7 +28,7 @@ namespace GalacticScale
                 GS2.Log($"{planet.name} is not null, but localplanet is");
                 if (__instance.localStar != planet.star)
                 {
-                    GS2.Log("local star is not planet.star, arriveStar called");
+                    GS2.Log($"local star is not {planet.star.name}, arriveStar called");
                     __instance.ArriveStar(planet.star);
                 }
 
