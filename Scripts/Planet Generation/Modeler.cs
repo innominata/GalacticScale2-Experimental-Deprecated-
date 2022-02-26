@@ -78,7 +78,7 @@ namespace GalacticScale
                 if (!planetQueueSorted && planetQueue.Count > 1)
                     lock (planetQueue)
                     {
-                        Log($"Sorting Queue with {planetQueue.Count} entries");
+                        Log($"Sorting Queue with {planetQueue.Count} entries where Player:{GameMain.mainPlayer?.uPosition} localPlanet:{GameMain.localPlanet?.name}:{GameMain.localPlanet?.uPosition}");
                         planetQueue.Sort(DistanceComparison);
                         planetQueueSorted = true;
                         Log("Sorted");

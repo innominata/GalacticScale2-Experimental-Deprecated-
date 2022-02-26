@@ -33,14 +33,21 @@ namespace GalacticScale
             {
                 // GS2.Warn($"FRAME 5");
                 // GS2.Warn($"{GameMain.localStar?.name}");
+                if (GameMain.mainPlayer != null)
+                {
+                    GS2.Warn("Setting uPosition");
+                    GameMain.mainPlayer.uPosition = GameMain.localPlanet.uPosition;
+                } else { GS2.Warn("MainPlayer null");}
+                GameMain.localPlanet.Load();
                 GameMain.localStar.Load();
+                
             }
 
             if (__instance.frame >= 7)
             {
                 // GS2.Warn("FRAME 7");
-                if (GameMain.localStar != null && !GameMain.localStar.loaded) __instance.frame = 7;
-
+                // if (GameMain.localStar != null && !GameMain.localStar.loaded) __instance.frame = 7;
+                if (GameMain.localPlanet != null && !GameMain.localPlanet.loaded) __instance.frame = 7;
                 if (GameMain.localPlanet != null && !GameMain.localPlanet.factoryLoaded) __instance.frame = 7;
             }
 

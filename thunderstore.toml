@@ -4,8 +4,8 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "Galactic_Scale"
 name = "GalacticScale_Experimental"
-versionNumber = "2.3.8"
-description = "v2.3.8 Version Bump to try and fix version mismatch"
+versionNumber = "2.3.9"
+description = "v2.3.9 starfish's ultra fast start. It's so fast D:"
 websiteUrl = "https://github.com/innominata/GalacticScale3"
 containsNsfwContent = false
 

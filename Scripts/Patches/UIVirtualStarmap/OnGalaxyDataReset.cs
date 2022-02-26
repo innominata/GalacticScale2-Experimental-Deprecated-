@@ -12,7 +12,7 @@ namespace GalacticScale
         {
             //GS2.Error("............................................");
             if (GS2.Vanilla) return true;
-            if (NebulaCompat.NebulaIsInstalled) return true;
+            // if (NebulaCompat.NebulaIsInstalled) return true;
             foreach (var starNode in __instance.starPool)
             {
                 starNode.active = false;
