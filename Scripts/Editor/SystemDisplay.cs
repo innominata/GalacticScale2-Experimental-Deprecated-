@@ -292,21 +292,13 @@ namespace GalacticScale
                     break;
                 case int x when x >= 0 && inSystemDisplay:
                     GS2.Warn($"Planet RightClick {starIndex}");
-                    OnSolarSystemPlanetClick(starmap, starIndex);
+                    OnSolarSystemPlanetRightClick(starmap, starIndex);
                     break;
                 case int x when x >= 0 && !inSystemDisplay:
                     
                     GS2.Warn($"- {starIndex} OnStarMapRightClick");
                     // SetBirthStar(starmap.starPool[starIndex].starData);
-                    if (!GS2.GetGSStar(starmap.starPool[starIndex].starData).Decorative)
-                    {
-                        if (GS2.ActiveGenerator.Config.enableStarSelector)
-                        {
-                            GS2.ActiveGenerator.Generate(GSSettings.StarCount, starmap.starPool[starIndex].starData);
-                            starmap.galaxyData = GS2.ProcessGalaxy(GS2.gameDesc, true);
-                            starmap.OnGalaxyDataReset();
-                        }
-                    }
+                    OnStarRightClick(starmap,starIndex);
                     break;
                    
                 default:
@@ -358,6 +350,23 @@ namespace GalacticScale
             ShowSolarSystem(starmap, starIndex);
         }
 
+        public static void OnStarRightClick(UIVirtualStarmap starmap, int starIndex)
+        {
+            if (!GS2.GetGSStar(starmap.starPool[starIndex].starData).Decorative)
+            {
+                if (GS2.ActiveGenerator.Config.enableStarSelector)
+                {
+                    RegenerateGalaxyWithNewBirthStar(starmap, starmap.starPool[starIndex].starData);
+                }
+            }
+        }
+
+        public static void RegenerateGalaxyWithNewBirthStar(UIVirtualStarmap starmap, StarData starData)
+        {
+            GS2.ActiveGenerator.Generate(GSSettings.StarCount, starData);
+            starmap.galaxyData = GS2.ProcessGalaxy(GS2.gameDesc, true);
+            starmap.OnGalaxyDataReset();
+        }
         public static void OnSolarSystemPlanetClick(UIVirtualStarmap starmap, int clickIndex)
         {
             int planetIndex = clickIndex -1;
@@ -366,6 +375,38 @@ namespace GalacticScale
             GS2.Warn("C");
             if (pData == null) return;
             GS2.Warn($"{pData.name}");
+            HideStarDetail();
+            HideStarCount();
+            ShowPlanetDetail(pData);
+        }        
+        public static void OnSolarSystemPlanetRightClick(UIVirtualStarmap starmap, int clickIndex)
+        {
+            int planetIndex = clickIndex -1;
+            GS2.Warn($"System:{viewStar.name} PlanetCount:{viewStar.planetCount}");
+            PlanetData pData = viewStar?.planets[planetIndex];
+            GS2.Warn("C");
+            if (pData == null) return;
+            GS2.Warn($"Setting new Star as BirthStar and Planet as {pData.name}");
+            if (pData.star.id != starmap.galaxyData.birthStarId || pData.id != starmap.galaxyData.birthPlanetId)
+            {
+                GS2.Warn($"---- Original birthPlanetID:{starmap.galaxyData.birthPlanetId} {starmap.galaxyData.PlanetById(starmap.galaxyData.birthPlanetId)}");
+                starmap.galaxyData.birthStarId = viewStar.id;
+                starmap.galaxyData.birthPlanetId = pData.id;
+                GSSettings.BirthPlanetName = pData.name;
+                GS2.Warn($" GSSettings.BirthPlanetId:{ GSSettings.BirthPlanetId} {GSSettings.BirthPlanet.Name} should be {pData.id} {pData.name}");
+                GSSettings.BirthPlanetId = pData.id;
+                GS2.Warn($" GSSettings.BirthPlanetId:{ GSSettings.BirthPlanetId} {GSSettings.BirthPlanet.Name} should be {pData.id} {pData.name}");
+                // GSSettings.BirthPlanet = GS2.GetGSPlanet(pData);
+                GSSettings.Instance.imported = true;
+                GS2.galaxy.birthStarId = viewStar.id;
+                GS2.galaxy.birthPlanetId = pData.id;
+                GameMain.galaxy.birthPlanetId = pData.id;
+                GameMain.galaxy.birthStarId = viewStar.id;
+                GS2.Warn($"GameMain.galaxy.birthPlanetID:{GameMain.galaxy.birthPlanetId} should be {pData.id}");
+                GameMain.data.galaxy.birthPlanetId = pData.id;
+                GameMain.data.galaxy.birthStarId = viewStar.id;
+                GS2.Warn($" GSSettings.BirthPlanetId:{ GSSettings.BirthPlanetId} should be {pData.id} {GSSettings.BirthPlanet.Name} should be {pData.name}");
+            }
             HideStarDetail();
             HideStarCount();
             ShowPlanetDetail(pData);

@@ -86,25 +86,25 @@ namespace GalacticScale
                     return birthPlanet;
                 }
 
-                //GS2.Warn($"BirthPlanet Requested by {GS2.GetCaller(1)} {GS2.GetCaller(2)} {GS2.GetCaller(3)}");
+                GS2.Warn($"BirthPlanet Requested by {GS2.GetCaller(1)} {GS2.GetCaller(2)} {GS2.GetCaller(3)}");
                 if (birthPlanetId > 100)
                 {
-                    //GS2.Warn($"Trying to find GSPlanet for id {birthPlanetId} on behalf of {GS2.GetCaller()}");
+                    GS2.Warn($"Trying to find GSPlanet for id {birthPlanetId} on behalf of {GS2.GetCaller()}");
                     var p = GS2.GetGSPlanet(birthPlanetId);
                     if (p != null)
                     {
-                        //GS2.Log($"Found birth planet by ID. {p.Name}");
+                        GS2.Log($"Found birth planet by ID. {p.Name}");
                         birthPlanet = p;
                         return p;
                     }
                 }
                 else
                 {
-                    //GS2.Warn("BirthPlanetID < 100");
+                    GS2.Warn("BirthPlanetID < 100");
 
                     if (BirthPlanetName != null && BirthPlanetName != string.Empty)
                     {
-                        //GS2.Warn($"Trying to get birthPlanet by name of '{BirthPlanetName}'");
+                        GS2.Warn($"Trying to get birthPlanet by name of '{BirthPlanetName}'");
                         var p = GS2.GetGSPlanet(BirthPlanetName);
                         if (p == null)
                         {
@@ -148,6 +148,7 @@ namespace GalacticScale
             set
             {
                 GS2.Log($"BirthPlanetID set to {value} by {GS2.GetCaller()}");
+                birthPlanet = null;
                 birthPlanetId = value;
             }
         }
@@ -158,6 +159,7 @@ namespace GalacticScale
             set
             {
                 GS2.Log($"BirthPlanetName set to {value} by {GS2.GetCaller()}");
+                birthPlanet = null;
                 birthPlanetName = value;
             }
         }

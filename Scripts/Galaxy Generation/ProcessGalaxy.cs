@@ -16,6 +16,7 @@ namespace GalacticScale
                 highStopwatch.Begin();
                 gameDesc = desc;
                 Log($"Generating Galaxy of {GSSettings.StarCount}|{gameDesc.starCount} stars");
+                // Warn($"GSSettings.BirthPlanet.Name:{GSSettings.BirthPlanet?.Name} ID:{GSSettings.BirthPlanetId}");
                 Failed = false;
                 PatchOnUIGalaxySelect.StartButton?.SetActive(true);
                 if (!GSSettings.Instance.imported && sketchOnly)
@@ -43,7 +44,7 @@ namespace GalacticScale
                 }
                 else
                 {
-                    Log("Settings Loaded From Save File");
+                    Log($"Settings Loaded From Save File { GSSettings.BirthPlanetId}");
                     gameDesc.resourceMultiplier = GSSettings.Instance.galaxyParams.resourceMulti;
                     // Log($"RM1:{gameDesc.resourceMultiplier}");
                     // Log(gameDesc.resourceMultiplier.ToString());
@@ -82,6 +83,7 @@ namespace GalacticScale
 
                 // Log("AstroPoses Initialized");
                 //SetupBirthPlanet();
+                GS2.Warn($"Setting up birthPlanet {GSSettings.BirthPlanetId}");
                 galaxy.birthPlanetId = GSSettings.BirthPlanetId;
                 galaxy.birthStarId = GSSettings.BirthStarId;
                 //if (createPlanets) {
