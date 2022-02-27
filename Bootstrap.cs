@@ -42,7 +42,11 @@ namespace GalacticScale
         private void InitializeComponents()
         {
             if (GS2.TP == null) GS2.TP = gameObject.AddComponent<TeleportComponent>();
-            if (GS2.Input == null) GS2.Input = gameObject.AddComponent<InputComponent>();
+            GS2.Warn(GS2.TP.name);
+            GS2.Warn("Adding InputComponent");
+            if (GS2.InputComponent == null) GS2.InputComponent = gameObject.AddComponent<InputComponent>();
+            GS2.Warn("Added");
+            GS2.Warn(GS2.InputComponent.name);
         }
         private void ApplyHarmonyPatches()
         {

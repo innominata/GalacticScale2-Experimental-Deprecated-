@@ -1,6 +1,7 @@
 ﻿using System;
 using GSSerializer;
 using UnityEngine;
+using UnityEngine.Experimental.TerrainAPI;
 
 namespace GalacticScale
 {
@@ -82,7 +83,7 @@ namespace GalacticScale
                 if (GS2.Vanilla)
                 {
                     GS2.Log("Getting BirthPlanet For Vanilla");
-                    birthPlanet = GS2.GetGSPlanet(GameMain.galaxy.birthPlanetId);
+                    birthPlanet = FindPlanet(GameMain.galaxy.birthPlanetId);
                     return birthPlanet;
                 }
 
@@ -90,7 +91,7 @@ namespace GalacticScale
                 if (birthPlanetId > 100)
                 {
                     GS2.Warn($"Trying to find GSPlanet for id {birthPlanetId} on behalf of {GS2.GetCaller()}");
-                    var p = GS2.GetGSPlanet(birthPlanetId);
+                    var p = FindPlanet(birthPlanetId);
                     if (p != null)
                     {
                         GS2.Log($"Found birth planet by ID. {p.Name}");
@@ -105,7 +106,7 @@ namespace GalacticScale
                     if (BirthPlanetName != null && BirthPlanetName != string.Empty)
                     {
                         GS2.Warn($"Trying to get birthPlanet by name of '{BirthPlanetName}'");
-                        var p = GS2.GetGSPlanet(BirthPlanetName);
+                        var p = FindPlanet(BirthPlanetName);
                         if (p == null)
                         {
                             GS2.Error($"BirthPlanet '{BirthPlanetName}' returned null");
@@ -148,7 +149,7 @@ namespace GalacticScale
             set
             {
                 GS2.Log($"BirthPlanetID set to {value} by {GS2.GetCaller()}");
-                birthPlanet = null;
+                birthPlanet = FindPlanet(value);
                 birthPlanetId = value;
             }
         }
@@ -159,11 +160,39 @@ namespace GalacticScale
             set
             {
                 GS2.Log($"BirthPlanetName set to {value} by {GS2.GetCaller()}");
-                birthPlanet = null;
+                birthPlanet = FindPlanet(value);
                 birthPlanetName = value;
             }
         }
 
+        public static GSPlanet FindPlanet(string name)
+        {
+            var i = 0;
+            foreach (var star in Stars)
+            {
+                foreach (var planet in star.Bodies)
+                {
+                    i++;
+                    if (planet.Name == name) return planet;
+                }
+            }
+            GS2.Error($"FindPlanet Failed to Find {name}. Searched {i} bodies");
+            return null;
+        }
+        public static GSPlanet FindPlanet(int id)
+        {
+            var i = 0;
+            foreach (var star in Stars)
+            {
+                foreach (var planet in star.Bodies)
+                {
+                    i++;
+                    if (planet.planetData.id == id) return planet;
+                }
+            }
+            GS2.Error($"FindPlanet Failed to Find {id}. Searched {i} bodies");
+            return null;
+        }
         public static int PrimaryStarCount()
         {
             var count = 0;

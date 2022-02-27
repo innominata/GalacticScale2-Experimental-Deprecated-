@@ -203,13 +203,13 @@ namespace GalacticScale
             }
         }
 
-        private static double DistanceTo(PlanetData planet)
+        public static double DistanceTo(PlanetData planet)
         {
             // GS2.Log((GameMain.mainPlayer.uPosition - planet.uPosition).magnitude.ToString());
             return (GameMain.mainPlayer.uPosition - planet.uPosition).magnitude - planet.realRadius;
         }
 
-        private static double DistanceTo(StarData star)
+        public static double DistanceTo(StarData star)
         {
             return (GameMain.mainPlayer.uPosition - star.uPosition).magnitude;
         }

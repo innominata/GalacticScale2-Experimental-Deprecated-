@@ -33,11 +33,16 @@ namespace GalacticScale
             {
                 // GS2.Warn($"FRAME 5");
                 // GS2.Warn($"{GameMain.localStar?.name}");
-                if (GameMain.mainPlayer != null)
+                if (GameMain.mainPlayer != null && GameMain.gameTick == 0L)
                 {
-                    GS2.Warn("Setting uPosition");
+                    GS2.Warn($"Setting uPosition");
                     GameMain.mainPlayer.uPosition = GameMain.localPlanet.uPosition;
-                } else { GS2.Warn("MainPlayer null");}
+                }
+                else
+                {
+                    GS2.Warn("MainPlayer null or existing game");
+                    
+                }
                 GameMain.localPlanet.Load();
                 GameMain.localStar.Load();
                 

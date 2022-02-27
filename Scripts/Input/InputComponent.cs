@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using GSSerializer;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
@@ -7,13 +8,20 @@ namespace GalacticScale
 {
     public class InputComponent : MonoBehaviour
     {
-        public static void FixedUpdate()
+        public void Awake()
         {
-            if (VFInput.alt && VFInput.control && VFInput._openMechLight) GS2.WarnJson(HandleLocalStarPlanets.TransitionRadii);
+            GS2.Warn("Input component Awake");
+        }
+
+        public void FixedUpdate()
+        {
+            // GS2.Log("FU");
+            if (VFInput.alt && VFInput.control && VFInput._openMechLight) GS2.WarnJson(HandleLocalStarPlanets.TransitionRadii); //alt ctrl L
             if (VFInput.control && VFInput.alt && VFInput.shift && VFInput._moveRight) GS2.Config.EnableDevMode();
 
-            if (GS2.Config.Dev && VFInput.control && VFInput.shift && VFInput._rotate && GameMain.localPlanet != null)
+            if (VFInput.control && VFInput.shift && VFInput._rotate && GameMain.localPlanet != null) // ctrl shift R
             {
+                GS2.Warn("*");
                 var filename = Path.Combine(GS2.DataDir, "WorkingTheme.json");
                 if (!File.Exists(filename))
                 {

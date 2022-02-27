@@ -11,6 +11,8 @@ namespace GalacticScale
     {
         public static bool inSystemDisplay = false;
         private static StarData viewStar;
+        public static Button randomButton;
+        public static Button startButton;
         public static Button backButton;
         public static bool deBounce = false;
         public static int customBirthStar = -1;
@@ -20,6 +22,14 @@ namespace GalacticScale
         {
             // Modeler.Reset();
             ShowStarMap(starmap);
+        }
+
+        public static void initializeButtons(UIGalaxySelect instance)
+        {
+            backButton.onClick.RemoveAllListeners();
+            randomButton.onClick.RemoveAllListeners();
+            backButton.onClick.AddListener(() => OnBackClick(instance));
+            randomButton.onClick.AddListener(() => OnRandomClick(instance));
         }
         public static void OnUpdate(UIVirtualStarmap starmap)
         {
@@ -242,6 +252,11 @@ namespace GalacticScale
             else ShowStarMap(instance.starmap);
         }
 
+        public static void OnRandomClick(UIGalaxySelect instance)
+        {
+            instance.Rerand();
+            ShowStarMap(instance.starmap);
+        }
         public static void OnStarMapClick(UIVirtualStarmap starmap, int starIndex)
         {
             GS2.Warn($"StarmapClick { starIndex}");
@@ -315,6 +330,10 @@ namespace GalacticScale
         public static void HideStarCount()
         {
             GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group")?.SetActive(false);
+            GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/top-title")?.SetActive(false);
+            UIRoot.instance.galaxySelect.seedInput.transform.parent.gameObject.SetActive(false);
+            UIRoot.instance.galaxySelect.starCountSlider.transform.parent.gameObject.SetActive(false);
+            UIRoot.instance.galaxySelect.resourceMultiplierSlider.transform.parent.gameObject.SetActive(false);
         }
         public static void HidePlanetDetail()
         {
@@ -343,7 +362,8 @@ namespace GalacticScale
         public static void OnStarClick(UIVirtualStarmap starmap, int starIndex)
         {
             viewStar = starmap.starPool[starIndex].starData;
-            
+
+            // UIRoot.instance.galaxySelect.resourceMultiplierSlider.gameObject.SetActive(false);
             ClearStarmap(starmap);
             GS2.Warn($"OnStarClick {viewStar.name}");
             HideStarCount();
@@ -414,7 +434,12 @@ namespace GalacticScale
         public static void ShowStarCount()
         {
             GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/right-group").SetActive(true);
-
+            GameObject.Find("UI Root/Overlay Canvas/Galaxy Select/top-title").SetActive(true);
+            UIRoot.instance.galaxySelect.seedInput.transform.parent.gameObject.SetActive(true);
+            UIRoot.instance.galaxySelect.starCountSlider.transform.parent.gameObject.SetActive(true);
+            UIRoot.instance.galaxySelect.resourceMultiplierSlider.transform.parent.gameObject.SetActive(true);
+            // UIRoot.instance.galaxySelect.starCountText .gameObject.SetActive(true);
+            // UIRoot.instance.galaxySelect.resourceMultiplierText.gameObject.SetActive(true);
             
         }
         public static void ShowStarMap(UIVirtualStarmap starmap)
@@ -425,7 +450,7 @@ namespace GalacticScale
             starmap.clickText = "";
             HidePlanetDetail();
             HideStarDetail();
-            ClearStarmap(starmap);
+            // ClearStarmap(starmap);
             ShowStarCount();
             starmap.OnGalaxyDataReset();
         }
@@ -692,7 +717,7 @@ namespace GalacticScale
         {
             GS2.Warn("ClearStarmap");
 
-            // GameObject.DestroyImmediate(starmap.starPointBirth.gameObject);
+            
             
             foreach (UIVirtualStarmap.StarNode starNode in starmap.starPool)
             {

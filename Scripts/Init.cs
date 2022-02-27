@@ -28,7 +28,7 @@ namespace GalacticScale
         public static bool ResearchUnlocked = false;
 
         public static TeleportComponent TP;
-        public static InputComponent Input;
+        public static InputComponent InputComponent;
 
         public static TerrainAlgorithmLibrary TerrainAlgorithmLibrary = TerrainAlgorithmLibrary.Init();
         public static VeinAlgorithmLibrary VeinAlgorithmLibrary = VeinAlgorithmLibrary.Init();
