@@ -11,7 +11,7 @@
         public GS2PlanetAlgorithm(GSPlanet gsPlanet)
         {
             //GS2.Log("GS2PlanetAlgorithm|Constructor|Begin");
-            GS2.Log("GS2PlanetAlgorithm|Constructor|CREATING CUSTOM PLANET ALGORITHM FOR " + gsPlanet.Name);
+            // GS2.Log("GS2PlanetAlgorithm|Constructor|CREATING CUSTOM PLANET ALGORITHM FOR " + gsPlanet.Name);
             // GS2.Log("GS2PlanetAlgorithm|Constructor|Selecting Theme " + gsPlanet.Theme);
             var gSTheme = GSSettings.ThemeLibrary.Find(gsPlanet.Theme);
             // GS2.Log("GS2PlanetAlgorithm|Constructor|Selected Theme");
@@ -30,7 +30,7 @@
                 terrainAlgo = (p, modX, modY) =>
                 {
                     // GS2.Log("GS2PlanetAlgorithm|Constructor|Vanilla Terrain Algo Running");
-                    baseAlgorithm.GenerateTerrain(modX, modY);
+                    if (!UIRoot.instance.backToMainMenu) baseAlgorithm.GenerateTerrain(modX, modY);
                 };
             else
                 // GS2.Log("GS2PlanetAlgorithm|Constructor|Terrain Algo Being Set to " + gsTheme.TerrainSettings.Algorithm);
@@ -43,7 +43,7 @@
                     veinAlgo = (p, sketchOnly) =>
                     {
                         // GS2.Log("GS2PlanetAlgorithm|Constructor|Vanilla Vein Algo Running");
-                        baseAlgorithm.GenerateVeins(sketchOnly);
+                        if (!UIRoot.instance.backToMainMenu) baseAlgorithm.GenerateVeins(sketchOnly);
                     };
                 else
                     veinAlgo = GS2.VeinAlgorithmLibrary.Find(gsTheme.VeinSettings.Algorithm);
@@ -56,7 +56,7 @@
                         // GS2.WarnJson(gsPlanet);
                         // GS2.WarnJson(gsPlanet.GsTheme);
                         // GS2.Log("GS2PlanetAlgorithm|Constructor|Vanilla Vein Algo Running");
-                        baseAlgorithm.GenerateVeins(sketchOnly);
+                        if (!UIRoot.instance.backToMainMenu) baseAlgorithm.GenerateVeins(sketchOnly);
                     };
                 else
                     veinAlgo = GS2.VeinAlgorithmLibrary.Find(gsPlanet.veinSettings.Algorithm);
@@ -67,7 +67,7 @@
                 vegeAlgo = p =>
                 {
                     // GS2.Log("GS2PlanetAlgorithm|Constructor|Vanilla Vege Algo Running");
-                    baseAlgorithm.GenerateVegetables();
+                    if (!UIRoot.instance.backToMainMenu) baseAlgorithm.GenerateVegetables();
                 };
             else
                 // GS2.Log("GS2PlanetAlgorithm|Constructor|GS Vege Algo Running");
@@ -89,19 +89,19 @@
         public override void GenerateTerrain(double modX, double modY)
         {
             //GS2.Log("PlanetAlgorithm|GenerateTerrain|" + gsPlanet.Name);
-            if (gsPlanet != null) terrainAlgo(gsPlanet, modX, modY); //GS2.Log("PlanetAlgorithm|GenerateTerrain|End");
+            if (gsPlanet != null) if (!UIRoot.instance.backToMainMenu) terrainAlgo(gsPlanet, modX, modY); //GS2.Log("PlanetAlgorithm|GenerateTerrain|End");
         }
 
         public override void GenerateVegetables()
         {
             //GS2.Log("PlanetAlgorithm|GenerateVegetables()");
-            if (gsPlanet != null) vegeAlgo(gsPlanet);
+            if (gsPlanet != null) if (!UIRoot.instance.backToMainMenu) vegeAlgo(gsPlanet);
         }
 
         public override void GenerateVeins(bool sketchOnly)
         {
             // GS2.Log($"PlanetAlgorithm|GenerateVeins() for {gsPlanet.Name} {gsPlanet.Theme}");
-            if (gsPlanet != null) veinAlgo(gsPlanet, sketchOnly);
+            if (gsPlanet != null) if (!UIRoot.instance.backToMainMenu) veinAlgo(gsPlanet, sketchOnly);
         }
 
         public static PlanetAlgorithm GetBaseAlgo(int algoId)
@@ -116,9 +116,8 @@
                 case 6: return new PlanetAlgorithm6();
                 case 7: return new PlanetAlgorithm7();
                 case 8: return new PlanetAlgorithm8();
-                case 9:
-                    if (GS2.Config.ScarletRevert) return new PlanetAlgorithm0();
-                    return new PlanetAlgorithm9();
+                case 9 when GS2.Config.ScarletRevert: return new PlanetAlgorithm0();
+                case 9 when !GS2.Config.ScarletRevert: return new PlanetAlgorithm9();
             }
 
             return new PlanetAlgorithm0();

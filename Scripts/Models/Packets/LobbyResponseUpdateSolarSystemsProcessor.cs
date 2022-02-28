@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using NebulaAPI;
+using GalacticScale;
 
-namespace GalacticScale
+namespace NebulaCompatibility
 {
     [RegisterPacketProcessor]
     public class LobbyResponseUpdateSolarSystemsProcessor : BasePacketProcessor<LobbyResponseUpdateSolarSystems>
@@ -15,10 +16,7 @@ namespace GalacticScale
 
             if (galaxyData == null)
             {
-                if (GS2.Vanilla)
-                    galaxyData = UniverseGen.CreateGalaxy(gameDesc);
-                else
-                    galaxyData = GS2.ProcessGalaxy(gameDesc, true);
+                galaxyData = GS2.Vanilla ? UniverseGen.CreateGalaxy(gameDesc) : GS2.ProcessGalaxy(gameDesc, true);
 
                 UIRoot.instance.galaxySelect.starmap.galaxyData = galaxyData;
             }

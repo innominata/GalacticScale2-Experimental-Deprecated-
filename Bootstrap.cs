@@ -15,9 +15,9 @@ namespace GalacticScale
     }
 
 
-    [BepInPlugin("dsp.galactic-scale.2", "Galactic Scale 2 Plug-In", "2.3.8")]
+    [BepInPlugin("dsp.galactic-scale.2", "Galactic Scale 2 Plug-In", "2.3.13")]
     [BepInDependency("space.customizing.console", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency(NebulaAPI.NebulaModAPI.API_GUID)]
+    [BepInDependency("dsp.nebula-multiplayer-api", BepInDependency.DependencyFlags.SoftDependency)]
     public class Bootstrap : BaseUnityPlugin
     {
         public new static ManualLogSource Logger;
@@ -42,7 +42,11 @@ namespace GalacticScale
         private void InitializeComponents()
         {
             if (GS2.TP == null) GS2.TP = gameObject.AddComponent<TeleportComponent>();
-            if (GS2.Input == null) GS2.Input = gameObject.AddComponent<InputComponent>();
+            GS2.Warn(GS2.TP.name);
+            GS2.Warn("Adding InputComponent");
+            if (GS2.InputComponent == null) GS2.InputComponent = gameObject.AddComponent<InputComponent>();
+            GS2.Warn("Added");
+            GS2.Warn(GS2.InputComponent.name);
         }
         private void ApplyHarmonyPatches()
         {
@@ -54,6 +58,7 @@ namespace GalacticScale
             Harmony.CreateAndPatchAll(typeof(PatchOnBuildTool_BlueprintPaste));
             Harmony.CreateAndPatchAll(typeof(PatchOnBuildTool_Click));
             Harmony.CreateAndPatchAll(typeof(PatchOnBuildTool_Path));
+            Harmony.CreateAndPatchAll(typeof(PatchOnGameAbnormalityData));
             Harmony.CreateAndPatchAll(typeof(PatchOnGameData));
             Harmony.CreateAndPatchAll(typeof(PatchOnGameDesc));
             Harmony.CreateAndPatchAll(typeof(PatchOnGameHistoryData));
@@ -64,6 +69,7 @@ namespace GalacticScale
             Harmony.CreateAndPatchAll(typeof(PatchOnGraticulePoser));
             Harmony.CreateAndPatchAll(typeof(PatchOnGuideMissionStandardMode));
             Harmony.CreateAndPatchAll(typeof(PatchOnNearColliderLogic));
+            Harmony.CreateAndPatchAll(typeof(PatchOnPlanetAlgorithm));            
             Harmony.CreateAndPatchAll(typeof(PatchOnPlanetAtmoBlur));
             Harmony.CreateAndPatchAll(typeof(PatchOnPlanetData));
             Harmony.CreateAndPatchAll(typeof(PatchOnPlanetFactory));

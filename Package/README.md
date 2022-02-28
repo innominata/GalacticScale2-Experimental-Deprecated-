@@ -1,6 +1,18 @@
 # DSP Galactic Scale 2.0 Mod
 
-Note: This mod required Nebula API https://dsp.thunderstore.io/package/nebula/NebulaMultiplayerModApi
+- Version 2.3.12 - Removed a lot of logspam. Fixed error on quit while planets loading
+
+- Version 2.3.11 - Fixed version
+
+- Version 2.3.10 - Fixed the galaxy select star/planet labels. Hit alt to get them all to show
+
+- Version 2.3.9 - @starfi5h 's super fast start implemented. No more waiting for every planet to load! Fixed bug when quitting before all planets are generated.
+
+- Version 2.3.8 - Fix gamestart - Nebula tested and working at least as far as new game is concerned
+
+- Version 2.3.7 - SystemDisplay updates, Nebula Fixes. Maybe nebula works, maybe it doesn't :)
+
+- Version 2.3.6 - Maybe nebula works, maybe it doesn't :)
 
 - Version 2.3.5 - Fixed cargo ships not docking on outer planets in large systems
 
@@ -112,3 +124,17 @@ the moons, planets, stars, etc
 This mod is and will always be free of charge for everyone.
 
 If you really want to support us, there's a donation link at the bottom of the about page on our website http://customizing.space
+
+Credits:
+
+innominata - GS1/GS2/GS3 Code/Art
+Touhma - GS1 Mod Developer / Advisor
+Shad0wlife - GS1/GS2 Code / Advisor
+GlitchHound - GS1 Code / Advisor
+sp00ktober - GS2/GS3 Code /Advisor
+tyukara - GS2 Japanese Translation
+Mushroom - GS1 Dev Env
+PhantomGamers - GS2 Dev Env / Advisor
+starfish - GS3 Code / Advisor
+Kremnev8 - GS2 Code / Advisor
+NHunter - GS2 Code / Advisor

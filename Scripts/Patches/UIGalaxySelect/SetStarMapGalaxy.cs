@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using NebulaAPI;
+using NebulaCompatibility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +12,10 @@ namespace GalacticScale
         public static bool SetStarmapGalaxy(ref UIGalaxySelect __instance)
         {
             GS2.Warn("B");
-            if (NebulaModAPI.MultiplayerSession != null && NebulaModAPI.MultiplayerSession.LocalPlayer.IsClient && !GSSettings.lobbyReceivedUpdateValues)
+            if (NebulaCompat.IsMultiplayerActive && NebulaCompat.IsClient && !GSSettings.lobbyReceivedUpdateValues)
             {
                 GS2.Warn("Running Nebula Code");
-                NebulaModAPI.MultiplayerSession.Network.SendPacket(new LobbyRequestUpdateSolarSystems());
+                NebulaCompat.SendPacket(new LobbyRequestUpdateSolarSystems());
                 GS2.Warn("Nebula Requested Update");
                 return false;
             }
@@ -104,32 +104,44 @@ namespace GalacticScale
                 return;
             }
             GS2.Warn("A");
-            if (NebulaModAPI.MultiplayerSession == null)
-            {
-                GS2.Log("Nebula Null, Returning from Postfix");
-            
-                return;
-            }
-            
-            if (GameMain.universeSimulator == null)
-            {
-                GameMain.universeSimulator = Object.Instantiate(Configs.builtin.universeSimulatorPrefab);
-                GameMain.universeSimulator.gameObject.name = "Universe";
-                GameMain.universeSimulator.galaxyData = GS2.galaxy;
-            }
+            // if (!NebulaCompat.IsMultiplayerActive)
+            // {
+            //     GS2.Log("Nebula Null, Returning from Postfix");
+            //
+            //     return;
+            // }
 
-            GameMain.universeSimulator.starSimulators = new StarSimulator[GS2.galaxy.starCount];
-            for (var i = 0; i < GS2.galaxy.starCount; i++)
-            {
-                var star = GS2.galaxy.stars[i];
-                if (star == null) continue;
-                GameMain.universeSimulator.starSimulators[i] = Object.Instantiate(GameMain.universeSimulator.starPrefab, GameMain.universeSimulator.transform);
-                GameMain.universeSimulator.starSimulators[i].universeSimulator = GameMain.universeSimulator;
-                GameMain.universeSimulator.starSimulators[i].SetStarData(star);
-                GameMain.universeSimulator.starSimulators[i].gameObject.name = star.displayName;
-                GameMain.universeSimulator.starSimulators[i].gameObject.layer = 24;
-                GameMain.universeSimulator.starSimulators[i].gameObject.SetActive(true);
-            }
+            GS2.Warn("B");
+            
+            // if (GameMain.universeSimulator == null)
+            // {
+            //     GS2.Warn("Instantiating UniverseSimulator");
+            //     GameMain.universeSimulator = Object.Instantiate(Configs.builtin.universeSimulatorPrefab);
+            //     GameMain.universeSimulator.gameObject.name = "Universe";
+            //     GameMain.universeSimulator.galaxyData = GS2.galaxy;
+            // }
+            // else
+            // {
+            //     GameMain.instance.DestroyUniverseSimulator();
+            //     GS2.Warn("Re-Instantiating UniverseSimulator");
+            //     GameMain.universeSimulator = Object.Instantiate(Configs.builtin.universeSimulatorPrefab);
+            //     GameMain.universeSimulator.gameObject.name = "Universe";
+            //     GameMain.universeSimulator.galaxyData = GS2.galaxy;
+            // }
+            //
+            // GameMain.universeSimulator.starSimulators = new StarSimulator[GS2.galaxy.starCount];
+            // for (var i = 0; i < GS2.galaxy.starCount; i++)
+            // {
+            //     GS2.Warn($"Instantiating StarSimulator {i} / {GameMain.universeSimulator.starSimulators.Length}");
+            //     var star = GS2.galaxy.stars[i];
+            //     if (star == null) continue;
+            //     GameMain.universeSimulator.starSimulators[i] = Object.Instantiate(GameMain.universeSimulator.starPrefab, GameMain.universeSimulator.transform);
+            //     GameMain.universeSimulator.starSimulators[i].universeSimulator = GameMain.universeSimulator;
+            //     GameMain.universeSimulator.starSimulators[i].SetStarData(star);
+            //     GameMain.universeSimulator.starSimulators[i].gameObject.name = star.displayName;
+            //     GameMain.universeSimulator.starSimulators[i].gameObject.layer = 24;
+            //     GameMain.universeSimulator.starSimulators[i].gameObject.SetActive(true);
+            // }
 
             var starmap = __instance.starmap;
             // Increase Pool Count to prevent Nebula from failing to initialize system view when starcount < planetcount

@@ -14,6 +14,7 @@ namespace GalacticScale
             __instance.starmap._Update();
             if (GS2.ModellingDone)
             {
+                StartButton.GetComponent<UIButton>().button.onClick.RemoveAllListeners();
                 StartButton.GetComponent<UIButton>().button.onClick.AddListener(__instance.EnterGame);
             }
             else

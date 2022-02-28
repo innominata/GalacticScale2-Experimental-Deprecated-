@@ -21,7 +21,6 @@ namespace GalacticScale
         public static bool canvasOverlay = false;
         public static Image splashImage;
         public static bool SaveOrLoadWindowOpen = false;
-        public static bool NebulaClient = false;
         public static bool Initialized = false;
         public static bool MenuHasLoaded;
 
@@ -29,7 +28,7 @@ namespace GalacticScale
         public static bool ResearchUnlocked = false;
 
         public static TeleportComponent TP;
-        public static InputComponent Input;
+        public static InputComponent InputComponent;
 
         public static TerrainAlgorithmLibrary TerrainAlgorithmLibrary = TerrainAlgorithmLibrary.Init();
         public static VeinAlgorithmLibrary VeinAlgorithmLibrary = VeinAlgorithmLibrary.Init();

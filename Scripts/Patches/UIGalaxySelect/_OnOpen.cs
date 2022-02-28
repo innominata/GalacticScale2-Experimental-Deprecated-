@@ -9,18 +9,29 @@ namespace GalacticScale
     public partial class PatchOnUIGalaxySelect
     {
         public static GameObject StartButton;
+
         public static UnityAction startAction;
         [HarmonyPrefix]
         [HarmonyPatch(typeof(UIGalaxySelect), "_OnOpen")]
         public static bool _OnOpen(UIGalaxySelect __instance, ref Slider ___starCountSlider, ref Slider ___resourceMultiplierSlider)
         {
             //GS2.Warn("Fix");
+            
             if (GS2.canvasOverlay)
             {
                 //GS2.Warn("FIXING WITH GALAXYSELECT!");
                 UIRoot.instance.overlayCanvas.renderMode = RenderMode.ScreenSpaceCamera;
                 GS2.canvasOverlay = false;
             }
+
+            if (SystemDisplay.backButton == null)
+            {
+                SystemDisplay.startButton = __instance.transform.GetChild(0).GetComponent<Button>();
+                SystemDisplay.randomButton = __instance.transform.GetChild(1).GetComponent<Button>();
+                SystemDisplay.backButton =__instance.transform.GetChild(2).GetComponent<Button>();
+                SystemDisplay.initializeButtons(__instance);
+            }
+            SystemDisplay.inSystemDisplay = false;
             UIRoot.instance.galaxySelect.cameraPoser.distRatio = 1;
             if (GS2.ActiveGenerator == null) return true;
             // SystemDisplay.backButton = __instance.find

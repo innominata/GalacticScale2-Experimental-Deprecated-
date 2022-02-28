@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using NebulaAPI;
+using GalacticScale;
 
-namespace GalacticScale
+namespace NebulaCompatibility
 {
     [RegisterPacketProcessor]
     public class LobbyRequestUpdateSolarSystemsProcessor : BasePacketProcessor<LobbyRequestUpdateSolarSystems>

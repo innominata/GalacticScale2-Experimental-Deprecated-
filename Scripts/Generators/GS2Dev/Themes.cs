@@ -263,13 +263,13 @@ namespace GalacticScale.Generators
             obsidian.TerrainSettings.Algorithm = "GSTA3";
             obsidian.TerrainSettings.BiomeHeightMulti = 0f;
             obsidian.TerrainSettings.BiomeHeightModifier = -111f;
-            obsidian.TerrainSettings.HeightMulti = 0f;
+            obsidian.TerrainSettings.HeightMulti = 1f;
             obsidian.TerrainSettings.RandomFactor = 1f;
             obsidian.CustomGeneration = true;
             // obsidian.AmbientSettings.CubeMap = "GS2";
             obsidian.AmbientSettings.LutContribution = 1;
-            obsidian.AmbientSettings.Reflections = new Color(1, 0, 0, 1);
-            obsidian.atmosphereMaterial.Colors["_Color"] = new Color(1, 1, 0, 1);
+            obsidian.AmbientSettings.Reflections = new Color(0, 0, 0, 1);
+            obsidian.atmosphereMaterial.Colors["_Color"] = new Color(1, 1, 1, 1);
             obsidian.oceanMaterial.Tint = new Color(0, 0, 0, 0.5f);
             obsidian.terrainMaterial.Tint = new Color(0.15f, 0.15f, 0.15f, 1f);
             // obsidian.Process();
@@ -281,15 +281,15 @@ namespace GalacticScale.Generators
             {
                 ["_AmbientInc"] = 0f,
                 ["_GISaturate"] = 0.0f,
-                ["_GIStrengthDay"] = 0.0505f,
-                ["_GIStrengthNight"] = 0.03f,
+                ["_GIStrengthDay"] = 0.01505f,
+                ["_GIStrengthNight"] = 0.013f,
                 ["_Multiplier"] = 0.0018f,
-                ["_NormalStrength"] = 0.01010f, //1.5,
+                ["_NormalStrength"] = 0.21010f, //1.5,
                 ["_SpecularHighlights"] = 110.10f //x
             };
             obsidian.terrainMaterial.Colors = new Dictionary<string, Color>
             {
-                ["_SpeclColor"] = new(0.14f, 0.14f, 0.04f, 1f)
+                ["_SpeclColor"] = new(0.14f, 0.14f, 0.14f, 1f)
             };
             // obsidian.terrainMat.SetFloat("_AmbientInc", 0);
             // obsidian.terrainMat.SetFloat("_GISaturate", 0);
