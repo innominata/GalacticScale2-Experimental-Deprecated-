@@ -29,7 +29,6 @@ namespace GalacticScale
                         case ESpectrType.M: return random.NextFloat(0.02f, 0.5f);
                         case ESpectrType.O: return random.NextFloat(0.2f, 0.9f);
                     }
-
                     break;
             }
 
